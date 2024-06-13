@@ -46,7 +46,7 @@ public class GBController {
 	public ModelAndView getGBPost(
 			@ModelAttribute("memberSession") MemberSession memberSession,
 			@PathVariable("GBPostId") int GBPostId) {
-		String loginUserId = memberSession.getMember().getId();
+		String loginUserId = memberSession.getMemberId();
 		
 		GBEntity gbPost =  gbService.getGBPost(GBPostId);
 		String gbPostAuthor = gbPost.getMember().getId();
@@ -127,8 +127,7 @@ public class GBController {
 	public String participateCancelGB(
 			@ModelAttribute("memberSession") MemberSession memberSession,
 			@PathVariable("GBPostId") int GBPostId) {
-		Member loginUserId = memberSession.getMember();
-	
+		String loginUserId = memberSession.getMemberId();
 		gbService.participateCancel(loginUserId);
 		
 		return "redirect:GroupBuyDetail";
