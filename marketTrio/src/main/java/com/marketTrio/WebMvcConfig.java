@@ -11,21 +11,21 @@ import org.springframework.beans.factory.annotation.Qualifier;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-	@Autowired
-	@Qualifier(value = "signonInterceptor")
-	private HandlerInterceptor interceptor;
+//	@Autowired
+//	@Qualifier(value = "signonInterceptor")
+//	private HandlerInterceptor interceptor;
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/shop/index.do").setViewName("index");
-		registry.addViewController("/shop/signonForm.do").setViewName("SignonForm");
+//		registry.addViewController("/myPage/myInfo").setViewName("myInfo");
+		registry.addViewController("/").setViewName("thyme/myPage/myInfo");
 	}
 	
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(interceptor)
-				.addPathPatterns("/shop/editAccount.do", "/shop/listOrders.do",
-					"/shop/viewOrder.do", "/shop/newOrder.do");		
-	}
+//	@Override
+//	public void addInterceptors(InterceptorRegistry registry) {
+//		registry.addInterceptor(interceptor)
+//				.addPathPatterns("/shop/editAccount.do", "/shop/listOrders.do",
+//					"/shop/viewOrder.do", "/shop/newOrder.do");		
+//	}
 	
 }
