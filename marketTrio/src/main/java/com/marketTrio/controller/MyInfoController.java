@@ -23,13 +23,13 @@ import com.marketTrio.service.MyInfoValidator;
 @RequestMapping("/myPage")
 @SessionAttributes("memberCommand")
 public class MyInfoController {
-	@Value("myInfoCheck")
+	@Value("thyme/myPage/myInfoCheck")
 	private String myInfoCheck;
-	@Value("myInfoUpdate")
+	@Value("thyme/myPage/myInfoUpdate")
 	private String myInfoUpdate;
-	@Value("myInfo")
+	@Value("thyme/myPage/myInfo")
 	private String myInfo;
-	@Value("quit")
+	@Value("thyme/myPage/quit")
 	private String quit;
 	
 //	@Autowired
@@ -49,9 +49,11 @@ public class MyInfoController {
 //	@ModelAttribute 어노테이션이 있는 메소드가 호출될 때 memberCommand 객체가 모델에 자동으로 추가된다는 것입니다. 그리고 이 객체는 세션에도 저장됩니다.
 	@ModelAttribute("memberCommand")
 	public MemberCommand formBacking(HttpServletRequest request) throws Exception {
-		MemberSession memberSession = (MemberSession) request.getAttribute("memberId");
-        String memberId = memberSession.getMemberId();
+//		MemberSession memberSession = (MemberSession) request.getAttribute("memberId");
+//        String memberId = memberSession.getMemberId();
+		String memberId = "seha";
         Member member = memberDao.getMember(memberId);  //현재 사용자의 member객체 구해서
+        System.out.println("Member ID: " + member.getId());
         MemberCommand memberCommand = new MemberCommand(member); //memberCommand 객체내의 필드로 member객체를 넣고
         return memberCommand;  //session에 command객체를 저장
 	}

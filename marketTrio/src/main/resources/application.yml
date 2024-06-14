@@ -26,12 +26,18 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         # do not changes camel case to snake case, which is the default spring.jpa.hibernate.naming.implicit-strategy 
+  thymeleaf:      # Thymeleaf views
+    cache: false
+    view-names: thyme/**/*
+    #prefix: classpath:/templates/ (default value)
+    #suffix: .html (defalut value)
   devtools:
     livereload:
       enabled: true
       
 mybatis:
   type-aliases-package: com.marketTrio.domain
+  mapper-locations: classpath:/com/marketTrio/dao/mybatis/mapper/*.xml
 #  mapper-locations: com/example/jpetstore/dao/mybatis/mapper/**/*.xml
   
 logging:

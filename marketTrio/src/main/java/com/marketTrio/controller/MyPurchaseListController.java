@@ -1,5 +1,7 @@
 package com.marketTrio.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,7 @@ import com.marketTrio.service.ReviewService;
 import com.marketTrio.service.SHService;
 
 @Controller
+@RequestMapping("/purchase")
 public class MyPurchaseListController {
 
 //	@Autowired
@@ -48,25 +51,30 @@ public class MyPurchaseListController {
 		 
 		ModelAndView modelAndView = new ModelAndView("myPurchaseList"); //myPurchaseList.jsp로 감
 	    modelAndView.addObject("SHPurchaseList", sHService.getSHPurchaseListByMemberId(memberId));
-	    modelAndView.addObject("APurchaseList", aService.getAPurchaseListByMemberId(memberId));
-	    modelAndView.addObject("GBPurchaseList", gBService.getGBPurchaseListByMemberId(memberId));
+//	    modelAndView.addObject("APurchaseList", aService.getAPurchaseListByMemberId(memberId));
+//	    modelAndView.addObject("GBPurchaseList", gBService.getGBPurchaseListByMemberId(memberId));
 	    return modelAndView;
 	}
 	
 	// 나의 구매 리스트에서 : 후기 작성 폼 페이지를 열기 위한 요청 처리
 	@GetMapping("/giveRate/{SHPostId}")
     @ResponseBody
-    public ReviewCommand openReviewForm(@PathVariable int SHPostId) {
-        SecondHandEntity sh = sHService.getSHByPostId(SHPostId);
+    public ReviewCommand openReviewForm(@PathVariable int SHPostId, HttpServletRequest request) {
+        SecondHandEntity sh = sHService.getSHPostByPostId(SHPostId);
         ReviewEntity review = new ReviewEntity();
         review.setSHPostId(SHPostId);
-        review.setSenderId(sh.getBuyerId());
+        MemberSession memberSession = (MemberSession) request.getAttribute("memberId");
+        String memberId = memberSession.getMemberId();
+        Member member = memberDao.getMember(memberId);
+//        review.setSenderId(sh.getBuyerId());
+        review.setSenderId(memberId);
         review.setReceiverId(sh.getSellerId());
         
-        Member sender = memberDao.getMember(sh.getBuyerId());
+//        Member sender = memberDao.getMember(sh.getBuyerId());
+        review.setSenderId(memberId);
         Member receiver = memberDao.getMember(sh.getSellerId());
         
-        String senderNickname = sender.getNickname();
+        String senderNickname = member.getNickname();
         String receiverNickname = receiver.getNickname();
         
         ReviewCommand reviewCommand =  new ReviewCommand(review, senderNickname, receiverNickname);
