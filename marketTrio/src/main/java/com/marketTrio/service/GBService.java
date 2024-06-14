@@ -145,7 +145,7 @@ public class GBService {
     		 throw new IllegalArgumentException("잔여 수량보다 선택한 수량이 더 많아 선택할 수 없습니다.");
         }
 
-    	GBParticipantEntity gbp = new GBParticipantEntity(gbPartCommand.getMember(), gbPartCommand.getGBPost(), gbPartCommand.getOption(), gbPartCommand.getQuantity());
+    	GBParticipantEntity gbp = new GBParticipantEntity(gbPartCommand.getMember(), gbPartCommand.getOption(), gbPartCommand.getQuantity());
 		
     	o.setRemainingQuantity(o.getRemainingQuantity() - gbPartCommand.getQuantity());
         optionRepository.save(o);

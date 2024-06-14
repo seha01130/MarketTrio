@@ -17,10 +17,6 @@ public class GBParticipantEntity {
 	@OneToOne(cascade = CascadeType.ALL)	//공구 참여자 : 멤버 단방향 1:1
     @PrimaryKeyJoinColumn(name = "memberId")
     private Member member;
-		
-	@OneToMany
-	@JoinColumn(name="GBPostId")
-	private GBEntity GBPost;
 	
 	@OneToOne(cascade=CascadeType.ALL) //공구 참여자 : 옵션 단방향 1:1
 	@PrimaryKeyJoinColumn(name="optionId")
@@ -31,10 +27,9 @@ public class GBParticipantEntity {
 		super();
 	}
 	
-	public GBParticipantEntity(Member member, GBEntity gBPost, OptionEntity myOption, int myQuantity) {
+	public GBParticipantEntity(Member member, OptionEntity myOption, int myQuantity) {
 		super();
 		this.member = member;
-		this.GBPost = gBPost;
 		this.myOption = myOption;
 		this.myQuantity = myQuantity;
 	}
@@ -44,12 +39,6 @@ public class GBParticipantEntity {
 	}
 	public void setMember(Member member) {
 		this.member = member;
-	}
-	public GBEntity getGBPost() {
-		return GBPost;
-	}
-	public void setGBPost(GBEntity gBPost) {
-		GBPost = gBPost;
 	}
 	public OptionEntity getMyOption() {
 		return myOption;

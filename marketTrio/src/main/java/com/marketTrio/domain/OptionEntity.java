@@ -20,10 +20,6 @@ public class OptionEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int optionId;
 	
-	@ManyToOne	// 공구 글 : 옵션 1:n 관계
-	@JoinColumn(name="GBPostId", nullable=false)
-	private GBEntity GBPost;
-	
 	private String optionName;
 	private int quantity;
 	private int remainingQuantity;
@@ -32,10 +28,9 @@ public class OptionEntity implements Serializable {
 		super();
 	}
 		
-	public OptionEntity(int optionId, GBEntity gBPost, String optionName, int quantity, int remainingQuantity) {
+	public OptionEntity(int optionId, String optionName, int quantity, int remainingQuantity) {
 		super();
 		this.optionId = optionId;
-		GBPost = gBPost;
 		this.optionName = optionName;
 		this.quantity = quantity;
 		this.remainingQuantity = remainingQuantity;
@@ -46,14 +41,6 @@ public class OptionEntity implements Serializable {
 	}
 	public void setOptionId(int optionId) {
 		this.optionId = optionId;
-	}
-
-	public GBEntity getGBPost() {
-		return GBPost;
-	}
-
-	public void setGBPost(GBEntity gBPost) {
-		GBPost = gBPost;
 	}
 
 	public String getOptionName() {

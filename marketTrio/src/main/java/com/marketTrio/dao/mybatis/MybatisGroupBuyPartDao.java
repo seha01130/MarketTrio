@@ -18,7 +18,6 @@ public class MybatisGroupBuyPartDao {
 	public void participateCancelGB(GBParticipantEntity GBParticipant) {
 		GBParticipantEntity gbp = new GBParticipantEntity();
 		int myQuantity = -(GBParticipant.getMyQuantity());
-		gbp.setGBPost(GBParticipant.getGBPost());
 		gbp.setMyQuantity(myQuantity);
 		gbp.setMember(GBParticipant.getMember());
 		gbp.setMyOption(GBParticipant.getMyOption());
