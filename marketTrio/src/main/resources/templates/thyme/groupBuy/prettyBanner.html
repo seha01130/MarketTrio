@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            padding: 7px 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        #logo {
+            width: 180px;
+        }
+        .nav {
+            display: flex;
+            gap: 300px;
+        }
+        .nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 700;
+        }
+        .nav a:hover {
+            text-decoration: underline;
+        }
+        .auth {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+        .auth a {
+            text-decoration: none;
+            color: #333;
+        }
+        #profile {
+            width: 40px;
+            height: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div th:fragment="copy">
+    <div class="header">
+        <img id="logo" src="./logo.png" />
+        <div class="nav">
+            <a href="#" th:href="@{/used-market}">중고거래</a>
+            <a href="#" th:href="@{/auction}">경매</a>
+            <a href="#" th:href="@{/group-buying}">공동구매</a>
+        </div>
+        <div class="auth">
+            <a href="#" th:href="@{/login}">로그인</a>
+            <a href="#" th:href="@{/signup}">회원가입</a>
+            <a><img id="profile" src="./profile.png" /></a>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

@@ -58,5 +58,6 @@ public class SHService {
     
     public SecondHandEntity getSHByPostId(int postId) {
     	//postId로 SecondHand 객체 가져와서 객체를 리턴. 중고거래 코드 사용하면 됨
+    	return null;
     }
 }

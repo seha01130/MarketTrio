@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketTrio - 게시글 작성</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header .logo {
+            font-size: 24px;
+            color: #6ac26a;
+        }
+        .header nav {
+            display: flex;
+            gap: 20px;
+        }
+        .header nav a {
+            text-decoration: none;
+            color: #333;
+        }
+        .header .auth {
+            display: flex;
+            gap: 10px;
+        }
+        .header .auth a {
+            text-decoration: none;
+            color: #333;
+        }
+        .container {
+            padding: 20px;
+        }
+        .breadcrumb {
+            margin-bottom: 20px;
+            color: #888;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group .image-upload {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-group .image-upload img {
+            width: 100px;
+            height: 100px;
+            background-color: #cfc;
+            border-radius: 8px;
+        }
+        .form-group .image-upload button {
+            padding: 10px 20px;
+            background-color: #ddd;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-group .image-upload button:hover {
+            background-color: #ccc;
+        }
+        .form-group .inline-group {
+            display: flex;
+            gap: 10px;
+        }
+        .form-group .inline-group input {
+            flex: 1;
+        }
+        .option-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .option-group input {
+            flex: 1;
+        }
+        .option-group button {
+            padding: 10px 20px;
+            background-color: #6ac26a;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .option-group button:hover {
+            background-color: #58a55e;
+        }
+        .submit-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #6ac26a;
+            color: #fff;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">MarketTrio</div>
+        <nav>
+            <a href="#">중고거래</a>
+            <a href="#">경매</a>
+            <a href="#">공동구매</a>
+        </nav>
+        <div class="auth">
+            <a href="#">로그인</a>
+            <a href="#">회원가입</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">공동구매 > 게시글 작성</div>
+        <div class="form-group">
+            <label for="product-image">상품 사진</label>
+            <div class="image-upload">
+                <img src="placeholder-image.png" alt="Product Image">
+                <button>사진 첨부</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="product-title">상품명</label>
+            <input type="text" id="product-title" placeholder="상품명을 작성하세요.">
+        </div>
+        <div class="form-group inline-group">
+            <div class="form-group">
+                <label for="original-price">정가</label>
+                <input type="text" id="original-price" placeholder="정가를 작성하세요.">
+            </div>
+            <div class="form-group">
+                <label for="discount-rate">할인율</label>
+                <input type="text" id="discount-rate" placeholder="%할인율">
+            </div>
+            <div class="form-group">
+                <label for="sale-price">판매가</label>
+                <input type="text" id="sale-price" placeholder="판매가">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="sale-period">판매기간</label>
+            <input type="text" id="sale-period" placeholder="판매 기간을 작성하세요.">
+        </div>
+        <div class="form-group">
+            <label for="product-quantity">수량</label>
+            <input type="text" id="product-quantity" placeholder="수량을 작성하세요. (옵션 등록에서 개별 수량)">
+        </div>
+        <div class="form-group">
+            <label for="product-description">상세설명</label>
+            <textarea id="product-description" rows="10" placeholder="내용을 작성하세요."></textarea>
+        </div>
+        <div class="option-group">
+            <input type="text" placeholder="옵션명">
+            <input type="text" placeholder="옵션 수량">
+            <button>옵션 추가</button>
+        </div>
+        <a href="#" class="submit-btn">다음 단계</a>
+    </div>
+
+</body>
+</html>

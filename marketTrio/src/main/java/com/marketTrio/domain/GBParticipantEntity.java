@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -14,8 +15,11 @@ import javax.persistence.Table;
 @Table(name="GBParticipant")
 public class GBParticipantEntity {
 	@Id
+    private String memberId;
+	
 	@OneToOne(cascade = CascadeType.ALL)	//공구 참여자 : 멤버 단방향 1:1
-    @PrimaryKeyJoinColumn(name = "memberId")
+	@MapsId
+	@JoinColumn(name = "memberId")
     private Member member;
 	
 	@OneToOne(cascade=CascadeType.ALL) //공구 참여자 : 옵션 단방향 1:1

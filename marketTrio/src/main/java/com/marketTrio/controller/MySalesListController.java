@@ -48,8 +48,10 @@ public class MySalesListController {
 		 
 		ModelAndView modelAndView = new ModelAndView("mySalesList");
 	    modelAndView.addObject("SHSalesList", sHService.getSHSalesListByMemberId(memberId));
+	    /*
 	    modelAndView.addObject("ASalesList", AService.getASalesListById(memberId));
 	    modelAndView.addObject("GBSalesList", gBService.getGBSalesListById(memberId));
+	    */
 	    return modelAndView;
 	}
 	

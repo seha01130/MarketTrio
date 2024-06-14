@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketTrio - 게시글 수정</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header .logo {
+            font-size: 24px;
+            color: #6ac26a;
+        }
+        .header nav {
+            display: flex;
+            gap: 20px;
+        }
+        .header nav a {
+            text-decoration: none;
+            color: #333;
+        }
+        .header .auth {
+            display: flex;
+            gap: 10px;
+        }
+        .header .auth a {
+            text-decoration: none;
+            color: #333;
+        }
+        .container {
+            padding: 25px;
+        }
+        .breadcrumb {
+            margin-bottom: 20px;
+            color: #888;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group .image-upload {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-group .image-upload img {
+            width: 100px;
+            height: 100px;
+            background-color: #cfc;
+            border-radius: 8px;
+        }
+        .form-group .image-upload button {
+            padding: 10px 20px;
+            background-color: #ddd;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-group .image-upload button:hover {
+            background-color: #ccc;
+        }
+        .submit-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #6ac26a;
+            color: #fff;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">MarketTrio</div>
+        <nav>
+            <a href="#">중고거래</a>
+            <a href="#">경매</a>
+            <a href="#">공동구매</a>
+        </nav>
+        <div class="auth">
+            <a href="#">로그인</a>
+            <a href="#">회원가입</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">공동구매 > 게시글 수정</div>
+        <hr style="border-width : 2px 0px 0px 0px;">
+        <div class="form-group">
+            <label for="product-image">상품 사진</label>
+            <div class="image-upload">
+                <img src="placeholder-image.png" alt="Product Image">
+                <button>사진 첨부</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="product-title">상품명</label>
+            <input type="text" id="product-title" placeholder="상품명을 작성하세요.">
+        </div>
+        <div class="form-group">
+            <label for="sale-period">판매기간</label>
+            <input type="text" id="sale-period" placeholder="판매 기간을 작성하세요.">
+        </div>
+        <div class="form-group">
+            <label for="product-description">상세설명</label>
+            <textarea id="product-description" rows="10" placeholder="내용을 작성하세요."></textarea>
+        </div>
+        <a href="#" class="submit-btn">다음 단계</a>
+    </div>
+
+</body>
+</html>

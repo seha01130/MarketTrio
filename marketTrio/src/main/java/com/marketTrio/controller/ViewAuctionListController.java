@@ -15,14 +15,16 @@ import com.marketTrio.domain.AuctionEntity;
 @Controller
 @SessionAttributes("auctionList")
 public class ViewAuctionListController {
-    
+
+	/*
     private AuctionFacade auction;
     
     @Autowired
     public void setAuction(AuctionFacade auction) {
         this.auction = auction;
     }
-
+*/
+	
     //auctionService를 이용한(주입필요) spring jpa로 변경한거.
 //    @RequestMapping("/auction/list")
 //    public String viewList(Model model) {
