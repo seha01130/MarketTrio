@@ -17,8 +17,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/GroupBuy/list.do").setViewName("groupBuyList");
-		//registry.addViewController("/shop/signonForm.do").setViewName("SignonForm");
+		//registry.addViewController("/GroupBuy/list.do").setViewName("groupBuyList");
+//		registry.addViewController("/myPage/myInfo").setViewName("myInfo");
+		registry.addViewController("/").setViewName("thyme/myPage/myInfo");
 	}
 	
 //	@Override

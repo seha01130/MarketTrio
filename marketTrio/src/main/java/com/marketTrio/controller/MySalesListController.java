@@ -22,6 +22,7 @@ import com.marketTrio.service.ReviewService;
 import com.marketTrio.service.SHService;
 
 @Controller
+@RequestMapping("/sales")
 public class MySalesListController {
 
 //	@Autowired
@@ -48,10 +49,15 @@ public class MySalesListController {
 		 
 		ModelAndView modelAndView = new ModelAndView("mySalesList");
 	    modelAndView.addObject("SHSalesList", sHService.getSHSalesListByMemberId(memberId));
+
 	    /*
-	    modelAndView.addObject("ASalesList", AService.getASalesListById(memberId));
+		modelAndView.addObject("ASalesList", AService.getASalesListById(memberId));
 	    modelAndView.addObject("GBSalesList", gBService.getGBSalesListById(memberId));
 	    */
+
+//	    modelAndView.addObject("ASalesList", AService.getASalesListById(memberId));
+//	    modelAndView.addObject("GBSalesList", gBService.getGBSalesListById(memberId));
+
 	    return modelAndView;
 	}
 	
@@ -59,15 +65,15 @@ public class MySalesListController {
 		@GetMapping("/giveRate/{SHPostId}")
 	    @ResponseBody
 	    public ReviewCommand openReviewForm(@PathVariable int SHPostId) {
-	        SecondHandEntity sh = sHService.getSHByPostId(SHPostId);
+	        SecondHandEntity sh = sHService.getSHPostByPostId(SHPostId);
 	        
 	        ReviewEntity review = new ReviewEntity();
 	        review.setSHPostId(SHPostId);
 	        review.setSenderId(sh.getSellerId());
-	        review.setReceiverId(sh.getBuyerId());
+	        review.setReceiverId(sh.getMember().getId());
 	        
 	        Member sender = memberDao.getMember(sh.getSellerId());
-	        Member receiver = memberDao.getMember(sh.getBuyerId());
+	        Member receiver = memberDao.getMember(sh.getMember().getId());
 	        
 	        String senderNickname = sender.getNickname();
 	        String receiverNickname = receiver.getNickname();

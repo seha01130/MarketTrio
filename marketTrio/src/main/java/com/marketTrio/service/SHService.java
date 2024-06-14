@@ -21,7 +21,7 @@ public class SHService {
     //@Transactional(readOnly = true)
     @SuppressWarnings("null")
 	public List<SHListCommand> getSHPurchaseListByMemberId(String memberId) {
-    	List<SecondHandEntity> purchaseList = SHListRepository.findByBuyerId(memberId);
+    	List<SecondHandEntity> purchaseList = SHListRepository.findByMember_Id(memberId);
     	List<SHListCommand> purchaseListCommand = null;
     	
     	for (SecondHandEntity s : purchaseList) {
@@ -60,4 +60,14 @@ public class SHService {
     	//postId로 SecondHand 객체 가져와서 객체를 리턴. 중고거래 코드 사용하면 됨
     	return null;
     }
+
+    public SecondHandEntity getSHPostByPostId(int SHPostId) {
+        //postId로 SecondHand 객체 가져와서 객체를 리턴. 중고거래 코드 사용하면 됨
+//       Optional<SecondHandEntity> sh = SHPostRepository.findById(SHPostId);
+//       //       SecondHandEntity shPost = sh.orElseThrow(() -> new IllegalArgumentException("Post does not exist!!!"));
+//       SecondHandEntity shPost = sh.get();
+//
+//       return shPost;
+    	return null;
+     }
 }

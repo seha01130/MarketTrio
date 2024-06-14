@@ -33,8 +33,8 @@ public class GBEntity implements Serializable{
 	@JoinColumn(name = "GBPostId") // 외래 키 설정
 	private List<OptionEntity> options;
 	
-	@OneToMany(cascade = CascadeType.ALL)	  // 공구 글 : 참여자, 단방향 1:n
-	@JoinColumn(name = "GBPostId") // 외래 키 설정
+	@OneToMany(mappedBy="gbEntity", cascade = CascadeType.ALL)	  // 공구 글 : 참여자, 단방향 1:n
+//	@JoinColumn(name = "GBPostId") // 외래 키 설정
 	private List<GBParticipantEntity> participants;
 	
 	private String productName;

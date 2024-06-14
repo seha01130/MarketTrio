@@ -1,5 +1,7 @@
 package com.marketTrio.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.marketTrio.domain.GBParticipantEntity;
@@ -10,4 +12,6 @@ public interface GroupBuyPartRepository extends JpaRepository<GBParticipantEntit
 
 //	ID로 특정 객체 찾기
 	GBParticipantEntity findByMemberId(String memberId);
+	////수연 추가////
+	List<GBParticipantEntity> findAllByMemberId(String memberId);
 }
