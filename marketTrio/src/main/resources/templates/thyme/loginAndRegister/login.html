@@ -11,6 +11,47 @@
             margin: 0;
             padding: 0;
         }
+        #profile {
+            width: 40px;
+            height: 40px;
+        }
+        .header a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: black;
+        }
+        .header .logo {
+            font-size: 24px;
+            color: #7cb342;
+        }
+        .header .user-actions {
+            display: flex;
+            align-items: center;
+        }
+        .header .user-actions a {
+            margin-left: 15px;
+        }
+        .header .user-actions .profile-icon {
+            width: 30px;
+            height: 30px;
+            background-color: #d4e157;
+            border-radius: 50%;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            height: calc(100vh - 60px);
+            position: fixed;
+        }
+        .sidebar a {
+            display: block;
+            margin-bottom: 15px;
+            text-decoration: none;
+            color: black;
+            font-size: 16px;
+        }
         .content {
             margin-left: 220px;
             padding: 20px;
@@ -27,13 +68,6 @@
             display: flex;
             align-items: center;
             margin-bottom: 20px;
-        }
-        .profile-header input {
-            margin-bottom: 15px;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
         }
         .profile-header img {
             width: 80px;
@@ -69,47 +103,29 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        .profile-form span {
-		    font-size: 18px;
-		    font-weight: bold;
-		    padding: 10px;
-		    padding-left: 0;
-		}
-
     </style>
 </head>
 <body>
     <header>
         <div th:insert="thyme/banner"></div>
     </header>
-    <div th:insert="thyme/myPage/sidebar"></div>
+    <div th:insert="sidebar"></div>
     <div class="content">
         <div class="profile-card">
-	        <form th:action="@{/myPage/myInfoUpdate}" method="post" th:object="${memberCommand}">
-	            <div class="profile-header">
-	                <img src="profile-picture.png" alt="Profile Picture" th:src="@{/images/profile-picture.png}">
-	                <div class="profile-info">
-	                    <label for="nickname"></label>
-	                	<input type="text" id="nickname" th:field="${memberCommand.member.nickname}">
-	                    <div class="stars">★★★★☆</div>
-	                </div>
-	            </div>
-	            <div class="profile-form" th:object="${memberCommand}">
-	                <label for="name">이름</label>
-	                <span th:text="*{member.name}"></span>
-	                <label for="id">아이디</label>
-	                <span th:text="*{member.id}"></span>
-	                <label for="email">이메일</label>
-	                <input type="text" id="email" th:field="*{member.email}">
-	                <label for="phone">번호</label>
-	                <input type="text" id="phone" th:field="*{member.phone}">
-	                <label for="password">비밀번호</label>
-	                <input type="password" id="password" th:field="*{member.password}">
-	                <label for="repeatedPassword">비밀번호 확인</label>
-	                <input type="password" id="repeatedPassword" th:field="*{repeatedPassword}">
-	                <button type="submit">수정하기</button>
-	            </div>
-	        </form>
+            <div class="profile-header">
+                <img src="profile-picture.png" alt="Profile Picture" th:src="@{/images/profile-picture.png}">
+                <div class="profile-info">
+                    <span th:text="${username}">세하</span>
+                    <div class="stars">★★★★☆</div>
+                </div>
+            </div>
+            <form class="profile-form">
+                <label for="user-id">아이디</label>
+                <input type="text" id="user-id" th:value="${userId}" readonly>
+                <!-- <label for="user-password">비밀번호</label> -->
+                <!-- <input type="password" id="user-password" th:value="${userPassword}" readonly> -->
+                <button type="button">수정하기</button>
+            </form>
         </div>
     </div>
 </body>

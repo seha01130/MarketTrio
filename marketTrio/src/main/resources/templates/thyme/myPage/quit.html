@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>내 정보</title>
+    <title>탈퇴하기</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,9 +11,40 @@
             margin: 0;
             padding: 0;
         }
+        #profile {
+            width: 40px;
+            height: 40px;
+        }
+        .header a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: black;
+        }
+        .header .logo {
+            font-size: 24px;
+            color: #7cb342;
+        }
+        .header .user-actions {
+            display: flex;
+            align-items: center;
+        }
+        .header .user-actions a {
+            margin-left: 15px;
+        }
+        .header .user-actions .profile-icon {
+            width: 30px;
+            height: 30px;
+            background-color: #d4e157;
+            border-radius: 50%;
+        }
         .content {
             margin-left: 220px;
             padding: 20px;
+        }
+        .content h2 {
+        	max-width: 650px;
+        	padding: 20px;
+            margin: auto;
         }
         .profile-card {
             background-color: white;
@@ -27,13 +58,6 @@
             display: flex;
             align-items: center;
             margin-bottom: 20px;
-        }
-        .profile-header input {
-            margin-bottom: 15px;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
         }
         .profile-header img {
             width: 80px;
@@ -53,6 +77,11 @@
             display: flex;
             flex-direction: column;
         }
+        .profile-form label {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
         .profile-form input {
             margin-bottom: 15px;
             padding: 10px;
@@ -69,13 +98,6 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        .profile-form span {
-		    font-size: 18px;
-		    font-weight: bold;
-		    padding: 10px;
-		    padding-left: 0;
-		}
-
     </style>
 </head>
 <body>
@@ -84,32 +106,14 @@
     </header>
     <div th:insert="thyme/myPage/sidebar"></div>
     <div class="content">
+    	<h2>회원 탈퇴하기</h2>
         <div class="profile-card">
-	        <form th:action="@{/myPage/myInfoUpdate}" method="post" th:object="${memberCommand}">
-	            <div class="profile-header">
-	                <img src="profile-picture.png" alt="Profile Picture" th:src="@{/images/profile-picture.png}">
-	                <div class="profile-info">
-	                    <label for="nickname"></label>
-	                	<input type="text" id="nickname" th:field="${memberCommand.member.nickname}">
-	                    <div class="stars">★★★★☆</div>
-	                </div>
-	            </div>
-	            <div class="profile-form" th:object="${memberCommand}">
-	                <label for="name">이름</label>
-	                <span th:text="*{member.name}"></span>
-	                <label for="id">아이디</label>
-	                <span th:text="*{member.id}"></span>
-	                <label for="email">이메일</label>
-	                <input type="text" id="email" th:field="*{member.email}">
-	                <label for="phone">번호</label>
-	                <input type="text" id="phone" th:field="*{member.phone}">
-	                <label for="password">비밀번호</label>
-	                <input type="password" id="password" th:field="*{member.password}">
-	                <label for="repeatedPassword">비밀번호 확인</label>
-	                <input type="password" id="repeatedPassword" th:field="*{repeatedPassword}">
-	                <button type="submit">수정하기</button>
-	            </div>
-	        </form>
+            <form class="profile-form" th:action="@{/myPage/quit}" method="post">
+            <div th:if="${message}" style="color: red; padding-bottom:10px;" class="error-message" th:text="${message}"></div>
+                <label for="password">비밀번호</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">탈퇴하기</button>
+            </form>
         </div>
     </div>
 </body>

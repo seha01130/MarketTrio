@@ -21,6 +21,10 @@ public class MemberCommand implements Serializable {
 		this.member = new Member();
 //		this.newMember = true;
 	}
+	
+//	public void setMember(Member member) {
+//		this.member = member;
+//	}
 
 	public Member getMember() {
 		return member;
@@ -29,6 +33,10 @@ public class MemberCommand implements Serializable {
 //	public boolean isNewMember() {
 //		return newMember;
 //	}
+	
+	public String getPassword() {
+		return member.getPassword();
+	}
 
 	public void setRepeatedPassword(String repeatedPassword) {
 		this.repeatedPassword = repeatedPassword;

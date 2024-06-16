@@ -3,6 +3,7 @@ package com.marketTrio.dao.mybatis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.marketTrio.dao.mybatis.mapper.MemberMapper;
 import com.marketTrio.domain.Member;
@@ -15,6 +16,10 @@ public class MyBatisMemberDao {
 	
 	public Member getMember(String id) throws DataAccessException {
 		return memberMapper.getMemberById(id);
+	}
+	
+	public String getPassword(String id) throws DataAccessException {
+		return memberMapper.getPassword(id);
 	}
 
 	public Member getMember(String id, String password) throws DataAccessException {
@@ -29,6 +34,7 @@ public class MyBatisMemberDao {
 		memberMapper.insertMember(member);
 	}
 
+	@Transactional
 	public void updateMember(Member member) throws DataAccessException {
 		memberMapper.updateMember(member);
 	}

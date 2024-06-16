@@ -8,7 +8,7 @@ public class MemberMyBatis implements Serializable {
 	private String password;
 	private String nickname;
 	private String profilePicture;
-	private int rating;
+	private float rating;
 	private String email;
 	private String name;
 	private String phone;
@@ -17,7 +17,7 @@ public class MemberMyBatis implements Serializable {
 	public MemberMyBatis() {
 		super();
 	}
-	public MemberMyBatis(String id, String password, String nickname, String profilePicture, int rating, String email,
+	public MemberMyBatis(String id, String password, String nickname, String profilePicture, float rating, String email,
 			String name, String phone) {
 		super();
 		this.id = id;
@@ -53,10 +53,10 @@ public class MemberMyBatis implements Serializable {
 	public void setProfilePicture(String profilePicture) {
 		this.profilePicture = profilePicture;
 	}
-	public int getRating() {
+	public float getRating() {
 		return rating;
 	}
-	public void setRating(int rating) {
+	public void setRating(float rating) {
 		this.rating = rating;
 	}
 	public String getEmail() {

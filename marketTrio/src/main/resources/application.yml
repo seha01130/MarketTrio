@@ -28,7 +28,7 @@ spring:
         # do not changes camel case to snake case, which is the default spring.jpa.hibernate.naming.implicit-strategy 
   thymeleaf:      # Thymeleaf views
     cache: false
-    view-names: thyme/**/*
+#    view-names: thyme/**/*
     #prefix: classpath:/templates/ (default value)
     #suffix: .html (defalut value)
   devtools:
@@ -52,3 +52,7 @@ logging:
           
 server:
   port: 8088
+  error:
+    whitelabel:
+      enabled: false
+    path: /error

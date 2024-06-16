@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>내 정보</title>
+    <title>비밀번호 확인</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -37,24 +37,14 @@
             background-color: #d4e157;
             border-radius: 50%;
         }
-        .sidebar {
-            width: 200px;
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            height: calc(100vh - 60px);
-            position: fixed;
-        }
-        .sidebar a {
-            display: block;
-            margin-bottom: 15px;
-            text-decoration: none;
-            color: black;
-            font-size: 16px;
-        }
         .content {
             margin-left: 220px;
             padding: 20px;
+        }
+        .content h2 {
+        	max-width: 650px;
+        	padding: 20px;
+            margin: auto;
         }
         .profile-card {
             background-color: white;
@@ -64,9 +54,33 @@
             max-width: 600px;
             margin: auto;
         }
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .profile-header img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+        .profile-header .profile-info {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .profile-header .profile-info .stars {
+            color: #ffcc00;
+            font-size: 18px;
+        }
         .profile-form {
             display: flex;
             flex-direction: column;
+        }
+        .profile-form label {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
         }
         .profile-form input {
             margin-bottom: 15px;
@@ -90,18 +104,16 @@
     <header>
         <div th:insert="thyme/banner"></div>
     </header>
-    <div class="sidebar">
-        <a href="#" th:href="@{/profile}">내 정보</a>
-        <a href="#" th:href="@{/purchase-history}">구매 내역</a>
-        <a href="#" th:href="@{/sales-history}">판매 내역</a>
-        <a href="#" th:href="@{/withdrawal}">회원탈퇴</a>
-    </div>
+    <div th:insert="thyme/myPage/sidebar"></div>
     <div class="content">
+    	<h2>비밀번호 확인</h2>
         <div class="profile-card">
-            <form class="profile-form">
-                <label for="user-password">비밀번호</label>
-                <input type="password" id="user-password" th:value="${userPassword}">
-                <button type="button">확인</button>
+            <form class="profile-form" th:action="@{/myPage/myInfoUpdate}" method="get">
+                <div th:if="${message}" style="color: red; padding-bottom:10px;" class="error-message" th:text="${message}"></div>
+                <label for="password">비밀번호</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">확인</button>
+                <!-- <button type="submit" th:onclick="'location.href=\'' + @{/myPage/myInfoCheck} + '\''">확인</button>  -->
             </form>
         </div>
     </div>

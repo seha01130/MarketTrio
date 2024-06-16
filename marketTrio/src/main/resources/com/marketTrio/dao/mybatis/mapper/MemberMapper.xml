@@ -9,6 +9,10 @@
     FROM Member
     WHERE ID = #{id}
   </select>
+  
+  <select id="getPassword" parameterType="string" resultType="string">
+        SELECT password FROM Member WHERE id = #{id}
+   </select>
 
   <select id="getMemberByIdAndPassword" resultType="Member">
     SELECT *
@@ -29,22 +33,20 @@
   
    <insert id="insertMember" parameterType="Member">
     INSERT INTO Member
-      (PASSWORD, NICKNAME, PROFILEPICTURE, RATING, EMAIL, NAME, PHONE)
+      (ID, PASSWORD, NICKNAME, PROFILEPICTURE, RATING, EMAIL, NAME, PHONE)
     VALUES
-      (#{password}, #{nickname}, #{profilePicture}, #{rating}, #{email}, #{name}, #{phone})
+      (#{id}, #{password}, #{nickname}, #{profilePicture, jdbcType=VARCHAR}, #{rating}, #{email}, #{name}, #{phone})
   </insert>
 
-  <update id="updateMember" parameterType="Member">
-    UPDATE Member SET
-      PASSWORD = #{password},
-      NICKNAME = #{nickname},
-      PROFILEPICTURE = #{profilePicture},
-      RATING = #{rating}
-      EMAIL = #{email}
-      NAME = #{name}
-      PHONE = #{phone}
-    WHERE ID = #{id}
-  </update>
+<update id="updateMember" parameterType="Member">
+  UPDATE Member SET
+    PASSWORD = #{password},
+    NICKNAME = #{nickname},
+    PROFILEPICTURE = #{profilePicture, jdbcType=VARCHAR},
+    EMAIL = #{email},
+    PHONE = #{phone}
+  WHERE ID = #{id}
+</update>
   
   <delete id="deleteMember" parameterType="java.lang.String">
     DELETE FROM Member

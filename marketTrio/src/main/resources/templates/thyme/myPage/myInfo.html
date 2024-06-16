@@ -37,24 +37,14 @@
             background-color: #d4e157;
             border-radius: 50%;
         }
-        .sidebar {
-            width: 200px;
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            height: calc(100vh - 60px);
-            position: fixed;
-        }
-        .sidebar a {
-            display: block;
-            margin-bottom: 15px;
-            text-decoration: none;
-            color: black;
-            font-size: 16px;
-        }
         .content {
             margin-left: 220px;
             padding: 20px;
+        }
+        .content h2 {
+        	max-width: 650px;
+        	padding: 20px;
+            margin: auto;
         }
         .profile-card {
             background-color: white;
@@ -100,6 +90,7 @@
             border-radius: 5px;
         }
         .profile-form button {
+        	margin-top:15px;
             padding: 10px;
             font-size: 16px;
             color: white;
@@ -114,32 +105,27 @@
     <header>
         <div th:insert="thyme/banner"></div>
     </header>
-    <div class="sidebar">
-        <a href="#" th:href="@{/myPage/myInfo}">내 정보</a>
-        <a href="#" th:href="@{/purchase/myPurchaseList}">구매 내역</a>
-        <a href="#" th:href="@{/sales/mySalesList}">판매 내역</a>
-        <a href="#" th:href="@{/quit}">회원탈퇴</a>
-    </div>
+    <div th:insert="thyme/myPage/sidebar"></div>
     <div class="content">
+    	<h2>내 정보</h2>
         <div class="profile-card">
             <div class="profile-header">
                 <img src="profile-picture.png" alt="Profile Picture" th:src="@{/images/profile-picture.png}">
                 <div class="profile-info">
-                    <span th:text="${nickname}">닉네임이 들어갑니다</span>
+                    <span th:text="${memberCommand.member.nickname}">닉네임이 들어갑니다</span>
                     <div class="stars">★★★★☆</div>
                 </div>
             </div>
             <form class="profile-form">
-            	<label for="nickname">이름</label>
-                <input type="text" id="nickname" th:value="${name}" readonly>
+            	<label for="name">이름</label>
+                <input type="text" id="name" th:value="${memberCommand.member.name}" readonly>
                 <label for="user-id">아이디</label>
-                <input type="text" id="user-id" th:value="${id}" readonly>
+                <input type="text" id="user-id" th:value="${memberCommand.member.id}" readonly>
                 <label for="email">이메일</label>
-                <input type="text" id="email" th:value="${email}" readonly>
+                <input type="text" id="email" th:value="${memberCommand.member.email}" readonly>
                 <label for="phone">번호</label>
-                <!-- <input type="text" id="phone" th:value="${memberCommand.member.phone}" readonly> -->
-                <input type="text" id="phone" th:value="${phone}" readonly>
-                <button type="button">수정하기</button>
+                <input type="text" id="phone" th:value="${memberCommand.member.phone}" readonly>
+                <button type="button" th:onclick="'location.href=\'' + @{/myPage/myInfoCheck} + '\''">수정하기</button>
             </form>
         </div>
     </div>
