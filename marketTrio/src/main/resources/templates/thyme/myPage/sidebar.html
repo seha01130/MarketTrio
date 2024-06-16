@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .sidebar {
+            width: 200px;
+            background-color: white;
+            padding: 20px;
+            margin-top: 80px;
+            margin-left: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            height: calc((100vh - 60px) / 2);
+            position: fixed;
+            border-radius: 10px;
+        }
+        .sidebar a {
+            display: block;
+            margin-top: 40px;
+            text-align: center;
+            text-decoration: none;
+            color: gray;
+            font-size: 16px;
+        }
+        .sidebar a:hover {
+    		color: black;
+		}
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <a href="#" th:href="@{/myPage/myInfo}">내 정보</a>
+        <a href="#" th:href="@{/purchase/myPurchaseList}">구매 내역</a>
+        <a href="#" th:href="@{/sales/mySalesList}">판매 내역</a>
+        <a href="#" th:href="@{/myPage/quit}">회원탈퇴</a>
+    </div>
+</body>
+</html>

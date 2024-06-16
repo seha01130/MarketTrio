@@ -26,7 +26,7 @@
             font-weight: 700;
         }
         .nav a:hover {
-            text-decoration: underline;
+            text-decoration: none;
         }
         .auth {
             display: flex;
@@ -45,18 +45,19 @@
 </head>
 <body>
     <div class="header">
-        <img id="logo" th:src="@{/images/logo.png}" />
+        <a href="#" th:href="@{/}">
+            <img id="logo" th:src="@{/images/logo.png}" />
+        </a>
         <div class="nav">
-            <a href="#" th:href="@{/used-market}">중고거래</a>
-            <a href="#" th:href="@{/auction}">경매</a>
-            <a href="#" th:href="@{/group-buying}">공동구매</a>
+            <a href="#" th:href="@{/shPost/list}">중고거래</a>
+            <a href="#" th:href="@{/auction/list}">경매</a>
+            <a href="#" th:href="@{/groupBuy/groupBuyList}">공동구매</a>
         </div>
         <div class="auth">
-            <a href="#" th:href="@{/login}">로그인</a>
-            <a href="#" th:href="@{/signup}">회원가입</a>
+            <a href="#" th:href="@{/loginAndRegister/login}">로그인</a>
+            <a href="#" th:href="@{/loginAndRegister/register}">회원가입</a>
             <a><img id="profile"  th:src="@{/images/profile.png}" /></a>
         </div>
-    </div>
     </div>
 </body>
 </html>

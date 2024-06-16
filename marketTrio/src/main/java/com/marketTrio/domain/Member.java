@@ -16,9 +16,12 @@ public class Member implements Serializable {
 	@Column(nullable = false)
 	private String nickname;
 	private String profilePicture;
-	private int rating;
+	private float rating;
+	@Column(nullable = false)
 	private String email;
+	@Column(nullable = false)
 	private String name;
+	@Column(nullable = false)
 	private String phone;
 	
 	public String getId() {
@@ -40,15 +43,15 @@ public class Member implements Serializable {
 		this.nickname = nickname;
 	}
 	public String getProfilePicture() {
-		return profilePicture;
-	}
+        return profilePicture == null ? "" : profilePicture;
+    }
 	public void setProfilePicture(String profilePicture) {
 		this.profilePicture = profilePicture;
 	}
-	public int getRating() {
+	public float getRating() {
 		return rating;
 	}
-	public void setRating(int rating) {
+	public void setRating(float rating) {
 		this.rating = rating;
 	}	
 	public String getEmail() {
