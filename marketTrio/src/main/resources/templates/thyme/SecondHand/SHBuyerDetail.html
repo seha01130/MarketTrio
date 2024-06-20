@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MarketTrio - 상품 상세(구매자)</title>
+<style>
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f5f7fa;
+	margin: 0;
+	padding: 0;
+}
+
+main {
+	padding: 20px;
+	max-width: 800px;
+	margin: auto;
+}
+
+.product {
+	background-color: #ffffff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product h1 {
+	margin-top: 0;
+}
+
+.seller-info {
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.seller-photo {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	margin-right: 10px;
+}
+
+.seller-details {
+	flex-grow: 1;
+}
+
+.seller-name {
+	font-weight: bold;
+}
+
+.post-date {
+	color: #888;
+	font-size: 0.9em;
+}
+
+.action-buttons {
+	display: flex;
+	gap: 10px;
+}
+
+.action-buttons button {
+	padding: 5px 10px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.action-buttons .edit {
+	background-color: #8bc34a;
+	color: white;
+}
+
+.action-buttons .delete {
+	background-color: #f44336;
+	color: white;
+}
+
+.product-photo {
+	width: 50%;
+	border-radius: 8px;
+	margin-bottom: 20px;
+}
+
+.product-details {
+	margin-bottom: 20px;
+}
+
+.price {
+	font-size: 24px;
+	font-weight: bold;
+	color: #333;
+	display: block;
+	margin-bottom: 10px;
+}
+
+.category-button {
+	padding: 5px 10px;
+	background-color: #8bc34a;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	margin-bottom: 20px;
+}
+
+.description, .additional-info, .note {
+	margin-bottom: 10px;
+}
+
+.comments {
+	background-color: #ffffff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	margin-top: 20px;
+}
+
+.comment {
+	display: flex;
+	margin-bottom: 20px;
+}
+
+.user-photo {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	margin-right: 10px;
+}
+
+.comment-details {
+	flex-grow: 1;
+}
+
+.user-name {
+	font-weight: bold;
+}
+
+.comment-date {
+	color: #888;
+	font-size: 0.9em;
+}
+
+.comment-text {
+	margin: 5px 0;
+}
+
+.new-comment {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.new-comment textarea {
+	width: 100%;
+	height: 60px;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+.new-comment button {
+	align-self: flex-end;
+	padding: 10px 20px;
+	background-color: #8bc34a;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.reply {
+	border: none;
+	color: grey;
+	font-size: 15px;
+	background-color: transparent;
+}
+</style>
+</head>
+
+<body>
+	<div th:insert="thyme/banner"></div>
+	<main>
+
+		<section class="product">
+			<h1 th:text="${shPost.title}">제목</h1>
+			<div class="seller-info">
+				<img th:src="@{/images/profile.png}" alt="판매자 사진"
+					class="seller-photo">
+				<div class="seller-details">
+					<span class="seller-name" th:text="${shPost.member.nickname}">닉네임</span>
+					<span class="post-date"
+						th:text="${#dates.format(shPost.createDate, 'yyyy-MM-dd')}">XXXX-XX-XX</span>
+				</div>
+			</div>
+			<!--
+             
+			<img th:src="@{/images/metamong.png}" alt="상품 사진"
+				class="product-photo">
+
+			 -->
+			<div th:each="image : ${shPost.image}">
+				<img th:src="@{'/upload/' + ${image}}" alt="상품 사진"
+					class="product-photo">
+			</div>
+
+			<div class="product-details">
+				<span class="price"
+					th:text="${#numbers.formatDecimal(shPost.price, 0, 'COMMA', 0, 'NONE')} + '원'">00000원</span>
+				<button class="category-button"
+					th:text="${shPost.SHStatus == 0 ? '판매중' : (shPost.SHStatus == 1 ? '판매 완료' : '')}"></button>
+
+				<p class="description" th:text="${shPost.content}">내용</p>
+			</div>
+		</section>
+
+
+
+		<section class="comments">
+			<div th:each="replyList : ${replyList}" class="comment">
+				<!-- <img th:src="@{${comment.userPhoto}}" alt="사용자 사진" class="user-photo"> -->
+
+				<form
+					th:action="@{/shPost/detail/{SHPostId}(SHPostId= ${shPost.SHPostId})}"
+					method="post" th:id="'deleteReplyForm' + ${replyList.replyId}">
+
+					<div class="comment-details">
+						<span class="user-name" th:text="${replyList.member.nickname}">닉네임</span>
+
+						<span class="comment-date"
+							th:text="${#dates.format(replyList.createDate, 'yyyy-MM-dd HH:mm:ss')}">XXXX-XX-XX</span>
+
+						<input type="hidden" name="formType"
+							th:id="'formType' + ${replyList.replyId}">
+
+						<!-- <input
+							type="hidden" name="replyId"
+							th:id="'replyId' + ${replyList.replyId}">
+
+						 삭제 버튼
+						<button th:if="${replyList.member.id == loginUser}" class="reply"
+							th:onclick="deleteComment([[${replyList.replyId}]]); return false;">삭제</button>
+ 							-->
+
+						<!-- replyId를 위한 숨은 입력 필드, replyId가 존재할 때만 설정 -->
+						<input th:if="${replyList.replyId != null}" type="hidden"
+							name="replyId" th:id="'replyId' + ${replyList.replyId}"
+							th:value="${replyList.replyId}" />
+
+						<!-- 삭제 버튼 
+						<button th:if="${replyList.member.id == loginUser}" class="reply"
+							type="submit">
+							<a href="javascript:void(0);"
+								th:onclick="deleteComment([[${replyList.replyId}]])"
+								style="color: inherit; text-decoration: none;">삭제</a>
+						</button>
+						-->
+
+						<button th:if="${replyList.member.id == loginUser}" class="reply"
+							type="button"
+							th:onclick="deleteComment([[${replyList.replyId}]])">삭제
+						</button>
+
+						<p class="comment-text" th:text="${replyList.content}">내용</p>
+					</div>
+				</form>
+			</div>
+
+			<form class="new-comment"
+				th:action="@{/shPost/detail/{SHPostId}(SHPostId= ${shPost.SHPostId})}"
+				th:object="${replyCommand}" method="post" id="insertReplyForm">
+
+				<input type="hidden" name="formType" id="formType2">
+
+				<span style="font-weight:bold; font-size:20px;">댓글작성</span>
+				<textarea style="width:735px; height:70px; resize:none;" name="text" placeholder="댓글을 입력하세요" th:field="*{content}"></textarea>
+				<button type="button" onclick="submitComment()">댓글 작성</button>
+			</form>
+
+			<script th:inline="javascript">
+				function submitComment() {
+					var content = document.getElementById('content').value
+							.trim();
+					document.getElementById("formType2").value = "selectComment";
+					
+					if (content === '') {
+						alert('댓글 내용을 입력하세요.');
+						return false;
+					} else{
+					
+					document.getElementById("insertReplyForm").submit();						
+					}
+				}
+				
+
+				function deleteComment(replyId) {
+					document.getElementById("replyId" + replyId).value = parseInt(
+							replyId, 10);
+					document.getElementById("formType" + replyId).value = "deleteComment";
+					document.getElementById('deleteReplyForm' + replyId)
+							.submit();
+				}
+			</script>
+		</section>
+
+
+	</main>
+</body>
+
+</html>

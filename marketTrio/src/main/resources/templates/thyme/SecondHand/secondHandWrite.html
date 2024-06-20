@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketTrio - 게시글 작성</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .content {
+            padding: 20px 40px;
+        }
+        .breadcrumb {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 20px;
+        }
+        .breadcrumb a {
+            text-decoration: none;
+            color: #333;
+        }
+        .form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        .form-group img {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+        .form-control {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1;
+        }
+        .form-control input,
+        .form-control textarea {
+            width: 50%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .form-control input:focus,
+        .form-control textarea:focus {
+            outline: none;
+            border-color: #AED581;
+        }
+        .form-control label {
+            font-weight: bold;
+        }
+        .form-control button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ccc;
+            color: white;
+            cursor: pointer;
+            width: 10%;
+        }
+        .form-control button:hover {
+            background-color: #999;
+        }
+        .btn-submit {
+            align-self: flex-start;
+            background-color:  #AED581;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-submit:hover {
+            background-color:  #AED581;
+        }
+    </style>
+</head>
+<body>
+	<div th:insert="thyme/banner"></div>
+
+    <div class="content">
+        <div class="breadcrumb">
+            <a href="#">중고거래</a> &gt; 게시글 작성
+        </div>
+                <form class="form" th:action="@{/shPost/write/}" th:object="${shCommand}" method ="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <div class="image-preview" id="image-preview"></div>
+            <!-- 
+                <img src="https://via.placeholder.com/150" alt="상품 이미지" id="product-image"> -->
+                <div class="form-control">
+                    <label for="title">제목</label>
+                    <input type="text" id="title" placeholder="제목을 입력하세요." th:field = "*{title}">
+                    <span th:if="${NoTitleMsg}" style="color: red; padding-bottom:10px;" class="error-message" th:text="${NoTitleMsg}"></span>
+                    <label for="price">가격</label>
+                    <input type="text" id="price" placeholder="가격을 입력해주세요." th:field = "*{price}">
+                    <span th:if="${NoPriceMsg}" style="color: red; padding-bottom:10px;" class="error-message" th:text="${NoPriceMsg}"></span>
+                    <label for="files">이미지 업로드</label>
+                    <input type="file" id="files" name="files" multiple>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-control">
+                    <label for="description">상세설명</label>
+                    <span th:if="${NoContentMsg}" style="color: red; padding-bottom:10px;" class="error-message" th:text="${NoContentMsg}"></span>
+                    <textarea style="width:910px; height:300px; resize:none;" id="description" rows="10" placeholder="내용을 작성하세요." th:field = "*{content}"></textarea>
+                </div>
+            </div>
+            <button type="submit" class="btn-submit">등록</button>
+        </form>
+    </div>
+    
+       <script>
+        const filesInput = document.getElementById('files');
+        const preview = document.getElementById('image-preview');
+        let fileArray = [];
+
+        filesInput.addEventListener('change', function(event) {
+            Array.from(event.target.files).forEach(file => {
+                fileArray.push(file);
+
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.onload = function() {
+                    URL.revokeObjectURL(img.src); // 메모리 해제
+                }
+                preview.appendChild(img);
+            });
+        });
+
+        document.querySelector('form').addEventListener('submit', function(event) {
+            const dataTransfer = new DataTransfer();
+            fileArray.forEach(file => dataTransfer.items.add(file));
+            filesInput.files = dataTransfer.files;
+        });
+        
+        
+        
+    </script>
+</body>
+</html>

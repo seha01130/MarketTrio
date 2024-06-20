@@ -120,7 +120,7 @@
         </div>
 
       <div class="container">
-         <div class="produck-list" th:each="gbPost:${gbPostList}">
+         <div class="product-list" th:each="gbPost:${gbPostList}">
             <a th:href="@{'/groupBuy/detail/' + ${gbPost.GBPostId}}">
                <div class="product-item" th:attr="data-status=${gbPost.GBStatus}">
                   <div class="product-info">

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SecondhandList</title>
+<style>
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: #f5f5f5;
+}
+
+.container {
+	padding-top: 60px;
+	padding-left: 100px;
+	padding-right: 100px;
+}
+
+.toggle-button {
+	display: flex;
+	align-items: center;
+}
+
+.toggle-button input {
+	display: none;
+}
+
+.toggle-button label {
+	position: relative;
+	width: 40px;
+	height: 20px;
+	margin-left: 10px;
+	background-color: #ccc;
+	border-radius: 20px;
+	cursor: pointer;
+}
+
+.toggle-button label::after {
+	content: '';
+	position: absolute;
+	width: 18px;
+	height: 18px;
+	background-color: #fff;
+	border-radius: 50%;
+	top: 1px;
+	left: 1px;
+	transition: 0.3s;
+}
+
+.toggle-button input:checked+label {
+	background-color: #6ac26a;
+}
+
+.toggle-button input:checked+label::after {
+	transform: translateX(20px);
+}
+
+.product-list {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.product-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px;
+	background-color: #fff;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	margin-bottom: 20px;
+}
+
+.product-info {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.product-info img {
+	width: 50px;
+	height: 50px;
+	border-radius: 8px;
+}
+
+.product-info .title {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.product-info .price {
+	font-size: 14px;
+	color: #888;
+}
+
+.product-date {
+	font-size: 16px;
+	font-weight: 600;
+	padding-right: 20px;
+}
+
+.register-btn {
+	display: inline-block;
+	padding: 10px 20px;
+	background-color: #AED581;
+	color: #fff;
+	border-radius: 8px;
+	text-decoration: none;
+}
+
+#buttons {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 20px;
+}
+
+a {
+	text-decoration: none;
+}
+</style>
+</head>
+<body>
+	<div th:insert="thyme/banner"></div>
+
+	<div class="container">
+		<div id="buttons">
+			<div class="toggle-button">
+				<span>중고거래중인 상품만 보기</span> <input type="checkbox" id="toggle">
+				<label for="toggle"></label>
+			</div>
+			<a th:href="@{/shPost/write}" class="register-btn">중고거래 등록</a>
+		</div>
+
+
+		<div class="container">
+			<div class="product-list" th:each="shPost:${SHPostList}">
+				<a
+					th:href="@{/shPost/detail/{SHPostId}(SHPostId=${shPost.SHPostId})}">
+					<div class="product-item" th:attr="data-status=${shPost.SHStatus}">
+						<div class="product-info">
+
+							<div>
+								<div th:if="${not #lists.isEmpty(shPost.image)}">
+									<img th:src="@{'/upload/' + ${shPost.image[0]}}" alt="상품 이미지">
+								</div>
+								<div class="title" th:text="${shPost.title}">제목</div>
+								<div class="price"
+									th:text="${#numbers.formatDecimal(shPost.price, 0, 'COMMA', 0, 'NONE')} + '원'">가격</div>
+							</div>
+
+						</div>
+
+						<div class="product-date"
+							th:text="${#dates.format(shPost.createDate, 'yyyy/MM/dd')}">게시글
+							날짜</div>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.getElementById('toggle');
+            toggle.addEventListener('change', function() {
+                const products = document.querySelectorAll('.product-item');
+                products.forEach(product => {
+                    const status = product.getAttribute('data-status');
+                    console.log(status);
+                    if (toggle.checked) {
+                        if (status == 1) {
+                            product.style.display = 'none';
+                        } else {
+                            product.style.display = 'flex';
+                        }
+                    } else {
+                        product.style.display = 'flex';
+                    }
+                });
+            });
+        });
+    </script>
+
+
+</body>
+</html>

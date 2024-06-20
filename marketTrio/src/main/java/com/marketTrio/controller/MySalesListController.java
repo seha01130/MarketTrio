@@ -45,7 +45,7 @@ public class MySalesListController {
 		System.out.println("아이디 잘 받아옴?: " + memberId);
 		 
 		ModelAndView modelAndView = new ModelAndView(mySalesList);
-//	    modelAndView.addObject("SHSalesList", sHService.getSHSalesListByMemberId(memberId));
+	    modelAndView.addObject("SHSalesList", sHService.getSHSalesListByMemberId(memberId));
 	    modelAndView.addObject("ASalesList", aService.getASalesListByMemberId(memberId));
 	    modelAndView.addObject("GBSalesList", gBService.getGBSalesListByMemberId(memberId));
 	    return modelAndView;
