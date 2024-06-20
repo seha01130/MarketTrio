@@ -123,6 +123,7 @@
 </head>
 <body>
 	<div th:insert="thyme/banner"></div>
+	
     <div style="padding : 25px;">
         <div class="breadcrumb">공동구매 > 게시글</div>
         <hr style="border-width : 2px 0px 0px 0px;">
@@ -150,14 +151,16 @@
                             <div class="sale-price"><span>할인가 </span><span th:text="${#numbers.formatDecimal(salePrice, 0, 'COMMA', 0, 'NONE')} + '원'"></span></div>
                         </div>
                     </div>
-                </div>
+                </div>              
 				<form id="gbPartForm" th:action="@{/groupBuy/participate/{GBPostId}(GBPostId=${GBPostId})}" th:object="${gbpCommand}" th:style="${gbPost.GBStatus == 1} ? 'display:none;' : 'display:flex;'" method="post">
 				    <input type="hidden" th:field="*{member}" th:value="${memberSession.memberId}" />
 				    <select id="optionId" name="optionId" required>
 				        <option value="">옵션 선택</option>
 				        <option th:each="option : ${optionList}" th:value="${option.optionId}" th:text="${option.optionName}"></option>
 				    </select>
-				    <input type="number" id="quantity" th:field="*{quantity}" placeholder="구매 수량을 입력해주세요" style="width: 160px;">
+				    <span th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" style="color: red;"></span>
+				    <input type="number" id="quantity" th:field="*{quantity}" placeholder="구매 수량을 입력해주세요" style="width: 160px;">			    
+				    
 				    <button type="submit" class="register-btn">참여하기</button>				    
 				</form>
                 <div class="deadline"><span>마감일 : </span><span th:text="${#dates.format(gbPost.duration, 'yy/MM/dd')}"></span></div>

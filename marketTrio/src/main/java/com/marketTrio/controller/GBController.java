@@ -8,11 +8,14 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -188,20 +191,23 @@ public class GBController {
 		
 	// 공동구매 참여
 	@PostMapping("/participate/{GBPostId}")
-	public ModelAndView participateGB(
-			@ModelAttribute("gbpCommand") GBParticipateCommand gbParticipate,
+	public String participateGB(
+			@Valid @ModelAttribute("gbpCommand") GBParticipateCommand gbParticipate,
 			@PathVariable("GBPostId") int GBPostId,
+			BindingResult bindingResult, Model model,
 			@ModelAttribute("memberSession") MemberSession memberSession) {		
 		//String loginUserId = memberSession.getMemberId();
-		String loginUserId = "dami";
-
-        
-		ModelAndView mv = new ModelAndView();
+		String loginUserId = "dami";   
+		//ModelAndView mv = new ModelAndView();
 		
+		if (bindingResult.hasErrors()) {
+			//mv = new ModelAndView("thyme/groupBuy/gbNoneBuyerDetail");
+            return "thyme/groupBuy/gbNoneBuyerDetail";
+        }
+	
 		gbParticipate.setMember(loginUserId);
 		gbService.participate(gbParticipate);
-		System.out.println("!!!!!" + gbParticipate.toString());
-		mv.setViewName("redirect:/groupBuy/detail/" + GBPostId);
+		//mv.setViewName("redirect:/groupBuy/detail/" + GBPostId);
 		
 //		try {	// 참여 성공
 //			gbParticipate.setMember(loginUserId);
@@ -213,7 +219,7 @@ public class GBController {
 //			mv.addObject("errorMessage", "Fail to participate in GroupBuy");
 //		}
 		
-		return mv;
+		return "redirect:/groupBuy/detail/" + GBPostId;
 	}
 
 	// 공동구매 참여 취소
