@@ -14,7 +14,6 @@
             margin: 0 15px;
             text-decoration: none;
             color: black;
-            
         }
         .header .logo {
             font-size: 24px;
@@ -35,10 +34,28 @@
         }
         .banner {
             background-color: #ccc;
-            height: 300px;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             padding: 20px;
+        }
+        .card-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
         }
         .card {
             background-color: #e0f7d4;
@@ -48,14 +65,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 20px auto;
+            margin: 10px;
         }
         .card img {
             width: 50px;
             height: 50px;
         }
-        .card + p {
+        .card-group p {
             text-align: center;
+            margin: 0;
         }
     </style>
 </head>
@@ -65,23 +83,31 @@
     <div th:insert="thyme/banner"></div>
 </header>
 
-<div class="banner"></div>
+<div class="banner">
+    <img id="mainImage" th:src="@{/images/mainImage.png}" alt="Main Image" />
+</div>
 
 <div class="content">
-    <div class="card">
-        <img src="handshake.png" alt="중고거래 설명">
+    <div class="card-group">
+        <div class="card">
+            <img src="handshake.png" alt="중고거래 설명">
+        </div>
+        <p>중고거래 설명</p>
     </div>
-    <p>중고거래 설명</p>
     
-    <div class="card">
-        <img src="auction.png" alt="경매 설명">
+    <div class="card-group">
+        <div class="card">
+            <img src="auction.png" alt="경매 설명">
+        </div>
+        <p>경매 설명</p>
     </div>
-    <p>경매 설명</p>
     
-    <div class="card">
-        <img src="group.png" alt="공동구매 설명">
+    <div class="card-group">
+        <div class="card">
+            <img src="group.png" alt="공동구매 설명">
+        </div>
+        <p>공동구매 설명</p>
     </div>
-    <p>공동구매 설명</p>
 </div>
 
 </body>

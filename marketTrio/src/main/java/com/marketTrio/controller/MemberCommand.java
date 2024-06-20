@@ -10,7 +10,7 @@ import com.marketTrio.domain.Member;
 @SuppressWarnings("serial")
 public class MemberCommand implements Serializable {
 	private Member member;
-	@NotBlank(message = "Password is mandatory")
+	@NotBlank(message = "패스워드는 필수 항목입니다")
 	private String repeatedPassword;
 
 	public MemberCommand(Member member) {
@@ -29,7 +29,7 @@ public class MemberCommand implements Serializable {
         this.member = member;
     }
 	
-	@NotBlank(message = "Password is mandatory")
+	@NotBlank(message = "패스워드는 필수 항목입니다")
 	public String getPassword() {
 		return member.getPassword();
 	}
@@ -46,7 +46,7 @@ public class MemberCommand implements Serializable {
 		this.repeatedPassword = repeatedPassword;
 	}
 
-	@NotBlank(message = "Name is mandatory")
+	@NotBlank(message = "이름은 필수 항목입니다")
 	public String getName() {
         return member.getName();
     }
@@ -55,7 +55,7 @@ public class MemberCommand implements Serializable {
         member.setName(name);
     }
 
-    @NotBlank(message = "Password is mandatory")
+    @NotBlank(message = "닉네임은 필수 항목입니다")
     public String getNickname() {
         return member.getNickname();
     }
@@ -64,8 +64,8 @@ public class MemberCommand implements Serializable {
         member.setNickname(nickname);
     }
 
-    @Email(message = "Email should be valid")
-    @NotBlank(message = "Email is mandatory")
+    @Email(message = "이메일의 형식에 맞게 입력해야합니다")
+    @NotBlank(message = "이메일은 필수 항목입니다")
     public String getEmail() {
         return member.getEmail();
     }
@@ -74,7 +74,7 @@ public class MemberCommand implements Serializable {
         member.setEmail(email);
     }
 
-    @NotBlank(message = "User ID is mandatory")
+    @NotBlank(message = "번호는 필수 항목입니다")
     public String getPhone() {
         return member.getPhone();
     }
@@ -83,7 +83,7 @@ public class MemberCommand implements Serializable {
         member.setPhone(phone);
     }
 
-    @NotBlank(message = "User ID is mandatory")
+    @NotBlank(message = "아이디는 필수 항목입니다")
     public String getUserId() {
         return member.getId();
     }
