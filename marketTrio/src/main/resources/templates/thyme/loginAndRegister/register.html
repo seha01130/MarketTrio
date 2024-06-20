@@ -115,6 +115,8 @@
                 <span th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}" style="color: red;"></span>
                 <input type="text" id="user-id" th:field="*{userId}">
                 
+                <span th:if="${IdErrorMessage}" style="color: red; padding-bottom:10px;" class="error-message" th:text="${IdErrorMessage}"></span>
+                
                 <label for="email">이메일</label>
                 <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;"></span>
                 <input type="text" id="email" th:field="*{email}">
@@ -130,8 +132,8 @@
                 <label for="repeatedPassword">비밀번호 확인</label>
                 <span th:if="${#fields.hasErrors('repeatedPassword')}" th:errors="*{repeatedPassword}" style="color: red;"></span>
                 <input type="password" id="repeatedPassword" th:field="*{repeatedPassword}">
+                <span th:if="${Pwdmessage}" style="color: red; padding-bottom:10px;" class="error-message" th:text="${Pwdmessage}"></span>
                 
-                <span th:if="${message}" style="color: red; padding-bottom:10px;" class="error-message" th:text="${message}"></span>
                 <button type="submit">회원가입</button>
             </div>
         </form>

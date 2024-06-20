@@ -46,7 +46,7 @@ public class MyPurchaseListController {
 		String memberId = memberSession.getMemberId();
 		 
 		ModelAndView modelAndView = new ModelAndView(myPurchaseList);
-	    modelAndView.addObject("SHPurchaseList", sHService.getSHPurchaseListByMemberId(memberId));
+//	    modelAndView.addObject("SHPurchaseList", sHService.getSHPurchaseListByMemberId(memberId));
 	    modelAndView.addObject("APurchaseList", aService.getAPurchaseListByMemberId(memberId));
 	    modelAndView.addObject("GBPurchaseList", gBService.getGBPurchaseListByMemberId(memberId));
 	    return modelAndView;

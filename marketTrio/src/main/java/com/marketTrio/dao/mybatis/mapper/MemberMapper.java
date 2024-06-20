@@ -15,6 +15,8 @@ public interface MemberMapper {
 
 	Member getMemberByIdAndPassword(String id, String password);
 	
+	boolean isIdExist(String id);
+	
 	String getPassword(String id);  //정보수정할때 비밀번호 입력받아서 비교할때 사용함
 	
 	String getNicknameById(String id);

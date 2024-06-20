@@ -11,19 +11,26 @@
 		FROM Member
 		WHERE ID = #{id}
 	</select>
-	
-	<select id="getSellerIdFromSH"
-		resultType="java.lang.String">
+
+	<select id="getSellerIdFromSH" resultType="java.lang.String">
 		SELECT SELLERID
-		FROM SECONDHAND
+		FROM
+		SECONDHAND
 		WHERE SHPOSTID = #{postId}
 	</select>
 
 	<select id="getMemberByIdAndPassword" resultType="Member">
 		SELECT *
-		FROM Member
+		FROM
+		Member
 		WHERE Member.ID = #{id}
 		AND Member.PASSWORD = #{password}
+	</select>
+
+	<select id="isIdExist" resultType="boolean">
+		SELECT CASE WHEN COUNT(1) > 0 THEN 1 ELSE 0 END
+		FROM Member
+		 WHERE Member.ID = #{id, jdbcType=VARCHAR}
 	</select>
 
 	<select id="getPassword" parameterType="string"
@@ -39,7 +46,8 @@
 
 	<select id="getRateById" resultType="java.lang.Float">
 		SELECT Member.RATING
-		FROM Member
+		FROM
+		Member
 		WHERE Member.ID = #{id}
 	</select>
 
@@ -50,12 +58,14 @@
 	</update>
 
 	<select id="getNicknameList" resultType="java.lang.String">
-		SELECT NICKNAME AS VALUE FROM MEMBER
+		SELECT NICKNAME AS VALUE
+		FROM MEMBER
 	</select>
 
 	<insert id="insertMember" parameterType="Member">
 		INSERT INTO Member
-		(ID, PASSWORD, NICKNAME, PROFILEPICTURE, RATING, EMAIL, NAME, PHONE)
+		(ID,
+		PASSWORD, NICKNAME, PROFILEPICTURE, RATING, EMAIL, NAME, PHONE)
 		VALUES
 		(#{id}, #{password}, #{nickname}, #{profilePicture, jdbcType=VARCHAR},
 		#{rating}, #{email}, #{name}, #{phone})
@@ -65,7 +75,8 @@
 		UPDATE Member SET
 		PASSWORD = #{password},
 		NICKNAME = #{nickname},
-		PROFILEPICTURE = #{profilePicture, jdbcType=VARCHAR},
+		PROFILEPICTURE =
+		#{profilePicture, jdbcType=VARCHAR},
 		EMAIL = #{email},
 		PHONE = #{phone}
 		WHERE ID = #{id}
@@ -76,7 +87,8 @@
 		PASSWORD = '알수없음',
 		NICKNAME = '알수없음',
 		PROFILEPICTURE = '알수없음',
-		RATING = 0.0,
+		RATING =
+		0.0,
 		EMAIL = '알수없음',
 		NAME = '알수없음',
 		PHONE = '알수없음'
