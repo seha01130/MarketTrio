@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.marketTrio.domain.AuctionEntity;
 
-
-
 public interface AuctionRepository extends JpaRepository<AuctionEntity, Integer> {
-	 List<AuctionEntity> findAll();
+	List<AuctionEntity> findAll();
 }

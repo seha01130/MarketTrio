@@ -16,13 +16,13 @@ public class AuctionService {
 	@Autowired
 	private AuctionRepository auctionRepository;
 
-	public List<AuctionEntity> getAuctionList(){
+	public List<AuctionEntity> getAuctionList() {
 		return auctionRepository.findAll();
 	}
-	
+
 	@Autowired
-    private AuctionDao auctionDao;
-	
+	private AuctionDao auctionDao;
+
 	public AuctionEntity createAuction(AuctionForm postData) {
 		return auctionDao.createAuction(postData);
 	}
@@ -36,7 +36,7 @@ public class AuctionService {
 		// TODO Auto-generated method stub
 		return auctionDao.modifyAuction(auctionId, formData);
 	}
-	
+
 	public int deleteAuction(int auctionId) {
 		// TODO Auto-generated method stub
 		return auctionDao.deleteAuction(auctionId);
@@ -48,7 +48,7 @@ public class AuctionService {
 	}
 
 	public int placeBid(int auctionId, int price) {
-		return auctionDao.placeBid(auctionId,price);
+		return auctionDao.placeBid(auctionId, price);
 	}
 //  public List<Auction> getAuctionList() {
 //      return auctionDao.getauctionList();

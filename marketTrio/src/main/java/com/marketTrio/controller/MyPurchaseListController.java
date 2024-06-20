@@ -32,60 +32,59 @@ public class MyPurchaseListController {
 //	public void setMarketTrio(MarketTrioFacade marketTrio) {
 //		this.marketTrio = marketTrio;
 //	}
-	@Autowired	
+	@Autowired
 	private SHService sHService;
-	@Autowired	
+	@Autowired
 	private AService aService;
-	@Autowired	
+	@Autowired
 	private GBService gBService;
 	@Autowired
-    private ReviewService reviewService;
-	@Autowired	
+	private ReviewService reviewService;
+	@Autowired
 	private MyBatisMemberDao memberDao;
-	
-	//내가 구매한 리스트 보여주기
+
+	// 내가 구매한 리스트 보여주기
 	@RequestMapping("/myPurchaseList")
-	public ModelAndView handleRequest(
-		@ModelAttribute("memberSession") MemberSession memberSession) throws Exception {
+	public ModelAndView handleRequest(@ModelAttribute("memberSession") MemberSession memberSession) throws Exception {
 		String memberId = memberSession.getMemberId();
-		 
-		ModelAndView modelAndView = new ModelAndView("myPurchaseList"); //myPurchaseList.jsp로 감
-	    modelAndView.addObject("SHPurchaseList", sHService.getSHPurchaseListByMemberId(memberId));
+
+		ModelAndView modelAndView = new ModelAndView("myPurchaseList"); // myPurchaseList.jsp로 감
+//		modelAndView.addObject("SHPurchaseList", sHService.getSHPurchaseListByMemberId(memberId));
 //	    modelAndView.addObject("APurchaseList", aService.getAPurchaseListByMemberId(memberId));
 //	    modelAndView.addObject("GBPurchaseList", gBService.getGBPurchaseListByMemberId(memberId));
-	    return modelAndView;
+		return modelAndView;
 	}
-	
+
 	// 나의 구매 리스트에서 : 후기 작성 폼 페이지를 열기 위한 요청 처리
 	@GetMapping("/giveRate/{SHPostId}")
-    @ResponseBody
-    public ReviewCommand openReviewForm(@PathVariable int SHPostId, HttpServletRequest request) {
-        SecondHandEntity sh = sHService.getSHPostByPostId(SHPostId);
-        ReviewEntity review = new ReviewEntity();
-        review.setSHPostId(SHPostId);
-        MemberSession memberSession = (MemberSession) request.getAttribute("memberId");
-        String memberId = memberSession.getMemberId();
-        Member member = memberDao.getMember(memberId);
+	@ResponseBody
+	public ReviewCommand openReviewForm(@PathVariable int SHPostId, HttpServletRequest request) {
+		SecondHandEntity sh = sHService.getSHPostByPostId(SHPostId);
+		ReviewEntity review = new ReviewEntity();
+		review.setSHPostId(SHPostId);
+		MemberSession memberSession = (MemberSession) request.getAttribute("memberId");
+		String memberId = memberSession.getMemberId();
+		Member member = memberDao.getMember(memberId);
 //        review.setSenderId(sh.getBuyerId());
-        review.setSenderId(memberId);
-        review.setReceiverId(sh.getSellerId());
-        
-//        Member sender = memberDao.getMember(sh.getBuyerId());
-        review.setSenderId(memberId);
-        Member receiver = memberDao.getMember(sh.getSellerId());
-        
-        String senderNickname = member.getNickname();
-        String receiverNickname = receiver.getNickname();
-        
-        ReviewCommand reviewCommand =  new ReviewCommand(review, senderNickname, receiverNickname);
-        return reviewCommand;
-    }
+		review.setSenderId(memberId);
+		review.setReceiverId(sh.getSellerId());
 
-    // 후기 작성 처리를 위한 AJAX 요청 처리  
-    @PostMapping("/giveRate/{SHPostId}")
-    @ResponseBody
-    public ResponseEntity<String> submitReview(@RequestBody ReviewEntity review) {
-        reviewService.insertReview(review);
-        return ResponseEntity.ok("Review submitted successfully");
-    }
+//        Member sender = memberDao.getMember(sh.getBuyerId());
+		review.setSenderId(memberId);
+		Member receiver = memberDao.getMember(sh.getSellerId());
+
+		String senderNickname = member.getNickname();
+		String receiverNickname = receiver.getNickname();
+
+		ReviewCommand reviewCommand = new ReviewCommand(review, senderNickname, receiverNickname);
+		return reviewCommand;
+	}
+
+	// 후기 작성 처리를 위한 AJAX 요청 처리
+	@PostMapping("/giveRate/{SHPostId}")
+	@ResponseBody
+	public ResponseEntity<String> submitReview(@RequestBody ReviewEntity review) {
+		reviewService.insertReview(review);
+		return ResponseEntity.ok("Review submitted successfully");
+	}
 }

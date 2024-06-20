@@ -6,15 +6,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class MarketTrioBootApplication { 
+public class MarketTrioBootApplication {
 //public class MarketTrioBootApplication extends SpringBootServletInitializer {
 	/*
-    @Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(JpetstoreBootApplication.class);
+	 * @Override protected SpringApplicationBuilder
+	 * configure(SpringApplicationBuilder application) { return
+	 * application.sources(JpetstoreBootApplication.class); }
+	 */
+	public static void main(String[] args) throws Exception {
+		SpringApplication.run(MarketTrioBootApplication.class, args);
 	}
-	*/
-    public static void main(String[] args) throws Exception {
-        SpringApplication.run(MarketTrioBootApplication.class, args);
-    }
 }

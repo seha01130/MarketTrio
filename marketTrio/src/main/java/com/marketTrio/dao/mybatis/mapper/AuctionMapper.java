@@ -1,6 +1,5 @@
 package com.marketTrio.dao.mybatis.mapper;
 
-
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -16,13 +15,13 @@ public interface AuctionMapper {
 	public List<AuctionEntity> getauctionList();
 
 	public AuctionEntity createAuction(AuctionForm postData);
-	
+
 	public AuctionEntity getAuction(int auctionId);
 
 	public AuctionEntity modifyAuction(int auctionId, AuctionForm formData);
 
 	public int deleteAuction(int auctionId);
-	
+
 	public int findParticipant(MemberSession memberSession);
 
 	public Member getBidder(int auctionId);

@@ -30,63 +30,63 @@ public class MySalesListController {
 //	public void setMarketTrio(MarketTrioFacade marketTrio) {
 //		this.marketTrio = marketTrio;
 //	}
-	@Autowired	
+	@Autowired
 	private SHService sHService;
-	@Autowired	
+	@Autowired
 	private AService aService;
-	@Autowired	
+	@Autowired
 	private GBService gBService;
 	@Autowired
-    private ReviewService reviewService;
-	@Autowired	
+	private ReviewService reviewService;
+	@Autowired
 	private MyBatisMemberDao memberDao;
-	
-	//내가 판매한 리스트 보여주기
-	@RequestMapping("/mySalesList")
-	public ModelAndView handleRequest(
-		@ModelAttribute("memberSession") MemberSession memberSession) throws Exception {
-		String memberId = memberSession.getMemberId();
-		 
-		ModelAndView modelAndView = new ModelAndView("mySalesList");
-	    modelAndView.addObject("SHSalesList", sHService.getSHSalesListByMemberId(memberId));
 
-	    /*
-		modelAndView.addObject("ASalesList", AService.getASalesListById(memberId));
-	    modelAndView.addObject("GBSalesList", gBService.getGBSalesListById(memberId));
-	    */
+	// 내가 판매한 리스트 보여주기
+	@RequestMapping("/mySalesList")
+	public ModelAndView handleRequest(@ModelAttribute("memberSession") MemberSession memberSession) throws Exception {
+		String memberId = memberSession.getMemberId();
+
+		ModelAndView modelAndView = new ModelAndView("mySalesList");
+		modelAndView.addObject("SHSalesList", sHService.getSHSalesListByMemberId(memberId));
+
+		/*
+		 * modelAndView.addObject("ASalesList", AService.getASalesListById(memberId));
+		 * modelAndView.addObject("GBSalesList",
+		 * gBService.getGBSalesListById(memberId));
+		 */
 
 //	    modelAndView.addObject("ASalesList", AService.getASalesListById(memberId));
 //	    modelAndView.addObject("GBSalesList", gBService.getGBSalesListById(memberId));
 
-	    return modelAndView;
+		return modelAndView;
 	}
-	
-	// 나의 판매 리스트에서 : 후기 작성 폼 페이지를 열기 위한 요청 처리
-		@GetMapping("/giveRate/{SHPostId}")
-	    @ResponseBody
-	    public ReviewCommand openReviewForm(@PathVariable int SHPostId) {
-	        SecondHandEntity sh = sHService.getSHPostByPostId(SHPostId);
-	        
-	        ReviewEntity review = new ReviewEntity();
-	        review.setSHPostId(SHPostId);
-	        review.setSenderId(sh.getSellerId());
-	        review.setReceiverId(sh.getMember().getId());
-	        
-	        Member sender = memberDao.getMember(sh.getSellerId());
-	        Member receiver = memberDao.getMember(sh.getMember().getId());
-	        
-	        String senderNickname = sender.getNickname();
-	        String receiverNickname = receiver.getNickname();
-	        
-	        ReviewCommand reviewCommand =  new ReviewCommand(review, senderNickname, receiverNickname);
-	        return reviewCommand;
-	    }
 
-	    // 후기 작성 처리를 위한 AJAX 요청 처리  
-	    @PostMapping("/giveRate/{SHPostId}")
-	    @ResponseBody
-	    public ResponseEntity<String> submitReview(@RequestBody ReviewEntity review) {
-	        reviewService.insertReview(review);
-	        return ResponseEntity.ok("Review submitted successfully");
-	    }
+	// 나의 판매 리스트에서 : 후기 작성 폼 페이지를 열기 위한 요청 처리
+//	@GetMapping("/giveRate/{SHPostId}")
+//	@ResponseBody
+//	public ReviewCommand openReviewForm(@PathVariable int SHPostId) {
+//		SecondHandEntity sh = sHService.getSHPostByPostId(SHPostId);
+//
+//		ReviewEntity review = new ReviewEntity();
+//		review.setSHPostId(SHPostId);
+//		review.setSenderId(sh.getSellerId());
+//		review.setReceiverId(sh.getMember().getId());
+//
+//		Member sender = memberDao.getMember(sh.getSellerId());
+//		Member receiver = memberDao.getMember(sh.getMember().getId());
+//
+//		String senderNickname = sender.getNickname();
+//		String receiverNickname = receiver.getNickname();
+//
+//		ReviewCommand reviewCommand = new ReviewCommand(review, senderNickname, receiverNickname);
+//		return reviewCommand;
+//	}
+
+	// 후기 작성 처리를 위한 AJAX 요청 처리
+	@PostMapping("/giveRate/{SHPostId}")
+	@ResponseBody
+	public ResponseEntity<String> submitReview(@RequestBody ReviewEntity review) {
+		reviewService.insertReview(review);
+		return ResponseEntity.ok("Review submitted successfully");
+	}
 }

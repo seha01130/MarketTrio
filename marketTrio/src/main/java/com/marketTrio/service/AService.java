@@ -14,14 +14,14 @@ import java.util.List;
 
 @Service
 public class AService {
-    @Autowired
-    private AListRepository AListRepository;
+	@Autowired
+	private AListRepository AListRepository;
 
-    //@Transactional(readOnly = true)
-    public List<AuctionEntity> getAPurchaseListByMemberId(String memberId) {
-    	List<AuctionEntity> purchaseList = AListRepository.findByBuyerId(memberId);
+	// @Transactional(readOnly = true)
+	public List<AuctionEntity> getAPurchaseListByMemberId(String memberId) {
+		List<AuctionEntity> purchaseList = AListRepository.findByBuyerId(memberId);
 //    	List<AListCommand> purchaseListCommand = null;
-    	
+
 //    	for (AuctionEntity s : purchaseList) {
 //    		AListCommand c = new AListCommand();
 //    		//아래 알맞게 수정
@@ -32,14 +32,14 @@ public class AService {
 //    		c.setPrice(s.getPrice());
 //    		purchaseListCommand.add(c);
 //    	}
-        return purchaseList;
-    }
+		return purchaseList;
+	}
 
-    //@Transactional(readOnly = true)
-    public List<AuctionEntity> getASalesListByMemberId(String memberId) {
-    	List<AuctionEntity> salesList =  AListRepository.findBySellerId(memberId);
+	// @Transactional(readOnly = true)
+	public List<AuctionEntity> getASalesListByMemberId(String memberId) {
+		List<AuctionEntity> salesList = AListRepository.findBySellerId(memberId);
 //    	List<AListCommand> salesListCommand = null;
-    	
+
 //    	for (AuctionEntity s : salesList) {
 //    		AListCommand c = new AListCommand();
 //    		//아래 알맞게 수정
@@ -50,6 +50,6 @@ public class AService {
 //    		c.setPrice(s.getPrice());
 //    		salesListCommand.add(c);
 //    	}
-        return salesList;
-    }
+		return salesList;
+	}
 }

@@ -11,41 +11,14 @@
             padding: 0;
             background-color: #f5f5f5;
         }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .header .logo {
-            font-size: 24px;
-            color: #6ac26a;
-        }
-        .header nav {
-            display: flex;
-            gap: 20px;
-        }
-        .header nav a {
-            text-decoration: none;
-            color: #333;
-        }
-        .header .auth {
-            display: flex;
-            gap: 10px;
-        }
-        .header .auth a {
-            text-decoration: none;
-            color: #333;
-        }
         .container {
-            padding: 20px;
+            padding-top: 60px;
+            padding-left: 100px;
+            padding-right: 100px;
         }
         .toggle-button {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
         }
         .toggle-button input {
             display: none;
@@ -54,6 +27,7 @@
             position: relative;
             width: 40px;
             height: 20px;
+            margin-left: 10px;
             background-color: #ccc;
             border-radius: 20px;
             cursor: pointer;
@@ -88,6 +62,7 @@
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom : 20px;
         }
         .product-info {
             display: flex;
@@ -110,6 +85,7 @@
         .product-countdown {
             font-size: 16px;
             color: #e74c3c;
+            padding-right: 20px;
         }
         .register-btn {
             display: inline-block;
@@ -119,64 +95,69 @@
             border-radius: 8px;
             text-decoration: none;
         }
+        #buttons {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        a {
+        	text-decoration: none;
+        }
     </style>
 </head>
 <body>
-
-    <header class="header">
-        <div class="logo">MarketTrio</div>
-        <nav>
-            <a href="#">중고거래</a>
-            <a href="#">경매</a>
-            <a href="#">공동구매</a>
-        </nav>
-        <div class="auth">
-            <a href="#">로그인</a>
-            <a href="#">회원가입</a>
-        </div>
-    </header>
+    <div th:insert="thyme/banner"></div>
 
     <div class="container">
-        <div class="toggle-button">
-            <span>공동구매중인 상품만 보기</span>
-            <input type="checkbox" id="toggle">
-            <label for="toggle"></label>
+        <div id="buttons">
+            <div class="toggle-button">
+                <span>공동구매중인 상품만 보기</span>
+                <input type="checkbox" id="toggle">
+                <label for="toggle"></label>
+            </div>
+            <a th:href="@{'/groupBuy/write'}" class="register-btn">공동구매 등록</a>
         </div>
 
-        <div class="product-list">
-            <div class="product-item">
-                <div class="product-info">
-                    <img src="product-image.png" alt="Product Image">
-                    <div>
-                        <div class="title">제목</div>
-                        <div class="price">40% 14,000원</div>
-                    </div>
-                </div>
-                <div class="product-countdown">D - 17</div>
-            </div>
-            <div class="product-item">
-                <div class="product-info">
-                    <img src="product-image.png" alt="Product Image">
-                    <div>
-                        <div class="title">제목</div>
-                        <div class="price">40% 14,000원</div>
-                    </div>
-                </div>
-                <div class="product-countdown">D - 17</div>
-            </div>
-            <div class="product-item">
-                <div class="product-info">
-                    <img src="product-image.png" alt="Product Image">
-                    <div>
-                        <div class="title">제목</div>
-                        <div class="price">40% 14,000원</div>
-                    </div>
-                </div>
-                <div class="product-countdown">D - 17</div>
-            </div>
-        </div>
-        <a href="#" class="register-btn">공동구매 등록</a>
+		<div class="container">
+			<div class="produck-list" th:each="gbPost:${gbPostList}">
+				<a th:href="@{'/groupBuy/detail/' + ${gbPost.GBPostId}}">
+					<div class="product-item" th:attr="data-status=${gbPost.GBStatus}">
+						<div class="product-info">
+							<div>
+								<div class="title" th:text="${gbPost.productName}">제목</div>
+		                        <div class="price"><span th:text="${#numbers.formatDecimal(gbPost.regularPrice, 0, 'COMMA', 0, 'NONE')} + '원'"></span></div>
+							</div>
+						</div>
+						<div class="product-countdown" th:if="${gbPost.GBStatus == 1}" th:text="'마감'"></div>
+                        <div class="product-countdown" th:if="${gbPost.GBStatus != 1}" th:text="${#dates.format(gbPost.duration, 'yy/MM/dd')}"></div>
+					</div>
+				</a>
+			</div>
+		</div>
     </div>
-
+	
+	<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.getElementById('toggle');
+            toggle.addEventListener('change', function() {
+                const products = document.querySelectorAll('.product-item');
+                products.forEach(product => {
+                    const status = product.getAttribute('data-status');
+                    console.log(status);
+                    if (toggle.checked) {
+                        if (status == 1) {
+                            product.style.display = 'none';
+                        } else {
+                            product.style.display = 'flex';
+                        }
+                    } else {
+                        product.style.display = 'flex';
+                    }
+                });
+            });
+        });
+    </script>
+    
 </body>
 </html>

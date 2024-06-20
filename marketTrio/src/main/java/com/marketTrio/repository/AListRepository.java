@@ -12,6 +12,6 @@ import com.marketTrio.domain.SecondHandEntity;
 public interface AListRepository extends JpaRepository<AuctionEntity, Integer> {
 
 	List<AuctionEntity> findByBuyerId(String memberId);
-	
-    List<AuctionEntity> findBySellerId(String memberId);
+
+	List<AuctionEntity> findBySellerId(String memberId);
 }

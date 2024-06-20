@@ -4,14 +4,22 @@
 <mapper namespace="com.marketTrio.dao.mybatis.mapper.MemberMapper">
   <cache />
 
-  <select id="getMemberById" resultType="com.marketTrio.domain.Member">
-    SELECT *
+  <select id="getMemberById" resultType="Member">
+    SELECT Member.ID,
+          Member.PASSWORD,
+          Member.NICKNAME,
+          Member.PROFILEPICTURE,
+          Member.RATING
     FROM Member
-    WHERE ID = #{id}
+    WHERE Member.ID = #{id}
   </select>
 
   <select id="getMemberByIdAndPassword" resultType="Member">
-    SELECT *
+    SELECT Member.ID,
+          Member.PASSWORD,
+          Member.NICKNAME,
+          Member.PROFILEPICTURE,
+          Member.RATING
     FROM Member
     WHERE Member.ID = #{param1}
       AND Member.PASSWORD = #{param2}
@@ -29,9 +37,9 @@
   
    <insert id="insertMember" parameterType="Member">
     INSERT INTO Member
-      (PASSWORD, NICKNAME, PROFILEPICTURE, RATING, EMAIL, NAME, PHONE)
+      (PASSWORD, NICKNAME, PROFILEPICTURE, RATING)
     VALUES
-      (#{password}, #{nickname}, #{profilePicture}, #{rating}, #{email}, #{name}, #{phone})
+      (#{password}, #{nickname}, #{profilePicture}, #{rating})
   </insert>
 
   <update id="updateMember" parameterType="Member">
@@ -40,14 +48,11 @@
       NICKNAME = #{nickname},
       PROFILEPICTURE = #{profilePicture},
       RATING = #{rating}
-      EMAIL = #{email}
-      NAME = #{name}
-      PHONE = #{phone}
     WHERE ID = #{id}
   </update>
   
   <delete id="deleteMember" parameterType="java.lang.String">
     DELETE FROM Member
-        WHERE ID = #{id}
+        WHERE ID = #{memberId}
   </delete>
 </mapper>

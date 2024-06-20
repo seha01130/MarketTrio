@@ -10,17 +10,17 @@ import com.marketTrio.repository.ReviewRepository;
 @Service
 public class ReviewService {
 
-    @Autowired
-    private ReviewRepository reviewRepository;
+	@Autowired
+	private ReviewRepository reviewRepository;
 
-    //내가 리뷰를 작성했는지 아닌지 확인해주는 메소드. SHService에서 호출함
-    @Transactional(readOnly = true)
-    public boolean hasReviewed(String memberId, int postId) {
-        return reviewRepository.existsBySenderIdAndSHPostId(memberId, postId);
-    }
-    
-    @Transactional(readOnly = true)
-    public ReviewEntity insertReview(ReviewEntity review) {
-        return reviewRepository.save(review);
-    }
+	// 내가 리뷰를 작성했는지 아닌지 확인해주는 메소드. SHService에서 호출함
+	@Transactional(readOnly = true)
+	public boolean hasReviewed(String memberId, int postId) {
+		return reviewRepository.existsBySenderIdAndSHPostId(memberId, postId);
+	}
+
+	@Transactional(readOnly = true)
+	public ReviewEntity insertReview(ReviewEntity review) {
+		return reviewRepository.save(review);
+	}
 }

@@ -10,9 +10,8 @@ import com.marketTrio.domain.SecondHandEntity;
 
 @Repository
 public interface GBListRepository extends JpaRepository<GBEntity, Integer> {
-
-//	List<GBParticipantEntity> findByBuyerId(String memberId);
+//
+//	List<GBEntity> findByBuyerId(String memberId);
 //	
-    List<GBEntity> findByMemberId(String memberId);
-	List<GBEntity> findByGBPostIdIn(List<Integer> gbPostIds);
+//    List<GBEntity> findBySellerId(String memberId);
 }

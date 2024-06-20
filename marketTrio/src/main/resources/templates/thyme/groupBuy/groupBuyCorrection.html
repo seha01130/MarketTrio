@@ -41,13 +41,17 @@
         }
         .container {
             padding: 25px;
+            margin-left : 100px;
+            margin-right : 100px;
         }
         .breadcrumb {
             margin-bottom: 20px;
             color: #888;
+            margin-left : -100px;
+            margin-right : -100px;
         }
         .form-group {
-            margin-bottom: 20px;
+            margin-top: 30px;
         }
         .form-group label {
             display: block;
@@ -56,7 +60,7 @@
         }
         .form-group input, .form-group textarea {
             width: 100%;
-            padding: 10px;
+            padding: 15px;
             border: 1px solid #ddd;
             border-radius: 5px;
         }
@@ -66,8 +70,8 @@
             gap: 10px;
         }
         .form-group .image-upload img {
-            width: 100px;
-            height: 100px;
+            width: 150px;
+            height: 150px;
             background-color: #cfc;
             border-radius: 8px;
         }
@@ -82,6 +86,7 @@
             background-color: #ccc;
         }
         .submit-btn {
+        	margin-top : 10px;
             display: inline-block;
             padding: 10px 20px;
             background-color: #6ac26a;
@@ -93,43 +98,35 @@
     </style>
 </head>
 <body>
-
-    <header class="header">
-        <div class="logo">MarketTrio</div>
-        <nav>
-            <a href="#">중고거래</a>
-            <a href="#">경매</a>
-            <a href="#">공동구매</a>
-        </nav>
-        <div class="auth">
-            <a href="#">로그인</a>
-            <a href="#">회원가입</a>
-        </div>
-    </header>
+	<div th:insert="thyme/banner"></div>
 
     <div class="container">
         <div class="breadcrumb">공동구매 > 게시글 수정</div>
-        <hr style="border-width : 2px 0px 0px 0px;">
-        <div class="form-group">
-            <label for="product-image">상품 사진</label>
-            <div class="image-upload">
-                <img src="placeholder-image.png" alt="Product Image">
-                <button>사진 첨부</button>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="product-title">상품명</label>
-            <input type="text" id="product-title" placeholder="상품명을 작성하세요.">
-        </div>
-        <div class="form-group">
-            <label for="sale-period">판매기간</label>
-            <input type="text" id="sale-period" placeholder="판매 기간을 작성하세요.">
-        </div>
-        <div class="form-group">
-            <label for="product-description">상세설명</label>
-            <textarea id="product-description" rows="10" placeholder="내용을 작성하세요."></textarea>
-        </div>
-        <a href="#" class="submit-btn">다음 단계</a>
+        <hr style="border-width : 2px 0px 0px 0px; margin-left : -100px; margin-right : -100px;">
+
+        <form th:action="@{'/groupBuy/updated/' + ${GBPostId}}" th:object="${gbUpdateInfoCommand}" method="post" style="padding-left:60px; padding-right:60px; padding-top:20px;">
+	        <div class="form-group">
+	            <label for="product-image">상품 사진</label>
+	            <div class="image-upload">
+	                <img src="placeholder-image.png" alt="Product Image">
+	                <button>사진 첨부</button>
+	            </div>
+        	</div>
+	        <input type="hidden" th:field="*{id}">
+	        <div class="form-group">
+	            <label for="product-title">상품명</label>
+	            <input type="text" id="product-title" th:field="*{productName}" >
+	        </div>
+	        <div class="form-group">
+	            <label for="sale-period">마감 기한</label>
+	            <input type="date" id="sale-period" th:field="*{duration}">
+	        </div>
+	        <div class="form-group">
+	            <label for="product-description">상세설명</label>
+	            <textarea id="product-description" rows="10" th:field="*{content}"></textarea>
+	        </div>
+	        <button type="submit" class="submit-btn">수정 완료</button>
+    	</form>
     </div>
 
 </body>

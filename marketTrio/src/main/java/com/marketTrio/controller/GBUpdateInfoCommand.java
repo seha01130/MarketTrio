@@ -1,25 +1,30 @@
 package com.marketTrio.controller;
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class GBUpdateInfoCommand {
-	private int GBpostId;
+	private Integer id;
 	private String productName;
-	private String duration;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date duration;
 	private String content;
 	
-	public GBUpdateInfoCommand(int gBpostId, String productName, String duration, String content) {
+	public GBUpdateInfoCommand(Integer id, String productName, Date duration, String content) {
 		super();
-		GBpostId = gBpostId;
+		this.id = id;
 		this.productName = productName;
 		this.duration = duration;
 		this.content = content;
 	}
 
-	public int getGBpostId() {
-		return GBpostId;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setGBpostId(int gBpostId) {
-		GBpostId = gBpostId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getProductName() {
@@ -30,11 +35,11 @@ public class GBUpdateInfoCommand {
 		this.productName = productName;
 	}
 
-	public String getDuration() {
+	public Date getDuration() {
 		return duration;
 	}
 
-	public void setDuration(String duration) {
+	public void setDuration(Date duration) {
 		this.duration = duration;
 	}
 
@@ -44,5 +49,11 @@ public class GBUpdateInfoCommand {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	@Override
+	public String toString() {
+		return "GBUpdateInfoCommand [id=" + id + ", productName=" + productName + ", duration=" + duration
+				+ ", content=" + content + "]";
 	}
 }
