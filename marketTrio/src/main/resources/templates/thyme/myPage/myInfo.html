@@ -15,28 +15,6 @@
             width: 40px;
             height: 40px;
         }
-        .header a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: black;
-        }
-        .header .logo {
-            font-size: 24px;
-            color: #7cb342;
-        }
-        .header .user-actions {
-            display: flex;
-            align-items: center;
-        }
-        .header .user-actions a {
-            margin-left: 15px;
-        }
-        .header .user-actions .profile-icon {
-            width: 30px;
-            height: 30px;
-            background-color: #d4e157;
-            border-radius: 50%;
-        }
         .content {
             margin-left: 220px;
             padding: 20px;
@@ -70,8 +48,13 @@
             font-weight: bold;
         }
         .profile-header .profile-info .stars {
-            color: #ffcc00;
             font-size: 18px;
+        }
+        .star {
+            color: #ddd;
+        }
+        .star.filled {
+            color: #ffcc00;
         }
         .profile-form {
             display: flex;
@@ -110,10 +93,14 @@
     	<h2>내 정보</h2>
         <div class="profile-card">
             <div class="profile-header">
-                <img src="profile-picture.png" alt="Profile Picture" th:src="@{/images/profile-picture.png}">
+            	<img th:src="@{'/upload/' + ${memberCommand.member.profilePicture}}" alt="프로필사진">
                 <div class="profile-info">
                     <span th:text="${memberCommand.member.nickname}">닉네임이 들어갑니다</span>
-                    <div class="stars">★★★★☆</div>
+                    <div class="stars">
+    					<span class="star" th:each="i : ${#numbers.sequence(1, 5)}"
+          					th:classappend="${i} <= ${T(java.lang.Math).round(memberCommand.member.rating)} ? ' filled' : ''">★</span>
+					</div>
+
                 </div>
             </div>
             <form class="profile-form">

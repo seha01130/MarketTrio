@@ -11,11 +11,17 @@ import com.marketTrio.domain.Member;
 public interface MemberMapper {
 	Member getMemberById(String id);
 	
-	String getPassword(String id);  //정보수정할때 비밀번호 입력받아서 비교할때 사용함
+	String getSellerIdFromSH(int postId);
 
 	Member getMemberByIdAndPassword(String id, String password);
 	
+	String getPassword(String id);  //정보수정할때 비밀번호 입력받아서 비교할때 사용함
+	
 	String getNicknameById(String id);
+	
+	float getRateById(String id);
+	
+	void updateRateById(String id, float newRate);
 
 	List<String> getNicknameList();
 	  

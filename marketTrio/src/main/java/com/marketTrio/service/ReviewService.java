@@ -19,8 +19,13 @@ public class ReviewService {
         return reviewRepository.existsBySenderIdAndSHPostId(memberId, postId);
     }
     
-    @Transactional(readOnly = true)
+    @Transactional
     public ReviewEntity insertReview(ReviewEntity review) {
         return reviewRepository.save(review);
+    }
+    
+    @Transactional(readOnly = true)
+    public int rateCount(String memberId) {
+    	return reviewRepository.countByReceiverId(memberId);
     }
 }

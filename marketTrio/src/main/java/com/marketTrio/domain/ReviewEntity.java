@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @SuppressWarnings("serial")
@@ -13,7 +14,8 @@ import javax.persistence.Table;
 @Table(name="Review")
 public class ReviewEntity implements Serializable{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "review_seq")
+    @SequenceGenerator(name = "review_seq", sequenceName = "SEQUENCE_REVIEWID", allocationSize = 1)
     private int reviewId;
     private int SHPostId;
     private String senderId;
@@ -25,7 +27,7 @@ public class ReviewEntity implements Serializable{
 	}
 
 	public ReviewEntity(int SHPostId, String senderId, String receiverId, float rating) {
-        this.SHPostId = SHPostId;
+		this.SHPostId = SHPostId;
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.rating = rating;

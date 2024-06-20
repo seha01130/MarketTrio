@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 정보</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f6f6f6;
+            margin: 0;
+            padding: 0;
+        }
+        #profile {
+            width: 40px;
+            height: 40px;
+        }
+        .content {
+            margin-left: 220px;
+            padding: 20px;
+        }
+        .content h2 {
+        	max-width: 650px;
+        	padding: 20px;
+            margin: auto;
+        }
+        .profile-card {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .profile-header img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+        .profile-header input {
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .profile-header .profile-info {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .profile-header .profile-info .stars {
+            color: #ffcc00;
+            font-size: 18px;
+        }
+        .profile-form {
+            display: flex;
+            flex-direction: column;
+        }
+        .profile-form label {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .profile-form input {
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .profile-form button {
+        	margin-top:15px;
+            padding: 10px;
+            font-size: 16px;
+            color: white;
+            background-color: #7cb342;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div th:insert="thyme/banner"></div>
+    </header>
+    <div class="content">
+        <h2>회원가입</h2>
+        <form class="profile-card" th:action="@{/loginAndRegister/register.do}" th:object="${memberCommand}" method="post" enctype="multipart/form-data">
+            <div class="profile-header">
+            	<!-- 여기다가 이미지 보여줌 -->
+                <img th:src="@{|/images/default.png|}" alt="프로필사진" id="profile-image">
+                <div class="profile-info">
+                    <label for="nickname">닉네임</label>
+                    <span th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}" style="color: red;"></span>
+                    <input type="text" id="nickname" th:field="*{nickname}">
+                    
+                    <!-- 여기서 이미지 선택함 -->
+                	<label for="files"></label>
+                	<input type="file" style="border: none;font-size: 14px;padding: 0px;" id="files" name="files" multiple>
+                </div>
+            </div>
+            <div class="profile-form">
+                <label for="name">이름</label>
+                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red;"></span>
+                <input type="text" id="name" th:field="*{name}">
+                
+                <label for="user-id">아이디</label>
+                <span th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}" style="color: red;"></span>
+                <input type="text" id="user-id" th:field="*{userId}">
+                
+                <label for="email">이메일</label>
+                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;"></span>
+                <input type="text" id="email" th:field="*{email}">
+                
+                <label for="phone">번호</label>
+                <span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" style="color: red;"></span>
+                <input type="text" id="phone" th:field="*{phone}">
+                
+                <label for="password">비밀번호</label>
+                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red;"></span>
+                <input type="password" id="password" th:field="*{password}">
+                
+                <label for="repeatedPassword">비밀번호 확인</label>
+                <span th:if="${#fields.hasErrors('repeatedPassword')}" th:errors="*{repeatedPassword}" style="color: red;"></span>
+                <input type="password" id="repeatedPassword" th:field="*{repeatedPassword}">
+                
+                <span th:if="${message}" style="color: red; padding-bottom:10px;" class="error-message" th:text="${message}"></span>
+                <button type="submit">회원가입</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        document.getElementById('files').addEventListener('change', function(event) {
+            const output = document.getElementById('profile-image');
+            output.src = URL.createObjectURL(event.target.files[0]);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>평점 UI</title>
+<style>
+.modal-container {
+	background: white;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	max-width: 400px;
+	text-align: center;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 1000;
+}
+
+.profile {
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.profile img {
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	margin-right: 10px;
+}
+
+.profile .name {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+.rating {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 20px;
+}
+
+.rating label {
+	cursor: pointer;
+}
+
+.rating input {
+	display: none;
+}
+
+.rating input:checked+label {
+	background-color: green;
+	font-weight: bold;
+}
+
+.submit-btn {
+	background-color: #5cb85c;
+	color: white;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.submit-btn:hover {
+	background-color: #4cae4c;
+}
+
+.close-modal {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background: #ff6666;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	padding: 5px 10px;
+	cursor: pointer;
+}
+
+.rating input[type="radio"] {
+	margin-right: 10px; /* 라디오 버튼 오른쪽 간격 설정 */
+}
+
+.rating label {
+	margin-left: 5px; /* 라벨 왼쪽 간격 설정 */
+}
+</style>
+<script>
+	function closeModal() {
+		document.querySelector('.modal-container').remove();
+	}
+</script>
+</head>
+<body>
+
+	<div class="modal-container">
+		<button class="close-modal" onclick="closeModal()">닫기</button>
+		<div class="profile">
+			<img th:src="@{/images/profile.jpg}" alt="Profile Picture">
+			<div class="name" th:text="${senderNickname} + 님">나의 닉네임,</div>
+		</div>
+		<div th:text="${receiverNickname}+'님과의 거래는 어떠셨나요?'">상대방 닉네임</div>
+		</br>
+		<form th:action="@{/review/submitRating}" method="post">
+    		<!-- Rating 선택 -->
+    		<div class="rating">
+        			<input type="radio" id="very-good" name="rating" value="5">
+        			<label for="very-good">🥰</label>
+        			<input type="radio" id="good" name="rating" value="4">
+        			<label for="good">😄</label>
+        			<input type="radio" id="average" name="rating" value="3">
+        			<label for="average">😀</label>
+        			<input type="radio" id="bad" name="rating" value="2">
+        			<label for="bad">😐</label>
+        			<input type="radio" id="very-bad" name="rating" value="1">
+        			<label for="very-bad">😕</label>
+    		</div>
+    		
+    		<!-- Hidden Input으로 추가 정보 전송 -->
+    		<input type="hidden" name="senderId" th:value="${senderId}">
+    		<input type="hidden" name="receiverId" th:value="${receiverId}">
+    		<input type="hidden" name="SHPostId" th:value="${SHPostId}">
+    		
+			<button type="submit" class="submit-btn">후기 보내기</button>
+		</form>
+	</div>
+</body>
+</html>

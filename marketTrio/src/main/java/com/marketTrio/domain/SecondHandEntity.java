@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @SuppressWarnings("serial")
@@ -22,11 +23,11 @@ import javax.persistence.Table;
 @Table(name="SecondHand")
 public class SecondHandEntity implements Serializable{
    @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "secondhand_seq")
+   @SequenceGenerator(name = "secondhand_seq", sequenceName = "SEQUENCE_SHPOSTID", allocationSize = 1)
    private int SHPostId;
-   @Column(nullable = false)
-   private String sellerId;
-//    private String buyerId;
+   private String buyerId;
+   //    private String sellerId;
    @Column(nullable = false)
    private int SHStatus;
    @Column(nullable = false)
@@ -35,27 +36,28 @@ public class SecondHandEntity implements Serializable{
    private String title;
    @Column(nullable = false)
    private int price;
+
    private String image;
    @Column(nullable = false)
    private String content;
 
    @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "buyerId", referencedColumnName="id", nullable = false)
+   @JoinColumn(name = "sellerId", referencedColumnName="id", nullable = false)
    private Member member;
 
-   @OneToOne (cascade = CascadeType.ALL)
-   @PrimaryKeyJoinColumn(name="SHPostId")
-   private ReviewEntity review;
+//   @OneToOne (cascade = CascadeType.ALL)
+//   @PrimaryKeyJoinColumn(name="SHPostId")
+//   private ReviewEntity review;
 
    public SecondHandEntity() {
       super();
    }
 
-   public SecondHandEntity(int sHPostId, String sellerId, Member member, int sHStatus, Date createDate, String title,
+   public SecondHandEntity(int sHPostId, String buyerId, Member member, int sHStatus, Date createDate, String title,
          int price, String image, String content) {
       super();
       SHPostId = sHPostId;
-      this.sellerId = sellerId;
+      this.buyerId = buyerId;
       this.member = member;
       SHStatus = sHStatus;
       this.createDate = createDate;
@@ -73,12 +75,12 @@ public class SecondHandEntity implements Serializable{
       SHPostId = sHPostId;
    }
 
-   public String getSellerId() {
-      return sellerId;
+   public String getBuyerId() {
+      return buyerId;
    }
 
-   public void setSellerId(String sellerId) {
-      this.sellerId = sellerId;
+   public void setBuyerId(String buyerId) {
+      this.buyerId = buyerId;
    }
 
    public Member getMember() {

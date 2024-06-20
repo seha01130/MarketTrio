@@ -8,6 +8,7 @@ import com.marketTrio.controller.SHListCommand;
 import com.marketTrio.domain.SecondHandEntity;
 import com.marketTrio.repository.SHListRepository;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,35 +22,43 @@ public class SHService {
     //@Transactional(readOnly = true)
     @SuppressWarnings("null")
 	public List<SHListCommand> getSHPurchaseListByMemberId(String memberId) {
-    	List<SecondHandEntity> purchaseList = SHListRepository.findByMember_Id(memberId);
-    	List<SHListCommand> purchaseListCommand = null;
+    	List<SecondHandEntity> purchaseList = SHListRepository.findByBuyerId(memberId);
+    	List<SHListCommand> purchaseListCommand = new ArrayList<>();
     	
     	for (SecondHandEntity s : purchaseList) {
     		SHListCommand c = new SHListCommand();
+    		
     		c.setSHPostId(s.getSHPostId());
     		c.setImage(s.getImage());
     		c.setTitle(s.getTitle());
     		c.setCreateDate(s.getCreateDate());
     		c.setPrice(s.getPrice());
+    		c.setBuyerId(s.getBuyerId());
+    		c.setSellerId(s.getMember().getId());//seller의 Id 구하기. SecondHandEntity에 sellerId는 member의 fk이기떄문에 OneToOne으로 매핑되어있음. 
     		c.setReviewStatus(reviewService.hasReviewed(memberId, s.getSHPostId()) ? 1 : 0);
     		purchaseListCommand.add(c);
     	}
         return purchaseListCommand;
     }
+    
+    ///////////////여기까지 완료//////////////////////////////////
 
     //@Transactional(readOnly = true)
     @SuppressWarnings("null")
 	public List<SHListCommand> getSHSalesListByMemberId(String memberId) {
-    	List<SecondHandEntity> salesList =  SHListRepository.findBySellerId(memberId);
-    	List<SHListCommand> salesListCommand = null;
+    	List<SecondHandEntity> salesList =  SHListRepository.findByMember_Id(memberId);
+    	List<SHListCommand> salesListCommand = new ArrayList<>();
     	
     	for (SecondHandEntity s : salesList) {
     		SHListCommand c = new SHListCommand();
+    		
     		c.setSHPostId(s.getSHPostId());
     		c.setImage(s.getImage());
     		c.setTitle(s.getTitle());
     		c.setCreateDate(s.getCreateDate());
     		c.setPrice(s.getPrice());
+    		c.setBuyerId(s.getBuyerId());
+    		c.setSellerId(s.getMember().getId());
     		c.setReviewStatus(reviewService.hasReviewed(memberId, s.getSHPostId()) ? 1 : 0);
     		salesListCommand.add(c);
     	}

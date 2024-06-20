@@ -15,6 +15,11 @@
             margin-left: 220px;
             padding: 20px;
         }
+        .content h2 {
+        	max-width: 650px;
+        	padding: 20px;
+            margin: auto;
+        }
         .profile-card {
             background-color: white;
             padding: 40px;
@@ -75,6 +80,12 @@
 		    padding: 10px;
 		    padding-left: 0;
 		}
+		.star {
+            color: #ddd;
+        }
+        .star.filled {
+            color: #ffcc00;
+        }
 
     </style>
 </head>
@@ -84,14 +95,23 @@
     </header>
     <div th:insert="thyme/myPage/sidebar"></div>
     <div class="content">
+    	<h2>정보 수정하기</h2>
         <div class="profile-card">
-	        <form th:action="@{/myPage/myInfoUpdate}" method="post" th:object="${memberCommand}">
+	        <form th:action="@{/myPage/myInfoUpdate}" th:object="${memberCommand}" method="post" enctype="multipart/form-data">
 	            <div class="profile-header">
-	                <img src="profile-picture.png" alt="Profile Picture" th:src="@{/images/profile-picture.png}">
+	                <img th:src="@{'/upload/' + *{member.profilePicture}}" alt="프로필사진" id="profile-image">
 	                <div class="profile-info">
-	                    <label for="nickname"></label>
+	                    <label for="nickname">닉네임</label>
 	                	<input type="text" id="nickname" th:field="${memberCommand.member.nickname}">
-	                    <div class="stars">★★★★☆</div>
+	                	
+	                	<!-- 여기서 이미지 선택함 -->
+                		<label for="files"></label>
+                		<input type="file" style="border: none;font-size: 14px;padding: 0px;" id="files" name="files" multiple>
+                		
+	                    <div class="stars">
+    					<span class="star" th:each="i : ${#numbers.sequence(1, 5)}"
+          					th:classappend="${i} <= ${T(java.lang.Math).round(memberCommand.member.rating)} ? ' filled' : ''">★</span>
+					</div>
 	                </div>
 	            </div>
 	            <div class="profile-form" th:object="${memberCommand}">
@@ -112,5 +132,11 @@
 	        </form>
         </div>
     </div>
+    <script>
+        document.getElementById('files').addEventListener('change', function(event) {
+            const output = document.getElementById('profile-image');
+            output.src = URL.createObjectURL(event.target.files[0]);
+        });
+    </script>
 </body>
 </html>

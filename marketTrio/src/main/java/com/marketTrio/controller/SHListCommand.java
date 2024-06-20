@@ -8,6 +8,10 @@ public class SHListCommand {
     private String title;
     private Date createDate;
     private int price;
+    
+    private String buyerId;
+    private String sellerId;
+    
     private int reviewStatus;  //이게 secondHandEntity에는 없는데 command에서는 필요함. 리스트에 보여줄때 후기 작성 여부를 판별해서
     							//그에 따른 후기작성하기 버튼을 보여줘야함.
     
@@ -15,13 +19,15 @@ public class SHListCommand {
 		super();
 	}
 
-	public SHListCommand(int sHPostId, String image, String title, Date createDate, int price, int reviewStatus) {
+	public SHListCommand(int sHPostId, String image, String title, Date createDate, int price, String buyerId, String sellerId, int reviewStatus) {
 		super();
-		SHPostId = sHPostId;
+		this.SHPostId = sHPostId;
 		this.image = image;
 		this.title = title;
 		this.createDate = createDate;
 		this.price = price;
+		this.buyerId = buyerId;
+		this.sellerId = sellerId;
 		this.reviewStatus = reviewStatus;
 	}
 
@@ -29,7 +35,7 @@ public class SHListCommand {
 		return SHPostId;
 	}
 	public void setSHPostId(int sHPostId) {
-		SHPostId = sHPostId;
+		this.SHPostId = sHPostId;
 	}
 	public String getImage() {
 		return image;
@@ -55,6 +61,23 @@ public class SHListCommand {
 	public void setPrice(int price) {
 		this.price = price;
 	}
+	
+	public String getBuyerId() {
+		return buyerId;
+	}
+
+	public void setBuyerId(String buyerId) {
+		this.buyerId = buyerId;
+	}
+
+	public String getSellerId() {
+		return sellerId;
+	}
+
+	public void setSellerId(String sellerId) {
+		this.sellerId = sellerId;
+	}
+
 	public int getReviewStatus() {
 		return reviewStatus;
 	}

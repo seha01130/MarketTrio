@@ -1,190 +1,269 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>내 정보</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f6f6f6;
-            margin: 0;
-            padding: 0;
-        }
-        .sidebar {
-            width: 200px;
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            height: calc(100vh - 60px);
-            position: fixed;
-        }
-        .sidebar a {
-            display: block;
-            margin-bottom: 15px;
-            text-decoration: none;
-            color: black;
-            font-size: 16px;
-        }
-        .content {
-            margin-left: 220px;
-            padding: 20px;
-        }
-        .profile-card {
-            background-color: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            margin: auto;
-        }
-        .profile-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .profile-header input {
-            margin-bottom: 15px;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .profile-header img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            margin-right: 20px;
-        }
-        .profile-header .profile-info {
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .profile-header .profile-info .stars {
-            color: #ffcc00;
-            font-size: 18px;
-        }
-        .profile-form {
-            display: flex;
-            flex-direction: column;
-        }
-        .profile-form input {
-            margin-bottom: 15px;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .profile-form button {
-            padding: 10px;
-            font-size: 16px;
-            color: white;
-            background-color: #7cb342;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .sections {
-            display: flex;
-            justify-content: space-between;
-        }
-        .section {
-            flex: 1;
-            margin: 0 10px;
-        }
-        .section h2 {
-            margin-bottom: 10px;
-        }
-        .card {
-            background-color: white;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .card img {
-            width: 50px;
-            height: 50px;
-            margin-right: 20px;
-        }
-        .card-content {
-            flex: 1;
-        }
-        .card-content span {
-            display: block;
-        }
-        .card-date {
-            color: #999;
-        }
-    </style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        console.log("jQuery is loaded!");
+    });
+
+    function loadReviewForm(SHPostId, receiverId, senderId) {
+        $.ajax({
+            url: '/review/giveRate',
+            method: 'GET',
+            data: {
+            	SHPostId: SHPostId,
+            	receiverId: String(receiverId),
+            	senderId: String(senderId)
+            },
+            success: function(response) {
+                // 서버에서 반환된 response를 처리합니다.
+                // 예시로 body에 추가하는 방법입니다.
+                $('body').append(response);
+            },
+            error: function(xhr, status, error) {
+                console.error("Ajax request failed:", status, error);
+            }
+        });
+    }
+
+
+    function closeModal() {
+        $('.modal-container').remove();
+    }
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>내 정보</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f6f6f6;
+    margin: 0;
+    padding: 0;
+}
+
+.content {
+    margin-left: 220px;
+    padding: 20px;
+}
+
+.profile-card {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: auto;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-header input {
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.profile-header img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.profile-header .profile-info {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.profile-header .profile-info .stars {
+    color: #ffcc00;
+    font-size: 18px;
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-form input {
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.profile-form button {
+    padding: 10px;
+    font-size: 16px;
+    color: white;
+    background-color: #7cb342;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.sections {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.section {
+    flex: 1;
+    margin: 0 10px;
+}
+
+.section h2 {
+    margin-bottom: 10px;
+}
+
+.card {
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card img {
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+}
+
+.card-content {
+    flex: 1;
+    padding-left: 20px;
+}
+
+.card-content span {
+    display: block;
+    padding-bottom: 5px;
+}
+
+.card-content div {
+    padding-bottom: 5px;
+}
+
+.card-content2 {
+    flex: 1;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.card-content2 span {
+    display: block;
+    padding-bottom: 5px;
+}
+
+.card-content2 div {
+    padding-bottom: 5px;
+}
+
+.card-date {
+    color: #999;
+}
+
+.card-content .title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.card-content .price {
+    font-size: 14px;
+    color: #888;
+}
+
+.product-countdown {
+    font-size: 16px;
+    color: #e74c3c;
+}
+</style>
 </head>
 <body>
     <header>
         <div th:insert="thyme/banner"></div>
     </header>
-    <div class="sidebar">
-        <a href="#" th:href="@{/profile}">내 정보</a>
-        <a href="#" th:href="@{/purchase-history}">구매 내역</a>
-        <a href="#" th:href="@{/sales-history}">판매 내역</a>
-        <a href="#" th:href="@{/withdrawal}">회원탈퇴</a>
-    </div>
+    <div th:insert="thyme/myPage/sidebar"></div>
     <div class="content">
         <div class="sections">
+            <!-- 중고거래 섹션 -->
             <div class="section">
                 <h2>중고거래</h2>
-                <div class="card">
-                    <img src="product.png" alt="Product Image">
+                <!-- <a th:href="@{/shPost/detail/{SHPostId}(SHPostId=${shPost.SHPostId})}"> -->
+                <div class="card" th:each="item : ${SHPurchaseList}">
+                    <!-- <img th:src="@{${item.image}}" alt="상품 이미지"> -->
                     <div class="card-content">
-                        <span>제품명</span>
-                        <span>123,456</span>
-                        <span class="card-date">2024.04.12</span>
+                        <span class="title" th:text="${item.title}">제품명</span>
+                        <span class="price" th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'NONE')} + '원'">123,456</span>
                     </div>
-                    <span>완성중</span>
-                </div>
-                <div class="card">
-                    <img src="product.png" alt="Product Image">
-                    <div class="card-content">
-                        <span>제품명</span>
-                        <span>123,456</span>
-                        <span class="card-date">2024.04.12</span>
+                    <div class="card-content2">
+                        <div class="card-date" th:text="${#dates.format(item.createDate, 'yyyy/MM/dd')}">2024.04.12</div>
+                         <button type="button"
+        					th:attr="disabled=${item.reviewStatus == 1}"
+        					th:onclick="loadReviewForm([[${item.SHPostId}]], [[${item.sellerId}]], [[${item.buyerId}]])"
+        					style="width: 100px; height: 30px; color: white; border: none; border-radius: 5px; background-color: #AED581;">
+    							<span th:text="${item.reviewStatus == 1 ? '후기작성완료' : '후기작성하기'}"></span>
+						</button>
+
+
                     </div>
-                    <span>후기작성</span>
                 </div>
+                <!-- </a> -->
             </div>
+
+            <!-- 경매 섹션 -->
             <div class="section">
                 <h2>경매</h2>
-                <div class="card">
-                    <img src="product.png" alt="Product Image">
+                <!-- <a th:href="@{'/auction/' + ${auction.auctionPostId} + '/detail'}" class="item"> -->
+                <div class="card" th:each="item : ${APurchaseList}">
+                    <!-- <img th:src="@{'/upload/' + ${auction.pictures[0]}}" alt="상품 이미지"> -->
                     <div class="card-content">
-                        <span>제품명</span>
-                        <span>123,456</span>
-                        <span class="card-date">2024.04.12</span>
+                        <span class="title" th:text="${item.name}">제품명</span>
+                        <span class="price" th:text="${#numbers.formatDecimal(item.maxPrice, 0, 'COMMA', 0, 'NONE')} + '원'">현재최고입찰가</span>
+                    </div>
+                    <div class="card-content2">
+                        <div class="card-date" th:text="${#dates.format(item.createDate, 'yyyy/MM/dd')}">2024.04.12</div>
+                        <div th:text="${#dates.format(item.deadline, 'yyyy/MM/dd')}"></div>
+                        <div th:if="${item.auctionStatus == 1}">판매 완료</div>
                     </div>
                 </div>
+                <!-- </a> -->
             </div>
+
+            <!-- 공동구매 섹션 -->
             <div class="section">
                 <h2>공동구매</h2>
-                <div class="card">
-                    <img src="product.png" alt="Product Image">
+                <!-- <a th:href="@{'/groupBuy/detail/' + ${gbPost.GBPostId}}"> -->
+                <div class="card" th:each="gbPost:${GBPurchaseList}">
+                    <!-- <img th:src="@{${gbPost.image}}" alt="상품 이미지"> -->
                     <div class="card-content">
-                        <span>제품명</span>
-                        <span>123,456</span>
-                        <span class="card-date">2024.04.12</span>
+                        <span class="title" th:text="${gbPost.productName}">제목</span>
+                        <div class="price">
+                            <span th:text="${#numbers.formatDecimal(gbPost.regularPrice, 0, 'COMMA', 0, 'NONE')} + '원'"></span>
+                        </div>
                     </div>
-                    <span>D-12</span>
-                </div>
-                <div class="card">
-                    <img src="product.png" alt="Product Image">
-                    <div class="card-content">
-                        <span>제품명</span>
-                        <span>123,456</span>
-                        <span class="card-date">2024.04.12</span>
+                    <div class="card-content2" th:attr="data-status=${gbPost.GBStatus}">
+                        <div class="product-countdown" th:if="${gbPost.GBStatus == 1}"
+                            th:text="'마감'"></div>
+                        <div class="product-countdown" th:if="${gbPost.GBStatus != 1}"
+                            th:text="${#dates.format(gbPost.duration, 'yyyy/MM/dd')}"></div>
                     </div>
-                    <span>마감</span>
                 </div>
+                <!-- </a> -->
             </div>
         </div>
     </div>

@@ -12,10 +12,31 @@ public class MyInfoService {
 
     @Autowired
     private MyBatisMemberDao memberDao;
+    
+    public Member getMember(String memberId) throws Exception {
+    	Member member = memberDao.getMember(memberId);
+    	return member;
+    }
+    
+    public String getSellerIdFromSH(int postId) throws Exception {
+    	return memberDao.getSellerIdFromSH(postId);
+    }
 
     public MemberCommand getMemberCommand(String memberId) throws Exception {
         Member member = memberDao.getMember(memberId);
         return new MemberCommand(member);
+    }
+    
+    public float getRate(String memberId) throws Exception {
+    	return memberDao.getRate(memberId);
+    }
+    
+    public void updateRate(String memberId, float newRate) throws Exception {
+    	memberDao.updateRate(memberId, newRate);
+    }
+    
+    public String getNickname(String memberId) throws Exception {
+    	return memberDao.getNickname(memberId);
     }
 
     public String getPassword(String memberId) throws Exception {
