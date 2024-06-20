@@ -2,9 +2,12 @@ package com.marketTrio.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -18,124 +21,130 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name="SecondHand")
 public class SecondHandEntity implements Serializable{
-   @Id
-   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "secondhand_seq")
-   @SequenceGenerator(name = "secondhand_seq", sequenceName = "SEQUENCE_SHPOSTID", allocationSize = 1)
-   private int SHPostId;
-   private String buyerId;
-   //    private String sellerId;
-   @Column(nullable = false)
-   private int SHStatus;
-   @Column(nullable = false)
-   private Date createDate;
-   @Column(nullable = false)
-   private String title;
-   @Column(nullable = false)
-   private int price;
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "secondhand_seq")
+	@SequenceGenerator(name = "secondhand_seq", sequenceName = "SEQUENCE_SHPOSTID", allocationSize = 1)
+	private int SHPostId;
+	private String buyerId;
+	//    private String sellerId;
+	@Column(nullable = false)
+	private int SHStatus;
+	@Column(nullable = false)
+	private Date createDate;
+	@Column(nullable = false)
+	private String title;
+	@Column(nullable = false)
+	private int price;
 
-   private String image;
-   @Column(nullable = false)
-   private String content;
+	@ElementCollection
+	@CollectionTable(name = "SHPOST_PICTURES", joinColumns = @JoinColumn(name = "SHPOSTID"))
+	@Column(name = "IMAGE", nullable = false)
+	private List<String> image;
 
-   @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "sellerId", referencedColumnName="id", nullable = false)
-   private Member member;
 
-//   @OneToOne (cascade = CascadeType.ALL)
-//   @PrimaryKeyJoinColumn(name="SHPostId")
-//   private ReviewEntity review;
+	@Column(nullable = false)
+	private String content;
 
-   public SecondHandEntity() {
-      super();
-   }
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "sellerId", referencedColumnName="id", nullable = false)
+	private Member member;
 
-   public SecondHandEntity(int sHPostId, String buyerId, Member member, int sHStatus, Date createDate, String title,
-         int price, String image, String content) {
-      super();
-      SHPostId = sHPostId;
-      this.buyerId = buyerId;
-      this.member = member;
-      SHStatus = sHStatus;
-      this.createDate = createDate;
-      this.title = title;
-      this.price = price;
-      this.image = image;
-      this.content = content;
-   }
+//	@OneToOne (cascade = CascadeType.ALL)
+//	@PrimaryKeyJoinColumn(name="SHPostId")
+//	private ReviewEntity review;
 
-   public int getSHPostId() {
-      return SHPostId;
-   }
+	public SecondHandEntity() {	
+		super();
+	}
 
-   public void setSHPostId(int sHPostId) {
-      SHPostId = sHPostId;
-   }
+	public SecondHandEntity(int sHPostId, String buyerId, Member member, int sHStatus, Date createDate, String title,
+			int price, List<String> image, String content) {
+		super();
+		SHPostId = sHPostId;
+		this.buyerId = buyerId;
+		this.member = member;
+		SHStatus = sHStatus;
+		this.createDate = createDate;
+		this.title = title;
+		this.price = price;
+		this.image = image;
+		this.content = content;
+	}
 
-   public String getBuyerId() {
-      return buyerId;
-   }
+	public int getSHPostId() {
+		return SHPostId;
+	}
 
-   public void setBuyerId(String buyerId) {
-      this.buyerId = buyerId;
-   }
+	public void setSHPostId(int sHPostId) {
+		SHPostId = sHPostId;
+	}
 
-   public Member getMember() {
-      return member;
-   }
+	public String getBuyerId() {
+		return buyerId;
+	}
 
-   public void setMember(Member member) {
-      this.member = member;
-   }
+	public void setBuyerId(String buyerId) {
+		this.buyerId = buyerId;
+	}
 
-   public int getSHStatus() {
-      return SHStatus;
-   }
+	public Member getMember() {
+		return member;
+	}
 
-   public void setSHStatus(int sHStatus) {
-      SHStatus = sHStatus;
-   }
+	public void setMember(Member member) {
+		this.member = member;
+	}
 
-   public Date getCreateDate() {
-      return createDate;
-   }
+	public int getSHStatus() {
+		return SHStatus;
+	}
 
-   public void setCreateDate(Date createDate) {
-      this.createDate = createDate;
-   }
+	public void setSHStatus(int sHStatus) {
+		SHStatus = sHStatus;
+	}
 
-   public String getTitle() {
-      return title;
-   }
+	public Date getCreateDate() {
+		return createDate;
+	}
 
-   public void setTitle(String title) {
-      this.title = title;
-   }
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
 
-   public int getPrice() {
-      return price;
-   }
+	public String getTitle() {
+		return title;
+	}
 
-   public void setPrice(int price) {
-      this.price = price;
-   }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-   public String getImage() {
-      return image;
-   }
+	public int getPrice() {
+		return price;
+	}
 
-   public void setImage(String image) {
-      this.image = image;
-   }
+	public void setPrice(int price) {
+		this.price = price;
+	}
 
-   public String getContent() {
-      return content;
-   }
+	public List<String> getImage() {
+		return image;
+	}
 
-   public void setContent(String content) {
-      this.content = content;
-   }
+	public void setImage(List<String> image) {
+		this.image = image;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
 }
