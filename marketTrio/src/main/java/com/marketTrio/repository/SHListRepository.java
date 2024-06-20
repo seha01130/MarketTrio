@@ -9,7 +9,7 @@ import com.marketTrio.domain.SecondHandEntity;
 @Repository
 public interface SHListRepository extends JpaRepository<SecondHandEntity, Integer> {
 
-	List<SecondHandEntity> findByMember_Id(String memberId);
+	List<SecondHandEntity> findByBuyerId(String memberId);  //내가 구매한 리스트 가져올떄
 	   
-    List<SecondHandEntity> findBySellerId(String memberId);
+    List<SecondHandEntity> findByMember_Id(String memberId); //내가 판매한 리스트 가져올떄
 }

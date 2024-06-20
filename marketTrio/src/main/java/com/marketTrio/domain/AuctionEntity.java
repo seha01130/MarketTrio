@@ -1,119 +1,157 @@
 package com.marketTrio.domain;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @SuppressWarnings("serial")
 @Entity
+@Table(name="Auction")
 public class AuctionEntity {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "auction_seq")
+    @SequenceGenerator(name = "auction_seq", sequenceName = "SEQUENCE_APOSTID", allocationSize = 1)
     private int auctionPostId;
-    private String sellerId;
-    private int buyerId;
-    private int maxPrice;
-    private String name;
-    private int startPrice;
-    private String detailInfo;
-    private Date deadline;
-    private String picture;
-    private int auctionStatus;
-//    @OneToMany
-//    @JoinColumn(name="memeberId") ??
-//    private List<AParticipant> participants;
 
-    public int getAuctionPostId() {
-        return auctionPostId;
-    }
+   @Column(nullable = false)
+   private String name;
 
-    public void setAuctionPostId(int auctionPostId) {
-        this.auctionPostId = auctionPostId;
-    }
+   @Column(nullable = false)
+   private int startPrice;
 
-    public String getSellerId() {
-        return sellerId;
-    }
+   @Column(nullable = false)
+   private int maxPrice;
 
-    public void setSellerId(String sellerId) {
-        this.sellerId = sellerId;
-    }
+   @Column(nullable = false)
+   private String detailInfo;
 
-    public int getBuyerId() {
-        return buyerId;
-    }
+   @Temporal(TemporalType.DATE)
+   @DateTimeFormat(pattern = "yyyy-MM-dd")
+   @Column(nullable = false)
+   private Date deadline;
 
-    public void setBuyerId(int buyerId) {
-        this.buyerId = buyerId;
-    }
+   @ElementCollection
+   @CollectionTable(name = "AUCTION_PICTURES", joinColumns = @JoinColumn(name = "AUCTION_ID"))
+   @Column(name = "PICTURE", nullable = false)
+   private List<String> pictures;
 
-    public int getMaxPrice() {
-        return maxPrice;
-    }
+   @Column(nullable = false)
+   private int auctionStatus;
 
-    public void setMaxPrice(int maxPrice) {
-        this.maxPrice = maxPrice;
-    }
+   @Temporal(TemporalType.DATE)
+   @Column(nullable = false)
+   private Date createDate;
 
-    public String getName() {
-        return name;
-    }
+   public Date getCreateDate() {
+      return createDate;
+   }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+   public void setCreateDate(Date createDate) {
+      this.createDate = createDate;
+   }
 
-    public int getStartPrice() {
-        return startPrice;
-    }
+   @OneToMany(mappedBy = "auction", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+   private List<AParticipantEntity> participants;
 
-    public void setStartPrice(int startPrice) {
-        this.startPrice = startPrice;
-    }
+   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+   @JoinColumn(name = "SELLERID", referencedColumnName = "ID", nullable = false)
+   private Member member;
 
-    public String getDetailInfo() {
-        return detailInfo;
-    }
+   public Member getMember() {
+      return member;
+   }
 
-    public void setDetailInfo(String detailInfo) {
-        this.detailInfo = detailInfo;
-    }
+   public void setMember(Member member) {
+      this.member = member;
+   }
 
-    public Date getDeadline() {
-        return deadline;
-    }
+   public int getAuctionPostId() {
+      return auctionPostId;
+   }
 
-    public void setDeadline(Date deadline) {
-        this.deadline = deadline;
-    }
+   public void setAuctionPostId(int auctionPostId) {
+      this.auctionPostId = auctionPostId;
+   }
 
-    public String getPicture() {
-        return picture;
-    }
+   public int getMaxPrice() {
+      return maxPrice;
+   }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
+   public void setMaxPrice(int maxPrice) {
+      this.maxPrice = maxPrice;
+   }
 
-    public int getAuctionStatus() {
-        return auctionStatus;
-    }
+   public String getName() {
+      return name;
+   }
 
-    public void setAuctionStatus(int auctionStatus) {
-        this.auctionStatus = auctionStatus;
-    }
-/*
-    public List<AParticipant> getParticipants() {
-        return participants;
-    }
+   public void setName(String name) {
+      this.name = name;
+   }
 
-    public void setParticipants(List<AParticipant> participants) {
-        this.participants = participants;
-    }
-*/
+   public int getStartPrice() {
+      return startPrice;
+   }
 
+   public void setStartPrice(int startPrice) {
+      this.startPrice = startPrice;
+   }
+
+   public String getDetailInfo() {
+      return detailInfo;
+   }
+
+   public void setDetailInfo(String detailInfo) {
+      this.detailInfo = detailInfo;
+   }
+
+   public Date getDeadline() {
+      return deadline;
+   }
+
+   public void setDeadline(Date deadline) {
+      this.deadline = deadline;
+   }
+
+   public List<String> getPictures() {
+       return pictures;
+   }
+
+   public void setPictures(List<String> pictures) {
+       this.pictures = pictures;
+   }
+
+   public int getAuctionStatus() {
+      return auctionStatus;
+   }
+
+   public void setAuctionStatus(int auctionStatus) {
+      this.auctionStatus = auctionStatus;
+   }
+
+   public List<AParticipantEntity> getParticipants() {
+      return participants;
+   }
+
+   public void setParticipants(List<AParticipantEntity> participants) {
+      this.participants = participants;
+   }
 }

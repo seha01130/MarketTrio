@@ -9,7 +9,7 @@ import java.util.Objects;
 @Table(name = "Member")
 public class Member implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String id;
 	@Column(nullable = false)
 	private String password;
@@ -23,6 +23,12 @@ public class Member implements Serializable {
 	private String name;
 	@Column(nullable = false)
 	private String phone;
+	
+//	@OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+//    private AParticipantEntity aparticipantEntity;
+	
+	@OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+    private GBParticipantEntity gbparticipantEntity;
 	
 	public String getId() {
 		return id;
