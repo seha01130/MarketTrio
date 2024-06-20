@@ -30,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.marketTrio.controller.MemberSession;
 import com.marketTrio.dao.mybatis.MyBatisMemberDao;
 import com.marketTrio.domain.Member;
+import com.marketTrio.service.MyInfoService;
 
 @Controller
 @RequestMapping("/loginAndRegister")
@@ -42,14 +43,20 @@ public class LoginAndRegisterController {
 	@Value("thyme/loginAndRegister/register")
 	private String register;
 
-	@Autowired	
-	private MyBatisMemberDao memberDao;
+	@Autowired
+	private MyInfoService myInfoService;
 	
 /////////////////////////////////////////////////////////////////회원가입////////////////////////////////////////////////////////////////////
 	
 	@GetMapping("/register.do")
-	public String register(Model model) {
-		model.addAttribute("memberCommand", new MemberCommand());
+	public String register(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession(); // HttpSession을 통해 세션에 저장된 객체를 직접 가져옴
+		MemberCommand memberCommand = (MemberCommand) session.getAttribute("memberCommand");
+//		System.out.println("현재 memberCommand의 이름값: " + memberCommand.getName());
+		if (memberCommand == null) {
+			model.addAttribute("memberCommand", new MemberCommand());
+//			System.out.println("현재 memberCommand의 이름값은 새롭기때문에 null이어야함: " + memberCommand.getName());
+		}
 		return register;
 	}
 	
@@ -94,12 +101,19 @@ public class LoginAndRegisterController {
 		if (bindingResult.hasErrors()) {
             return register;
         }
+		
+		//입력받은 id가 이미 존재하는지 확인하는 코드
+		if (myInfoService.isIdExist(memberCommand.getUserId())) {
+			model.addAttribute("IdErrorMessage", "The ID already exists. Please choose a different ID.");
+			return register;
+		}
+		
 		if (!memberCommand.getPassword().equals(memberCommand.getRepeatedPassword())) {
-            model.addAttribute("message", "Passwords do not match");
+            model.addAttribute("Pwdmessage", "Passwords do not match");
             return register;
         }
 		Member member = memberCommand.getMember();
-		memberDao.insertMember(member);
+		myInfoService.insertMember(member);
 		
 		sessionStatus.setComplete();
 		session.invalidate();
@@ -123,7 +137,7 @@ public class LoginAndRegisterController {
 								@RequestParam("id") String id,
 								@RequestParam("password") String password) throws Exception {
 		// 예를 들어, 로그인 폼에서 가져온 사용자 ID를 사용하여 MemberSession 객체를 생성합니다.
-		Member member = memberDao.getMember(id, password);
+		Member member = myInfoService.getMember(id, password);
 		if (member == null) {  //없으면
 			model.addAttribute("message", "Invalid username or password.  Signon failed.");
             return login;

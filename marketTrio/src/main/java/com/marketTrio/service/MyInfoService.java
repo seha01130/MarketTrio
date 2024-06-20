@@ -22,6 +22,13 @@ public class MyInfoService {
     	return memberDao.getSellerIdFromSH(postId);
     }
 
+    public Member getMember(String id, String password) throws Exception {
+    	return memberDao.getMember(id, password);
+    }
+    
+    public boolean isIdExist(String id) throws Exception {
+    	return memberDao.isIdExist(id);
+    }
     public MemberCommand getMemberCommand(String memberId) throws Exception {
         Member member = memberDao.getMember(memberId);
         return new MemberCommand(member);
@@ -43,6 +50,9 @@ public class MyInfoService {
         return memberDao.getPassword(memberId);
     }
 
+    public void insertMember(Member member) throws Exception{
+    	memberDao.insertMember(member);
+    }
     public void updateMember(Member member) throws Exception {
         memberDao.updateMember(member);
     }

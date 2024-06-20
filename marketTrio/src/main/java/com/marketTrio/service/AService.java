@@ -42,4 +42,5 @@ public class AService {
     	List<AuctionEntity> salesList =  AListRepository.findByMember_Id(memberId);
         return salesList;
     }
+    //////////////////////여기까지가 수연 사용 - myInfo에서 List 가져오는부분 //////////////////////////////
 }

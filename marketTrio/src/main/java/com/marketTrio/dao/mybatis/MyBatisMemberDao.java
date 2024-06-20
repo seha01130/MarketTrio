@@ -32,6 +32,9 @@ public class MyBatisMemberDao {
 		return memberMapper.getMemberByIdAndPassword(id, password);
 	}
 	
+	public boolean isIdExist(String id) throws DataAccessException {
+		return memberMapper.isIdExist(id);
+	}
 	public String getPassword(String id) throws DataAccessException {
 		return memberMapper.getPassword(id);
 	}

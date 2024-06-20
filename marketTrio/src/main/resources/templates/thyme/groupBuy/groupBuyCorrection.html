@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketTrio - 게시글 수정</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header .logo {
+            font-size: 24px;
+            color: #6ac26a;
+        }
+        .header nav {
+            display: flex;
+            gap: 20px;
+        }
+        .header nav a {
+            text-decoration: none;
+            color: #333;
+        }
+        .header .auth {
+            display: flex;
+            gap: 10px;
+        }
+        .header .auth a {
+            text-decoration: none;
+            color: #333;
+        }
+        .container {
+            padding: 25px;
+            margin-left : 100px;
+            margin-right : 100px;
+        }
+        .breadcrumb {
+            margin-bottom: 20px;
+            color: #888;
+            margin-left : -100px;
+            margin-right : -100px;
+        }
+        .form-group {
+            margin-top: 30px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group .image-upload {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-group .image-upload img {
+            width: 150px;
+            height: 150px;
+            background-color: #cfc;
+            border-radius: 8px;
+        }
+        .form-group .image-upload button {
+            padding: 10px 20px;
+            background-color: #ddd;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-group .image-upload button:hover {
+            background-color: #ccc;
+        }
+        .submit-btn {
+           margin-top : 10px;
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #6ac26a;
+            color: #fff;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+        }
+       .image-preview img {
+          width: 150px;
+          height: 150px;
+          object-fit: cover;
+          margin-right: 20px;
+          margin-top: 20px;
+      }
+        .product-photo {
+            width: 60%;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            margin-top: 0px;
+        }
+    </style>     
+</head>
+<body>
+   <div th:insert="thyme/banner"></div>
+
+    <div class="container">
+        <div class="breadcrumb">공동구매 > 게시글 수정</div>
+        <hr style="border-width : 2px 0px 0px 0px; margin-left : -100px; margin-right : -100px;">
+
+        <form th:action="@{'/groupBuy/updated/' + ${GBPostId}}" th:object="${gbUpdateInfoCommand}" method="post" style="padding-left:60px; padding-right:60px; padding-top:20px;"  enctype="multipart/form-data">
+           <div class="form-group">
+               <label for="product-image">기존 사진</label>
+               <div class="image-upload">
+                   <div class="image-preview" id="image-preview">
+                      <img th:each="picture : ${gbPost.pictures}" th:src="@{'/upload/' + ${picture}}" alt="상품 사진" class="product-photo" style="margin-top: 0px;">
+                      <label for="product-image">사진 추가</label>
+                      <input type="file" name="files" id="files" multiple>
+                  </div>
+               </div>
+           </div>
+           <input type="hidden" th:field="*{id}">
+           <div class="form-group">
+               <label for="product-title">상품명</label>
+               <input type="text" id="product-title" th:field="*{productName}" >
+           </div>
+           <div class="form-group">
+               <label for="sale-period">마감 기한</label>
+               <input type="date" id="sale-period" th:field="*{duration}">
+           </div>
+           <div class="form-group">
+               <label for="product-description">상세설명</label>
+               <textarea id="product-description" rows="10" th:field="*{content}"></textarea>
+           </div>
+           <button type="submit" class="submit-btn">수정 완료</button>
+       </form>
+    </div>
+   <script>
+        const filesInput = document.getElementById('files');
+        const preview = document.getElementById('image-preview');
+        let fileArray = [];
+
+        filesInput.addEventListener('change', function(event) {
+            Array.from(event.target.files).forEach(file => {
+                fileArray.push(file);
+
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.onload = function() {
+                    URL.revokeObjectURL(img.src); // 메모리 해제
+                }
+                preview.appendChild(img);
+            });
+        });
+
+        document.querySelector('form').addEventListener('submit', function(event) {
+            const dataTransfer = new DataTransfer();
+            fileArray.forEach(file => dataTransfer.items.add(file));
+            filesInput.files = dataTransfer.files;
+        });
+    </script>
+</body>
+</html>

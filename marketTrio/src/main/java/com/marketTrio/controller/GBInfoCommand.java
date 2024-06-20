@@ -1,25 +1,31 @@
 package com.marketTrio.controller;
 
-import java.sql.Date;
-import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import com.marketTrio.domain.OptionEntity;
 
 public class GBInfoCommand {
-	private ArrayList<OptionEntity> options;
 	private String productName;
-	private String duration;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date duration;
 	private int allQuantity;
-	private double regularPrice;
+	private int regularPrice;
 	private double discountRate;
 	private String content;
 	private Date createDate;
 	private String image;
+	private List<OptionEntity> options;
 	
-	public GBInfoCommand(ArrayList<OptionEntity> options, String productName, String duration, int allQuantity, double regularPrice,
+	public GBInfoCommand() {
+		
+	}
+	
+	public GBInfoCommand(List<OptionEntity> options, String productName, Date duration, int allQuantity, int regularPrice,
 			double discountRate, String content, Date createDate, String image) {
 		super();
-		this.options = options;
 		this.productName = productName;
 		this.duration = duration;
 		this.allQuantity = allQuantity;
@@ -28,13 +34,6 @@ public class GBInfoCommand {
 		this.content = content;
 		this.createDate = createDate;
 		this.image = image;
-	}
-
-	public ArrayList<OptionEntity> getOptions() {
-		return options;
-	}
-
-	public void setOptions(ArrayList<OptionEntity> options) {
 		this.options = options;
 	}
 
@@ -46,11 +45,11 @@ public class GBInfoCommand {
 		this.productName = productName;
 	}
 
-	public String getDuration() {
+	public Date getDuration() {
 		return duration;
 	}
 
-	public void setDuration(String duration) {
+	public void setDuration(Date duration) {
 		this.duration = duration;
 	}
 
@@ -62,11 +61,11 @@ public class GBInfoCommand {
 		this.allQuantity = allQuantity;
 	}
 
-	public double getRegularPrice() {
+	public int getRegularPrice() {
 		return regularPrice;
 	}
 
-	public void setRegularPrice(double regularPrice) {
+	public void setRegularPrice(int regularPrice) {
 		this.regularPrice = regularPrice;
 	}
 
@@ -101,4 +100,20 @@ public class GBInfoCommand {
 	public void setImage(String image) {
 		this.image = image;
 	}
+
+	public List<OptionEntity> getOptions() {
+		return options;
+	}
+
+	public void setOptions(List<OptionEntity> options) {
+		this.options = options;
+	}
+
+	@Override
+	public String toString() {
+		return "GBInfoCommand [productName=" + productName + ", duration=" + duration + ", allQuantity=" + allQuantity
+				+ ", regularPrice=" + regularPrice + ", discountRate=" + discountRate + ", content=" + content
+				+ ", createDate=" + createDate + ", image=" + image + ", options=" + options + "]";
+	}
+
 }
