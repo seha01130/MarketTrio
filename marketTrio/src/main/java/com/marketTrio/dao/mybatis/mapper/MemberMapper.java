@@ -12,6 +12,8 @@ public interface MemberMapper {
 	Member getMemberById(String id);
 	
 	String getSellerIdFromSH(int postId);
+	
+	String getProfilePicture(String memberId);
 
 	Member getMemberByIdAndPassword(String id, String password);
 	

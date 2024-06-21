@@ -66,14 +66,10 @@
             color: black;
             margin-bottom: 10px;
         }
-        .description {
-          border: 2px solid #80808075;
-          margin-top: 40px;
-          display: flex;
-          padding: 30px;
-          border-radius: 10px;
-          background-color: aliceblue;
-      }
+        .details .description {
+            margin-top: 20px;
+            line-height: 1.5;
+        }
         .detailInfo {
             display: flex;
             padding-top: 10px;
@@ -108,9 +104,13 @@
             font-size: 18px;
         }
         .description {
-           border-top: 1px solid gray;
-           margin-top: 80px;
-        }
+          border: 2px solid #80808075;
+          margin-top: 40px;
+          display: flex;
+          padding: 30px;
+          border-radius: 10px;
+          background-color: aliceblue;
+      }
         .product-photo {
             width: 60%;
             border-radius: 8px;
@@ -131,7 +131,7 @@
             </div>
             <div class="title" th:text="${gbPost.productName}">상품 이름</div>
             <div class="profile">
-                <img src="./profile.png" alt="Profile Image">
+                <img th:src="@{'/upload/' + ${gbPost.member.profilePicture}}" alt="프로필사진">
                 <div>
                     <div th:text="${gbPost.member.getNickname()}">판매자명</div>
                     <div th:text="${#dates.format(gbPost.createDate, 'yyyy/MM/dd')}">작성 날짜</div>
@@ -155,6 +155,12 @@
                 </div>
                 <div class="deadline"><span>마감일 : </span><span th:text="${#dates.format(gbPost.duration, 'yy/MM/dd')}"></span></div>
                 <div class="description" th:text="${gbPost.content}"></div>
+                <div style="font-weight: bold;font-size: 20px;margin-top: 20px;margin-bottom: 20px;border-bottom: 1px solid; padding-bottom: 10px;">공동구매 참여자 목록</div>
+                <div th:each="part: ${gbpList}" style="margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dotted #808080;">
+                   <span th:text="${part.member.nickname}" style="font-weight:bold;"></span>
+                   <span th:text="' : 선택한 옵션 : ' + ${part.myOption.optionName}"></span>
+                   <span th:text="', 선택 옵션 수량  : ' + ${part.myQuantity}"></span>
+                </div>
             </div>
         </div>
     </div>

@@ -123,6 +123,19 @@
             border-radius: 8px;
             margin-bottom: 20px;
         }
+        .seller-info {
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.seller-photo {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	margin-right: 10px;
+}
+        
     </style>
 </head>
 <body>
@@ -133,11 +146,14 @@
         <div class="container">
             <div class="title" th:text="${gbPost.productName}">상품 이름</div>
             <div class="profile">
-                <img src="./profile.png" alt="Profile Image">
+            <div class="seller-info">
+                <img th:src="@{'/upload/' + ${gbPost.member.profilePicture}}" alt="프로필사진"
+					class="seller-photo">
                 <div>
                     <div th:text="${gbPost.member.getNickname()}">판매자명</div>
                     <div th:text="${#dates.format(gbPost.createDate, 'yyyy/MM/dd')}">작성 날짜</div>
                 </div>
+            </div>
             </div>
             <div class="product">
                 <div class="details">
@@ -155,20 +171,27 @@
                         </div>
                     </div>
                 </div>
+                <span th:if="${MinusQuantity}" style="color: red; padding-bottom:10px; font-size: 12px; margin-left: 406px;" class="error-message" th:text="${MinusQuantity}"></span>
             <form id="gbPartForm" th:action="@{/groupBuy/participate/{GBPostId}(GBPostId=${GBPostId})}" th:object="${gbpCommand}" th:style="${gbPost.GBStatus == 1} ? 'display:none;' : 'display:flex;'" method="post">
                 <input type="hidden" th:field="*{member}" th:value="${memberSession.memberId}" />
                 <select id="optionId" name="optionId" required>
                     <option value="">옵션 선택</option>
-                    <option th:each="option : ${optionList}" th:value="${option.optionId}" th:text="${option.optionName}"></option>
+                    <option th:each="option : ${optionList}" th:value="${option.optionId}" 
+                    th:text="${option.optionName} + ' (남은 수량) ' + ${option.remainingQuantity}"></option>
                 </select>
                 <input type="number" id="quantity" th:field="*{quantity}" placeholder="구매 수량을 입력해주세요" style="width: 160px;">
                 <button type="submit" class="register-btn">참여하기</button>                
             </form>
                 <div class="deadline"><span>마감일 : </span><span th:text="${#dates.format(gbPost.duration, 'yy/MM/dd')}"></span></div>
                 <div class="description" th:text="${gbPost.content}"></div>
+                <div style="font-weight: bold;font-size: 20px;margin-top: 20px;margin-bottom: 20px;border-bottom: 1px solid; padding-bottom: 10px;">공동구매 참여자 목록</div>
+                <div th:each="part: ${gbpList}" style="margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dotted #808080;">
+                   <span th:text="${part.member.nickname}" style="font-weight:bold;"></span>
+                   <span th:text="' : 선택한 옵션 : ' + ${part.myOption.optionName}"></span>
+                   <span th:text="', 선택 옵션 수량  : ' + ${part.myQuantity}"></span>
+                </div>      
             </div>
         </div>
     </div>
-
 </body>
 </html>

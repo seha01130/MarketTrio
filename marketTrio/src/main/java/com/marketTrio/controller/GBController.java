@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.marketTrio.domain.GBParticipantEntity;
 import com.marketTrio.domain.GBEntity;
@@ -34,7 +35,7 @@ import com.marketTrio.service.GBService;
 
 @Controller
 @RequestMapping("/groupBuy")
-@SessionAttributes("memberSession" )
+@SessionAttributes("memberSession")
 public class GBController {
    @Autowired
    private GBService gbService;
@@ -56,7 +57,7 @@ public class GBController {
          @ModelAttribute("memberSession") MemberSession memberSession,
          @PathVariable("GBPostId") int GBPostId) {
       String loginUserId = memberSession.getMemberId();
-//      String loginUserId = "dami";
+//      String loginUserId = "rkdms";
       
       GBEntity gbPost =  gbService.getGBPost(GBPostId);
       String gbPostAuthor = gbPost.getMember().getId();
@@ -64,6 +65,7 @@ public class GBController {
       double sp = gbPost.getRegularPrice() * (gbPost.getDiscountRate() / 100);
       int salePrice = gbPost.getRegularPrice() - (int) Math.floor(sp);
       List<OptionEntity> opList = gbService.findOptionList(GBPostId);
+      List<GBParticipantEntity> gbpList = gbService.findGBPaticipantsList(GBPostId);
       
       ModelAndView mv;
       if (loginUserId.equals(gbPostAuthor)) {   
@@ -84,6 +86,7 @@ public class GBController {
       mv.addObject("dday", dday);
       mv.addObject("salePrice", salePrice);
       mv.addObject("optionList", opList);
+      mv.addObject("gbpList", gbpList);
       
       return mv;
    }
@@ -97,14 +100,36 @@ public class GBController {
       return mv;
    }
       
-   // 공동구매 글 작성 - POST 방식
+// 공동구매 글 작성 - POST 방식
    @PostMapping("/writed")
    public String writeGBPost(
          @ModelAttribute("gbInfoCommand")GBInfoCommand gbInfo,
          @ModelAttribute("memberSession") MemberSession memberSession,
-         @RequestParam("files") MultipartFile[] files) throws IOException, ServletException {
+         @RequestParam("files") MultipartFile[] files,
+         RedirectAttributes redirectAttributes) throws IOException, ServletException {
       String loginUserId = memberSession.getMemberId();
 //      String loginUserId = "rkdms";
+      boolean hasError = false;
+            
+      if (gbInfo.getDuration() != null && gbInfo.getDuration().before(new Date())) {
+          redirectAttributes.addFlashAttribute("MinusDate", "현재 시각보다 마감일이 늦는 글을 작성할 수 없습니다.");
+          hasError = true;
+      }
+      
+      if (gbInfo.getRegularPrice() <= 0 && gbInfo.getDiscountRate() <= 0 && gbInfo.getAllQuantity() <= 0 ) {
+         redirectAttributes.addFlashAttribute("Minus", "정가, 할인율, 총 수량은 0 이하의 값이 될 수 없습니다.");
+           hasError = true;
+      }
+      
+      if (gbInfo.getOptions() == null) {
+         redirectAttributes.addFlashAttribute("MinusOption", "1개 이상의 옵션을 생성해야합니다.");
+           hasError = true;
+      }
+      
+      if (hasError) {
+         return "redirect:/groupBuy/write"; // 오류가 있으면 폼 페이지로 돌아감
+       }
+      
       String fileDir = "C:/absolute/path/to/upload/";
 
         // 디렉토리가 존재하지 않으면 생성
@@ -159,8 +184,6 @@ public class GBController {
       GBEntity gbPost = gbService.getGBPost(gbPostId);
       List<OptionEntity> optList = gbService.findOptionList(gbPostId);
       List<GBParticipantEntity> gbpList = gbService.findGBPaticipantsList(gbPostId);
-      System.out.println("!!!!!!!" + optList.toString());
-      System.out.println("!!!!!!!" + gbpList.toString());
       gbService.deleteGBPost(gbPost, optList, gbpList);
       
       return "redirect:/groupBuy/list";
@@ -178,13 +201,25 @@ public class GBController {
       return mv;
    }
    
-   // 공동구매 글 수정 - POST 방식
+// 공동구매 글 수정 - POST 방식
    @PostMapping("/updated/{GBPostId}")
    public String updateGBPost(
          @ModelAttribute("gbUpdateInfoCommand") GBUpdateInfoCommand gbUpdateInfo,
          @PathVariable("GBPostId") int GBPostId,
-          @RequestParam("files") MultipartFile[] files) throws IllegalStateException, IOException {
+         @RequestParam("files") MultipartFile[] files,
+         RedirectAttributes redirectAttributes) throws IOException, ServletException {
       GBEntity gbPost = gbService.getGBPost(GBPostId);
+      boolean hasError = false;
+      
+      if (gbUpdateInfo.getDuration() != null && gbUpdateInfo.getDuration().before(new Date())) {
+          redirectAttributes.addFlashAttribute("MinusDate", "현재 시각보다 마감일이 늦는 글로 수정할 수 없습니다.");
+          hasError = true;
+      }
+      
+      if (hasError) {
+         return "redirect:/groupBuy/update/" + GBPostId; // 오류가 있으면 폼 페이지로 돌아감
+       }
+      
       String fileDir = "C:/absolute/path/to/upload/"; // Update with the actual file path
         // List<String> uploadedFileNames = new ArrayList<>();
          
@@ -214,16 +249,25 @@ public class GBController {
    public ModelAndView participateGB(
          @ModelAttribute("gbpCommand") GBParticipateCommand gbParticipate,
          @PathVariable("GBPostId") int GBPostId,
-         @ModelAttribute("memberSession") MemberSession memberSession) {      
+         @ModelAttribute("memberSession") MemberSession memberSession,
+         RedirectAttributes redirectAttributes) {      
       String loginUserId = memberSession.getMemberId();
 //      String loginUserId = "dami";
-
-        
+      boolean hasError = false;
       ModelAndView mv = new ModelAndView();
+      
+      if(gbParticipate.getQuantity() <= 0) {
+         redirectAttributes.addFlashAttribute("MinusQuantity", "수량은 0 이하가 될 수 없습니다.");
+           hasError = true;
+       }
+
+      if (hasError) {
+           mv.setViewName("redirect:/groupBuy/detail/" + GBPostId);
+             return mv; // 오류가 있으면 폼 페이지로 돌아감
+       }
       
       gbParticipate.setMember(loginUserId);
       gbService.participate(gbParticipate);
-      System.out.println("!!!!!" + gbParticipate.toString());
       mv.setViewName("redirect:/groupBuy/detail/" + GBPostId);
       
 //      try {   // 참여 성공

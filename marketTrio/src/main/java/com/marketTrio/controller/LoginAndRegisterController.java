@@ -135,7 +135,8 @@ public class LoginAndRegisterController {
 	@PostMapping("/login.do")
 	public String login(HttpServletRequest request, HttpSession session, Model model,
 								@RequestParam("id") String id,
-								@RequestParam("password") String password) throws Exception {
+								@RequestParam("password") String password
+								/*@ModelAttribute("memberCommand") MemberCommand memberCommand*/) throws Exception {
 		// 예를 들어, 로그인 폼에서 가져온 사용자 ID를 사용하여 MemberSession 객체를 생성합니다.
 		Member member = myInfoService.getMember(id, password);
 		if (member == null) {  //없으면
@@ -146,6 +147,24 @@ public class LoginAndRegisterController {
 			MemberSession memberSession = new MemberSession(id); //MemberSession 객체 만들어짐
 //			session.setAttribute("memberSession", memberSession); //이거 없어도 됨. 위에 @SessionAttributes 했으니까 아래의 코드만으로도 충분. 함께 저장됨.
 			model.addAttribute("memberSession", memberSession);
+			
+			
+			//로그인하면 배너에 프로필사진을 보여주기 위해 로그인시 바로 memberCommand 생성해서 정보 담아주기
+//			session = request.getSession(); // HttpSession을 통해 세션에 저장된 객체를 직접 가져옴
+//			MemberCommand memberCommand = (MemberCommand) session.getAttribute("memberCommand");
+			
+//			if (memberCommand == null) {
+//				String memberId = memberSession.getMemberId(); // 이 memberSession은 login할때 넣어줌
+//				System.out.println("멤버세션객체 만들어졌는지: " + memberId);
+//				member = myInfoService.getMember(memberId); // 현재 사용자의 member객체 구해서
+//				System.out.println("Member ID: " + member.getId());
+//				memberCommand = new MemberCommand(member); // memberCommand 객체내의 필드로 member객체를 넣고
+//				model.addAttribute("memberCommand", memberCommand);
+//			}
+			//
+			
+			
+			
 			return main;
 		}
 	}

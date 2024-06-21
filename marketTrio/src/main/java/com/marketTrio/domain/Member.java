@@ -27,8 +27,8 @@ public class Member implements Serializable {
 //	@OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
 //    private AParticipantEntity aparticipantEntity;
 	
-	@OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
-    private GBParticipantEntity gbparticipantEntity;
+//	@OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+//    private GBParticipantEntity gbparticipantEntity;
 	
 	public String getId() {
 		return id;

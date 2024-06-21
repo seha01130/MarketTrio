@@ -140,21 +140,16 @@
         .btn-submit:hover {
             background-color: #5a9e34;
         }
+        .error-message {
+            color: red;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">MarketTrio</div>
-        <div class="nav">
-            <a th:href="@{/used-market}">중고거래</a>
-            <a th:href="@{/auction}">경매</a>
-            <a th:href="@{/group-buying}">공동구매</a>
-        </div>
-        <div class="auth">
-            <a th:href="@{/logout}">로그아웃</a>
-            <div class="icon">😀</div>
-        </div>
-    </div>
+    <header>
+        <div th:insert="thyme/banner"></div>
+    </header>
     <div class="content">
         <div class="breadcrumb">
             <a th:href="@{/auction}">경매</a> &gt; 게시글 작성
@@ -165,10 +160,13 @@
                 <div class="form-control">
                     <label for="name">제목</label>
                     <input type="text" id="name" th:field="*{name}" placeholder="제목을 입력하세요.">
+                    <div th:if="${NoTitleMsg}" class="error-message" th:text="${NoTitleMsg}"></div>
                     <label for="startPrice">시작 가격</label>
                     <input type="text" id="startPrice" th:field="*{startPrice}" placeholder="시작 가격을 입력하세요.">
+                    <div th:if="${NoPriceMsg}" class="error-message" th:text="${NoPriceMsg}"></div>
                     <label for="deadline">마감 기한</label>
                     <input type="date" id="deadline" th:field="*{deadline}" placeholder="마감 기한을 입력하세요.">
+                    <div th:if="${NoDeadMsg}" class="error-message" th:text="${NoDeadMsg}"></div>
                     <label for="files">이미지 업로드</label>
                     <input type="file" id="files" name="files" multiple>
                 </div>
@@ -177,12 +175,22 @@
                 <div class="form-control">
                     <label for="detailInfo">상세설명</label>
                     <textarea id="detailInfo" th:field="*{detailInfo}" rows="10" placeholder="내용을 작성하세요."></textarea>
+                    <div th:if="${NoDetailMsg}" class="error-message" th:text="${NoDetailMsg}"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-control">
+	                <p style="font-weight: bold;">직거래가 가능하다면 위도, 경도를 적어주세요 !</p>
+                    <label for="latitude">위도</label>
+                    <input type="text" id="latitude" th:field="*{latitude}" placeholder="위도를 입력하세요.">
+                    <label for="longitude">경도</label>
+                    <input type="text" id="longitude" th:field="*{longitude}" placeholder="경도를 입력하세요.">
                 </div>
             </div>
             <button type="submit" class="btn-submit">등록</button>
         </form>
     </div>
-   <script>
+    <script>
         const filesInput = document.getElementById('files');
         const preview = document.getElementById('image-preview');
         let fileArray = [];

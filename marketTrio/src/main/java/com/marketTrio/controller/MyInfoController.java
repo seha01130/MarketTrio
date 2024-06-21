@@ -88,7 +88,7 @@ public class MyInfoController {
 			throw new RuntimeException("memberCommand is null");
 		}
 
-		System.out.println("프로필사진 잘 불러오나: " + memberCommand.getMember().getProfilePicture());
+//		System.out.println("프로필사진 잘 불러오나: " + memberCommand.getMember().getProfilePicture());
 
 		float dbRate = myInfoService.getRate(memberCommand.getMember().getId());
 		System.out.println("DB에서 가져온 별점: " + dbRate);
@@ -115,7 +115,14 @@ public class MyInfoController {
 		try {
 			String memberId = memberCommand.getMember().getId();
 			String dbPassword = myInfoService.getPassword(memberId);
-
+			
+			//수정폼 들어가도 나의 원래 프로필사진이 보여지고 선택되도록.
+			String dbProfilePicture = myInfoService.getProfilePicture(memberId);
+			System.out.println("프로필사진 문자열 출력: " + dbProfilePicture);
+			memberCommand.getMember().setProfilePicture(dbProfilePicture);
+			System.out.println("프로필사진 커맨드에 저장: " + memberCommand.getMember().getProfilePicture());
+			//
+			
 			float dbRate = myInfoService.getRate(memberCommand.getMember().getId());
 			System.out.println("DB에서 가져온 별점: " + dbRate);
 			if (dbRate != memberCommand.getMember().getRating()) {
@@ -166,8 +173,15 @@ public class MyInfoController {
 
 		System.out.println("Uploaded File Names in Controller: " + uploadedFileNames);
 		// 첫 번째 파일 이름을 사용
+		
+		String memberId = memberCommand.getMember().getId();
 		String firstUploadedFileName = !uploadedFileNames.isEmpty() ? uploadedFileNames.get(0) : null;
-		memberCommand.getMember().setProfilePicture(firstUploadedFileName);
+		if (firstUploadedFileName==null) {
+			firstUploadedFileName = myInfoService.getProfilePicture(memberId);
+		}
+		memberCommand.getMember().setProfilePicture(firstUploadedFileName);	
+		
+		
 
 		System.out.println("사진이 command에 잘 저장됨?: " + firstUploadedFileName);
 		////////////////////이미지처리////////////////////////////////////////////////////////////////////////////
