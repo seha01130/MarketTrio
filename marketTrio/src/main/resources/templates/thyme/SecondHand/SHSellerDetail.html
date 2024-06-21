@@ -259,7 +259,7 @@ main {
 			<h1 style="font-size: 25px; font-weight: bold;"
 				th:text="${shPost.title}">제목</h1>
 			<div class="seller-info">
-				<img th:src="@{/images/profile.png}" alt="판매자 사진"
+				<img th:src="@{'/upload/' + ${shPost.member.profilePicture}}" alt="프로필사진"
 					class="seller-photo">
 				<div class="seller-details">
 					<span class="seller-name" th:text="${shPost.member.nickname}">닉네임</span>

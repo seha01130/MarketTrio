@@ -75,7 +75,7 @@
     		<p th:unless="${memberSession == null}">환영합니다</p>
     		<!-- <p th:if="${memberSession != null}">환영합니다, <span th:text="${memberSession.id}">사용자</span>님!</p> -->
             <a href="#" th:href="${memberSession != null} ? @{/myPage/myInfo} : @{/loginAndRegister/login.do}">
-            	<img id="profile"  th:src="@{/images/profile.png}" />
+                <img  th:src="@{/images/profile.png}" alt="기본 프로필사진" id="profile"/>
             </a>
         </div>
     </div>

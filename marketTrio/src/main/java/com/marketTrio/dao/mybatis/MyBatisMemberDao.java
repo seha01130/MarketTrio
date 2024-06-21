@@ -27,6 +27,10 @@ public class MyBatisMemberDao {
 	public String getSellerIdFromSH(int postId) throws DataAccessException {
 		return memberMapper.getSellerIdFromSH(postId);
 	}
+	
+	public String getProfilePicture(String memberId) throws DataAccessException {
+		return memberMapper.getProfilePicture(memberId);
+	}
 
 	public Member getMember(String id, String password) throws DataAccessException {
 		return memberMapper.getMemberByIdAndPassword(id, password);

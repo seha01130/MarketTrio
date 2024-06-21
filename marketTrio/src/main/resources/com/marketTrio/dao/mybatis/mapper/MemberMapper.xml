@@ -14,9 +14,14 @@
 
 	<select id="getSellerIdFromSH" resultType="java.lang.String">
 		SELECT SELLERID
-		FROM
-		SECONDHAND
+		FROM SECONDHAND
 		WHERE SHPOSTID = #{postId}
+	</select>
+	
+	<select id="getProfilePicture" resultType="java.lang.String">
+		SELECT PROFILEPICTURE
+		FROM MEMBER
+		WHERE ID = #{id}
 	</select>
 
 	<select id="getMemberByIdAndPassword" resultType="Member">

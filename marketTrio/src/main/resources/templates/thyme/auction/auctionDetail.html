@@ -1,327 +1,361 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MarketTrio - 상품 상세 페이지</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f7fa;
-            margin: 0;
-            padding: 0;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MarketTrio - 상품 상세 페이지</title>
+<style>
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f5f7fa;
+	margin: 0;
+	padding: 0;
+}
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #ffffff;
-            padding: 10px 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+main {
+	padding: 20px;
+	max-width: 800px;
+	margin: auto;
+}
 
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #8bc34a;
-        }
+.product {
+	background-color: #ffffff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-        nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-        }
+.product h1 {
+	margin-top: 0;
+}
 
-        nav ul li {
-            margin: 0 10px;
-        }
+.seller-info {
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
+}
 
-        nav ul li a {
-            text-decoration: none;
-            color: #333333;
-        }
+.seller-photo {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	margin-right: 10px;
+}
 
-        .auth a {
-            margin-left: 10px;
-            text-decoration: none;
-            color: #333333;
-        }
+.seller-details {
+	flex-grow: 1;
+}
 
-        main {
-            padding: 20px;
-            max-width: 800px;
-            margin: auto;
-        }
+.seller-name {
+	font-weight: bold;
+}
 
-        .product {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+.post-date {
+	color: #888;
+	font-size: 0.9em;
+}
 
-        .product h1 {
-            margin-top: 0;
-        }
+.action-buttons {
+	display: flex;
+	gap: 10px;
+}
 
-        .seller-info {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+.action-buttons button {
+	padding: 5px 10px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
 
-        .seller-photo {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
+.action-buttons .edit {
+	background-color: #8bc34a;
+	color: white;
+}
 
-        .seller-details {
-            flex-grow: 1;
-        }
+.action-buttons .delete {
+	background-color: #f44336;
+	color: white;
+}
 
-        .seller-name {
-            font-weight: bold;
-        }
+.product-photo {
+	width: 80%;
+	border-radius: 8px;
+	margin-bottom: 20px;
+}
 
-        .post-date {
-            color: #888;
-            font-size: 0.9em;
-        }
+.product-details {
+	margin-bottom: 20px;
+}
 
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-        }
+.price {
+	font-size: 24px;
+	font-weight: bold;
+	color: #333;
+	margin-bottom: 10px;
+	margin-left: 10px;
+}
 
-        .action-buttons button {
-            padding: 5px 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+.price-section {
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
+}
 
-        .action-buttons .edit {
-            background-color: #8bc34a;
-            color: white;
-        }
+.category-button {
+	padding: 5px 10px;
+	background-color: #8bc34a;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
 
-        .action-buttons .delete {
-            background-color: #f44336;
-            color: white;
-        }
+.description, .additional-info, .note {
+	margin-bottom: 10px;
+}
 
-        .product-photo {
-            width: 60%;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
+.comments {
+	background-color: #ffffff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	margin-top: 20px;
+}
 
-        .product-details {
-            margin-bottom: 20px;
-        }
+.comment {
+	display: flex;
+	margin-bottom: 20px;
+}
 
-        .price {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 10px;
-            margin-left: 10px;
-        }
+.user-photo {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	margin-right: 10px;
+}
 
-        .price-section {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+.comment-details {
+	flex-grow: 1;
+}
 
-        .category-button {
-            padding: 5px 10px;
-            background-color: #8bc34a;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+.user-name {
+	font-weight: bold;
+}
 
-        .description, .additional-info, .note {
-            margin-bottom: 10px;
-        }
+.comment-date {
+	color: #888;
+	font-size: 0.9em;
+}
 
-        .comments {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-        }
+.comment-text {
+	margin: 5px 0;
+}
 
-        .comment {
-            display: flex;
-            margin-bottom: 20px;
-        }
+.new-comment {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
 
-        .user-photo {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
+.new-comment textarea {
+	width: 100%;
+	height: 60px;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
 
-        .comment-details {
-            flex-grow: 1;
-        }
+.new-comment button {
+	align-self: flex-end;
+	padding: 10px 20px;
+	background-color: #8bc34a;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
 
-        .user-name {
-            font-weight: bold;
-        }
+.bid-section {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	margin-top: 20px;
+	margin-bottom: 40px;
+}
 
-        .comment-date {
-            color: #888;
-            font-size: 0.9em;
-        }
+.bid-section input[type="number"] {
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	flex-grow: 1;
+}
 
-        .comment-text {
-            margin: 5px 0;
-        }
+.bid-section button {
+	padding: 10px 20px;
+	background-color: #8bc34a;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
 
-        .new-comment {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+.bid-section .cancel {
+	background-color: #f44336;
+}
 
-        .new-comment textarea {
-            width: 100%;
-            height: 60px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
+.edit {
+	display: inline-block;
+	padding: 5px 10px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	background-color: #8bc34a;
+	color: white;
+	text-decoration: none;
+	text-align: center;
+}
 
-        .new-comment button {
-            align-self: flex-end;
-            padding: 10px 20px;
-            background-color: #8bc34a;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+.image-gallery {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
 
-        .bid-section {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            margin-top: 20px;
-        }
+.status {
+	color: red;
+	font-weight: bold;
+	margin-left: 10px;
+}
 
-        .bid-section input[type="number"] {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            flex-grow: 1;
-        }
-
-        .bid-section button {
-            padding: 10px 20px;
-            background-color: #8bc34a;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .bid-section .cancel {
-            background-color: #f44336;
-        }
-        
-        .edit {
-             display: inline-block;
-             padding: 5px 10px;
-             border: none;
-             border-radius: 4px;
-             cursor: pointer;
-             background-color: #8bc34a;
-             color: white;
-             text-decoration: none;
-             text-align: center;
-         }
-        
-    </style>
+#map {
+	height: 600px;
+	margin-top: 20px;
+}
+</style>
 </head>
 <body>
-    <header>
-        <div class="logo">MarketTrio</div>
-        <nav>
-            <ul>
-                <li><a th:href="@{/used-market}">중고거래</a></li>
-                <li><a th:href="@{/auction}">경매</a></li>
-                <li><a th:href="@{/group-buying}">공동구매</a></li>
-            </ul>
-        </nav>
-        <div class="auth">
-            <a th:href="@{/login}">로그인</a>
-            <a th:href="@{/signup}">회원가입</a>
-        </div>
-    </header>
-    <main>
-        <section class="product">
-            <h1 th:text="${postAuction.name}">미륵반가유상</h1>
-            <div class="seller-info">
-                <img th:src="@{|${postAuction.member.profilePicture}|}" alt="판매자 사진" class="seller-photo">
-                <div class="seller-details">
-                    <span class="seller-name" th:text="${postAuction.member.nickname}"></span>
-                    <span class="post-date" th:text="${#dates.format(postAuction.createDate, 'yyyy/MM/dd')}"></span>
-                </div>
-                <div class="action-buttons">
-                    <a th:if="${isSeller}" th:href="@{/auction/{auctionId}/form(auctionId=${postAuction.auctionPostId})}" class="edit">
-                        수정
-                    </a>
-                    <button class="delete" th:if="${isSeller}" th:onclick="'location.href=' + @{/delete/{id}(id=${postAuction.member.id})}">삭제</button>
-                </div>
-            </div>
-            <div th:each="picture : ${postAuction.pictures}">
-               <img th:src="@{'/upload/' + ${picture}}" alt="상품 사진" class="product-photo">
-           </div>
-            <div class="product-details">
-                <div class="price-section">
-                    <button class="category-button">경매시작가</button>
-                    <span class="price" th:text="${#numbers.formatDecimal(postAuction.startPrice, 0, 'COMMA', 0, 'NONE')} + '원'"></span>
-                </div>
-                <div class="price-section">
-                <button class="category-button">현재입찰가</button>
-                <span class="price" th:if="${ currentMaxParticipant != null }" th:text="${#numbers.formatDecimal(currentMaxParticipant.participatePrice, 0, 'COMMA', 0, 'NONE')} + '원'"></span>
-                <span class="price" th:unless="${currentMaxParticipant != null }" th:text="'0원'"></span>
-            </div>
-              <div class="seller-info" th:if="${!postAuction.participants.isEmpty()}">
-                <img th:src="@{|${currentMaxParticipant.member.profilePicture}|}" alt="입찰자 사진" class="seller-photo">
-                <div class="seller-details">
-                    <span class="seller-name" th:text="${currentMaxParticipant.member.nickname}">입찰자 이름</span>
-                    <th:block th:if="${isCurrentMaxParticipant}">
-                        <form th:action="@{/auctions/{auctionId}/bidCancel(auctionId=${postAuction.auctionPostId})}" method="post">
-                            <button type="submit">취소</button>
-                        </form>
-                    </th:block>
-                </div>
-            </div>
-            <p class="description" th:text="${postAuction.detailInfo}">
-                미륵반가유상 경매합니다.
-            </p>
-            <th:block th:if="${!isSeller}">
-                <div class="bid-section">
-                    <form th:action="@{'/auction/' + ${postAuction.auctionPostId} + '/bid'}" method="post" onsubmit="return validateBid()">
-                        <input type="number" id="bidAmount" name="bidAmount" placeholder="입찰가 입력" required>
-                        <button type="submit">입찰하기</button>
-                        <div th:if="${message}" style="color: red; padding-bottom:10px;" class="error-message" th:text="${message}"></div>
-                    </form>
-                </div>
-            </th:block>
-            </div>
-        </section>
-    </main>
+	<header>
+		<div th:insert="thyme/banner"></div>
+	</header>
+	<main>
+		<section class="product">
+			<h1 th:text="${postAuction.name}">미륵반가유상</h1>
+			<div class="seller-info">
+				<img th:src="@{'/upload/' + ${postAuction.member.profilePicture}}" alt="프로필사진"
+					class="seller-photo">
+				<div class="seller-details">
+					<span class="seller-name" th:text="${postAuction.member.nickname}"></span>
+					<span class="post-date"
+						th:text="${#dates.format(postAuction.createDate, 'yyyy/MM/dd')}"></span>
+				</div>
+				<div class="action-buttons">
+					<a th:if="${isSeller}"
+						th:href="@{/auction/{auctionId}/form(auctionId=${postAuction.auctionPostId})}"
+						class="edit"> 수정 </a> <a th:if="${isSeller}"
+						th:href="@{/delete/{auctionId}(auctionId=${postAuction.auctionPostId})}"
+						class="delete"> 삭제 </a>
+				</div>
+			</div>
+			<div class="image-gallery">
+				<div th:each="picture : ${postAuction.pictures}">
+					<img th:src="@{'/upload/' + ${picture}}" alt="상품 사진"
+						class="product-photo">
+				</div>
+			</div>
+			<div class="product-details">
+				<div class="price-section">
+					<button class="category-button">경매시작가</button>
+					<span class="price"
+						th:text="${#numbers.formatDecimal(postAuction.startPrice, 0, 'COMMA', 0, 'NONE')} + '원'"></span>
+				</div>
+				<div class="price-section">
+					<button class="category-button">현재입찰가</button>
+					<span class="price" th:if="${ currentMaxParticipant != null }"
+						th:text="${#numbers.formatDecimal(currentMaxParticipant.participatePrice, 0, 'COMMA', 0, 'NONE')} + '원'"></span>
+					<span class="price" th:unless="${ currentMaxParticipant != null }"
+						th:text=" ${#numbers.formatDecimal(postAuction.startPrice, 0, 'COMMA', 0, 'NONE')} + '원'"></span>
+					<span class="status" th:if="${postAuction.auctionStatus == 1}">경매완료</span>
+				</div>
+				<div class="seller-info"
+					th:if="${!postAuction.participants.isEmpty()}">
+					<!-- <img th:src="@{|${currentMaxParticipant.member.profilePicture}|}"
+						alt="입찰자 사진" class="seller-photo"> -->
+						<img th:src="@{'/upload/' + ${currentMaxParticipant.member.profilePicture}}" alt="입찰자사진"
+					class="seller-photo">
+					<div class="seller-details">
+						<div
+							th:if="${currentMaxParticipant != null and currentMaxParticipant.member != null}">
+							<span class="seller-name"
+								th:text="${currentMaxParticipant.member.nickname}">입찰자 이름</span>
+							<th:block th:if="${isCurrentMaxParticipant}">
+								<form
+									th:action="@{/auctions/{auctionId}/bidCancel(auctionId=${postAuction.auctionPostId})}"
+									method="post">
+									<button type="submit">취소</button>
+								</form>
+							</th:block>
+						</div>
+					</div>
+				</div>
+				<p class="description" th:text="${postAuction.detailInfo}">
+					미륵반가유상 경매합니다.</p>
+				<th:block th:if="${postAuction.auctionStatus != 1}">
+					<th:block th:if="${!isSeller}">
+						<div class="bid-section">
+							<form
+								th:action="@{'/auction/' + ${postAuction.auctionPostId} + '/bid'}"
+								method="post" onsubmit="return validateBid()">
+								<input type="number" id="bidAmount" name="bidAmount"
+									placeholder="입찰가 입력" required>
+								<button type="submit">입찰하기</button>
+								<div th:if="${message}"
+									style="color: red; padding-bottom: 10px;" class="error-message"
+									th:text="${message}"></div>
+							</form>
+						</div>
+					</th:block>
+				</th:block>
+
+				<th:block th:if="${postAuction.longitude != null}">
+					<button type="button"
+						th:onclick="loadMap([[${postAuction.longitude}]], [[${postAuction.latitude}]])"
+						style="width: 100px; height: 30px; color: white; border: none; border-radius: 5px; background-color: #AED581;">
+						<span th:text="직거래가능"></span>
+					</button>
+				</th:block>
+
+
+			</div>
+		</section>
+		<div id="map" style="width: 500px; height: 400px;"></div>
+	</main>
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f252f8261526693dfa271549ffeaa49d"></script>
+
+	<script>
+		function loadMap(longitude, latitude) {
+			var container = document.getElementById('map');
+
+			var markerPosition = new kakao.maps.LatLng(latitude, longitude);
+
+			// 마커를 생성합니다
+			var marker = new kakao.maps.Marker({
+				position : markerPosition,
+				text : '경매 거래 위치입니다!'
+			});
+
+			var options = { // 지도를 생성할 때 필요한 기본 옵션
+				center : new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
+				level : 3, // 지도의 레벨(확대, 축소 정도)
+				marker : marker
+			};
+
+			var map = new kakao.maps.Map(container, options);
+
+			// 마커가 지도 위에 표시되도록 설정합니다
+			marker.setMap(map);
+
+		}
+	</script>
 </body>
 </html>

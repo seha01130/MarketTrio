@@ -26,132 +26,156 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="Auction")
 public class AuctionEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "auction_seq")
-    @SequenceGenerator(name = "auction_seq", sequenceName = "SEQUENCE_APOSTID", allocationSize = 1)
-    private int auctionPostId;
+	
+	 @Id
+	 @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "auction_seq")
+	 @SequenceGenerator(name = "auction_seq", sequenceName = "SEQUENCE_APOSTID", allocationSize = 1)
+	 private int auctionPostId;
 
-   @Column(nullable = false)
-   private String name;
+	@Column(nullable = false)
+	private String name;
 
-   @Column(nullable = false)
-   private int startPrice;
+	@Column(nullable = false)
+	private int startPrice;
 
-   @Column(nullable = false)
-   private int maxPrice;
+	@Column(nullable = false)
+	private int maxPrice;
 
-   @Column(nullable = false)
-   private String detailInfo;
+	@Column(nullable = false)
+	private String detailInfo;
 
-   @Temporal(TemporalType.DATE)
-   @DateTimeFormat(pattern = "yyyy-MM-dd")
-   @Column(nullable = false)
-   private Date deadline;
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(nullable = false)
+	private Date deadline;
+	
+	 @ElementCollection
+	    @CollectionTable(name = "AUCTION_PICTURES", joinColumns = @JoinColumn(name = "AUCTION_ID"))
+	    @Column(name = "PICTURE", nullable = false)
+	    private List<String> pictures;
 
-   @ElementCollection
-   @CollectionTable(name = "AUCTION_PICTURES", joinColumns = @JoinColumn(name = "AUCTION_ID"))
-   @Column(name = "PICTURE", nullable = false)
-   private List<String> pictures;
+	@Column(nullable = false)
+	private int auctionStatus;
 
-   @Column(nullable = false)
-   private int auctionStatus;
+	@Temporal(TemporalType.DATE)
+	@Column(nullable = false)
+	private Date createDate;
+	
+	@OneToMany(mappedBy = "auction", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<AParticipantEntity> participants;
 
-   @Temporal(TemporalType.DATE)
-   @Column(nullable = false)
-   private Date createDate;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "SELLERID")
+	private Member member;
 
-   public Date getCreateDate() {
-      return createDate;
-   }
+	 public List<String> getPictures() {
+	        return pictures;
+	    }
 
-   public void setCreateDate(Date createDate) {
-      this.createDate = createDate;
-   }
+	 @Column(nullable = true)
+	    private Double latitude;
 
-   @OneToMany(mappedBy = "auction", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-   private List<AParticipantEntity> participants;
+	    @Column(nullable = true)
+	    private Double longitude;
+	 
+	    public Double getLatitude() {
+	        return latitude;
+	    }
 
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-   @JoinColumn(name = "SELLERID", referencedColumnName = "ID", nullable = false)
-   private Member member;
+	    public void setLatitude(Double latitude) {
+	        this.latitude = latitude;
+	    }
 
-   public Member getMember() {
-      return member;
-   }
+	    public Double getLongitude() {
+	        return longitude;
+	    }
 
-   public void setMember(Member member) {
-      this.member = member;
-   }
+	    public void setLongitude(Double longitude) {
+	        this.longitude = longitude;
+	    }
+	 
+	    public void setPictures(List<String> pictures) {
+	        this.pictures = pictures;
+	    }
 
-   public int getAuctionPostId() {
-      return auctionPostId;
-   }
+	public Date getCreateDate() {
+		return createDate;
+	}
 
-   public void setAuctionPostId(int auctionPostId) {
-      this.auctionPostId = auctionPostId;
-   }
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
 
-   public int getMaxPrice() {
-      return maxPrice;
-   }
+	
+	public Member getMember() {
+		return member;
+	}
 
-   public void setMaxPrice(int maxPrice) {
-      this.maxPrice = maxPrice;
-   }
+	public void setMember(Member member) {
+		this.member = member;
+	}
 
-   public String getName() {
-      return name;
-   }
+	public int getAuctionPostId() {
+		return auctionPostId;
+	}
 
-   public void setName(String name) {
-      this.name = name;
-   }
+	public void setAuctionPostId(int auctionPostId) {
+		this.auctionPostId = auctionPostId;
+	}
 
-   public int getStartPrice() {
-      return startPrice;
-   }
+	public int getMaxPrice() {
+		return maxPrice;
+	}
 
-   public void setStartPrice(int startPrice) {
-      this.startPrice = startPrice;
-   }
+	public void setMaxPrice(int maxPrice) {
+		this.maxPrice = maxPrice;
+	}
 
-   public String getDetailInfo() {
-      return detailInfo;
-   }
+	public String getName() {
+		return name;
+	}
 
-   public void setDetailInfo(String detailInfo) {
-      this.detailInfo = detailInfo;
-   }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-   public Date getDeadline() {
-      return deadline;
-   }
+	public int getStartPrice() {
+		return startPrice;
+	}
 
-   public void setDeadline(Date deadline) {
-      this.deadline = deadline;
-   }
+	public void setStartPrice(int startPrice) {
+		this.startPrice = startPrice;
+	}
 
-   public List<String> getPictures() {
-       return pictures;
-   }
+	public String getDetailInfo() {
+		return detailInfo;
+	}
 
-   public void setPictures(List<String> pictures) {
-       this.pictures = pictures;
-   }
+	public void setDetailInfo(String detailInfo) {
+		this.detailInfo = detailInfo;
+	}
 
-   public int getAuctionStatus() {
-      return auctionStatus;
-   }
+	public Date getDeadline() {
+		return deadline;
+	}
 
-   public void setAuctionStatus(int auctionStatus) {
-      this.auctionStatus = auctionStatus;
-   }
+	public void setDeadline(Date deadline) {
+		this.deadline = deadline;
+	}
 
-   public List<AParticipantEntity> getParticipants() {
-      return participants;
-   }
+	public int getAuctionStatus() {
+		return auctionStatus;
+	}
 
-   public void setParticipants(List<AParticipantEntity> participants) {
-      this.participants = participants;
-   }
+	public void setAuctionStatus(int auctionStatus) {
+		this.auctionStatus = auctionStatus;
+	}
+
+	public List<AParticipantEntity> getParticipants() {
+		return participants;
+	}
+
+	public void setParticipants(List<AParticipantEntity> participants) {
+		this.participants = participants;
+	}
 }

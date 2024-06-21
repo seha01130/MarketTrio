@@ -16,64 +16,64 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "APARTICIPANT")
 public class AParticipantEntity {
-   
-   @Id
-   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "aPart_seq")
-   @SequenceGenerator(name = "aPart_seq", sequenceName = "SEQUENCE_APARTID", allocationSize = 1)
-   private int aPartId;
-   
-   @OneToOne(fetch = FetchType.LAZY)
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "aPart_seq")
+	@SequenceGenerator(name = "aPart_seq", sequenceName = "SEQUENCE_APARTID", allocationSize = 1)
+	private int aPartId;
+	
+	@OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBERID")
-   private Member member;
+	private Member member;
 
-   @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "AUCTIONPOSTID")
-   private AuctionEntity auction;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "AUCTIONPOSTID")
+	private AuctionEntity auction;
 
-   @Column(nullable = false)
-   private int bidstatus;
+	@Column(nullable = false)
+	private int bidstatus;
 
-   @Column
-   private int participatePrice;
+	@Column
+	private int participatePrice;
 
-   public int getParticipatePrice() {
-      return participatePrice;
-   }
+	public int getParticipatePrice() {
+		return participatePrice;
+	}
 
-   public void setParticipatePrice(int participatePrice) {
-      this.participatePrice = participatePrice;
-   }
-   
+	public void setParticipatePrice(int participatePrice) {
+		this.participatePrice = participatePrice;
+	}
+	
 
-   public int getaPartId() {
-      return aPartId;
-   }
+	public int getaPartId() {
+		return aPartId;
+	}
 
-   public void setaPartId(int aPartId) {
-      this.aPartId = aPartId;
-   }
+	public void setaPartId(int aPartId) {
+		this.aPartId = aPartId;
+	}
 
-//   public Member getMember() {
-//      return member;
-//   }
-//
-//   public void setMember(Member member) {
-//      this.member = member;
-//   }
+	public Member getMember() {
+		return member;
+	}
 
-   public AuctionEntity getAuction() {
-      return auction;
-   }
+	public void setMember(Member member) {
+		this.member = member;
+	}
 
-   public void setAuction(AuctionEntity auction) {
-      this.auction = auction;
-   }
+	public AuctionEntity getAuction() {
+		return auction;
+	}
 
-   public int getBidstatus() {
-      return bidstatus;
-   }
+	public void setAuction(AuctionEntity auction) {
+		this.auction = auction;
+	}
 
-   public void setBidstatus(int bidstatus) {
-      this.bidstatus = bidstatus;
-   }
+	public int getBidstatus() {
+		return bidstatus;
+	}
+
+	public void setBidstatus(int bidstatus) {
+		this.bidstatus = bidstatus;
+	}
 }

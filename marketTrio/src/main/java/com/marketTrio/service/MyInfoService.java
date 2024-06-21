@@ -21,6 +21,10 @@ public class MyInfoService {
     public String getSellerIdFromSH(int postId) throws Exception {
     	return memberDao.getSellerIdFromSH(postId);
     }
+    
+    public String getProfilePicture(String memberId) throws Exception {
+    	return memberDao.getProfilePicture(memberId);
+    }
 
     public Member getMember(String id, String password) throws Exception {
     	return memberDao.getMember(id, password);
