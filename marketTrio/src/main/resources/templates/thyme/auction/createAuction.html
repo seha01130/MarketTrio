@@ -169,6 +169,7 @@
                     <div th:if="${NoDeadMsg}" class="error-message" th:text="${NoDeadMsg}"></div>
                     <label for="files">이미지 업로드</label>
                     <input type="file" id="files" name="files" multiple>
+                    <div th:if="${NoPictureMsg}" class="error-message" th:text="${NoPictureMsg}"></div>
                 </div>
             </div>
             <div class="form-group">
