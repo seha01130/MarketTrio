@@ -76,7 +76,6 @@ public class AuctionController {
             model.addAttribute("NoDeadMsg", "마감 날짜를 입력해주세요");
             hasError = true;
         }
-        
         if (hasError) {
         	model.addAttribute("auctionForm", postData);
             return "thyme/auction/createAuction";

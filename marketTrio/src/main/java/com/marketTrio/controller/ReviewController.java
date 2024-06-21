@@ -62,27 +62,26 @@ public class ReviewController {
     						   @RequestParam("senderId") String senderId,
                                @RequestParam("SHPostId") int SHPostId,
                                @RequestParam("rating") int rating) throws Exception {
-        // 등급 제출 로직을 처리합니다.
-//        System.out.println("후기쓴사람 ID: " + senderId);
-//        System.out.println("후기받은사람 ID: " + receiverId);
-//        System.out.println("게시물 ID: " + SHPostId);
-//        System.out.println("선택한 등급: " + rating);
         
-        ReviewEntity rvEntity = new ReviewEntity(SHPostId, senderId, receiverId, rating); //review DB에 nsert하고
+		//review DB에 insert가 먼저 되어야 함. 
+        ReviewEntity rvEntity = new ReviewEntity(SHPostId, senderId, receiverId, rating);
         reviewService.insertReview(rvEntity);
         
+        //(원래의 별점에 갯수를 곱해주고 + 받은 별점) / 총 별점 갯수로 새로운 별점을 업데이트한다
         float originalRate = myInfoService.getRate(receiverId);
         int rateCount = reviewService.rateCount(receiverId);
         float newRate = (originalRate*(rateCount-1) + rating) / rateCount;
         
-     // DecimalFormat을 사용하여 첫 번째 자릿수까지 반올림
+        //DecimalFormat을 사용하여 첫 번째 자릿수까지 반올림
         DecimalFormat df = new DecimalFormat("#.#");
         newRate = Float.parseFloat(df.format(newRate));
         
-        myInfoService.updateRate(receiverId, newRate);							//Member DB에 별점 update
+        //Member DB에 별점 update
+        myInfoService.updateRate(receiverId, newRate);							
         
         String memberId = memberSession.getMemberId();
-        String postWriterId = myInfoService.getSellerIdFromSH(SHPostId); //현재 포스트의 판매자Id 가져오기
+        //현재 포스트의 판매자Id 가져오기
+        String postWriterId = myInfoService.getSellerIdFromSH(SHPostId);
         System.out.println("작성자 Id를 출력: " + postWriterId);
         if (memberId.equals(postWriterId)) {
         	return "redirect:/sales/mySalesList";

@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +30,7 @@ import com.marketTrio.service.MyInfoValidator;
 
 @Controller
 @RequestMapping("/myPage")
-@SessionAttributes({ "memberCommand", "memberSession" })
+@SessionAttributes({ "memberCommand", "memberSession"})
 public class MyInfoController {
 	@Value("thyme/myPage/myInfoCheck")
 	private String myInfoCheck;
@@ -129,11 +130,13 @@ public class MyInfoController {
 				memberCommand.getMember().setRating(dbRate);
 			}
 			System.out.println("나의 현재 별점 출력: " + memberCommand.getMember().getRating());
+			
 
 			if (password == null || password.length() < 1 || !dbPassword.equals(password)) {
 				model.addAttribute("message", "비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
 				return myInfoCheck;
-			} else {
+			}
+			else {
 				return myInfoUpdate;
 			}
 		} catch (Exception e) {
@@ -145,7 +148,7 @@ public class MyInfoController {
 
 	// 정보수정 다 하고 수정완료 버튼 누르는 로직
 	@PostMapping("/myInfoUpdate")
-	public String onSubmit(@ModelAttribute MemberCommand memberCommand, BindingResult result,
+	public String onSubmit(@Valid @ModelAttribute MemberCommand memberCommand, BindingResult result,
 			HttpServletRequest request, Model model, @RequestParam("files") MultipartFile[] files)
 			throws IOException, ServletException, Exception {
 
@@ -180,12 +183,8 @@ public class MyInfoController {
 			firstUploadedFileName = myInfoService.getProfilePicture(memberId);
 		}
 		memberCommand.getMember().setProfilePicture(firstUploadedFileName);	
-		
-		
-
 		System.out.println("사진이 command에 잘 저장됨?: " + firstUploadedFileName);
 		////////////////////이미지처리////////////////////////////////////////////////////////////////////////////
-
 		validator.validate(memberCommand, result);
 
 		if (result.hasErrors()) {

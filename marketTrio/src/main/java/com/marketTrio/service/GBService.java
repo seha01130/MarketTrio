@@ -50,7 +50,7 @@ public class GBService {
     public List<GBEntity> getGBPurchaseListByMemberId(String memberId) {
     	List<Integer> purchaseListIds = jpaListDao.getGBPostIdList(memberId); //내가 참여한 공동구매의 게시글ID의 List를 가져오기
 //    	
-    	List<GBEntity> purchaseList = GBListRepository.findByGBPostIdIn(purchaseListIds );
+    	List<GBEntity> purchaseList = GBListRepository.findByGBPostIdIn(purchaseListIds);
     	
         return purchaseList;
     }

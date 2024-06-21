@@ -49,8 +49,8 @@ public class GBEntity implements Serializable{
 	private Date duration;
 	private int allQuantity;
 	private int regularPrice;
-	@Transient	// 판매가는 db 저장 X
-	private String salePrice;
+//	@Transient	// 판매가는 db 저장 X
+//	private String salePrice;
 	private double discountRate;
 	private String content;
 	private Date createDate;
@@ -157,10 +157,10 @@ public class GBEntity implements Serializable{
 	public void setGBStatus(int gBStatus) {
 		GBStatus = gBStatus;
 	}
-	public String getSalePrice() {
-		return salePrice;
-	}
-	public void setSalePrice(String salePrice) {
-		this.salePrice = salePrice;
-	}
+//	public String getSalePrice() {
+//		return salePrice;
+//	}
+//	public void setSalePrice(String salePrice) {
+//		this.salePrice = salePrice;
+//	}
 }
