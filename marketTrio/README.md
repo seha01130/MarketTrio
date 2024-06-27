@@ -1,5 +1,5 @@
-# JPetStore (boot-spring-data-jpa branch)
-JPetStore project using JPA and Spring Data JPA on Spring Boot 2.7
+# MarketTrio (boot-spring-data-jpa branch)
+MarketTrio project using JPA and Spring Data JPA on Spring Boot 2.7
 
 ####변경 사항     
 1. pom.xml: spring-boot-starter-data-jpa 설정 추가
