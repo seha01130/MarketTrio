@@ -37,4 +37,4 @@ BestSeller의 MarketTrio 레포지토리입니다
 
 
 > ### Result (2024.06.28 updated)
-> MarketTrio [`Notion`](https://www.notion.so/MarketTrio-d1f6f52032a94b25893dd7f42e89fd57)
+MarketTrio [`Notion`](https://www.notion.so/MarketTrio-d1f6f52032a94b25893dd7f42e89fd57)
