@@ -22,8 +22,12 @@ public class AParticipantEntity {
 	@SequenceGenerator(name = "aPart_seq", sequenceName = "SEQUENCE_APARTID", allocationSize = 1)
 	private int aPartId;
 	
-	@OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MEMBERID")
+//	@OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "MEMBERID")
+//	private Member member;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "MEMBERID")
 	private Member member;
 
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -2,6 +2,9 @@ package com.marketTrio.domain;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @SuppressWarnings("serial")
@@ -29,6 +32,9 @@ public class Member implements Serializable {
 	
 //	@OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
 //    private GBParticipantEntity gbparticipantEntity;
+	
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AParticipantEntity> participants = new ArrayList<>();
 	
 	public String getId() {
 		return id;
